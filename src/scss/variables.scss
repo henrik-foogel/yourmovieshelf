@@ -1,0 +1,12 @@
+$main-colour: #7DC2AF;
+$font-one: "Metrophobic", sans-serif;
+$font-two: 'Merriweather', serif;
+
+a {
+    color: $main-colour;
+    text-decoration: none;
+
+    &:hover {
+        color: rgba($color: $main-colour, $alpha: .5);
+    }
+}
