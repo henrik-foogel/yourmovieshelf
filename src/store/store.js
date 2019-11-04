@@ -9,15 +9,23 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    checkSignedIn: false
+    checkSignedIn: false,
+    searchResult: ''
   },
-  mutations: {},
+  mutations: {
+    setSearch(state, search) {
+      state.search = search;
+    },
+    setSearchResult(state, search) {
+      state.searchResult = search;
+    },
+  },
   actions: {
-    async fetchMovies(ctx) {
+    async fetchMovies(ctx, search) {
       let result = [];
       await axios
         .get(
-          "http://www.omdbapi.com/?apiKey=" + key.key + "&s=" + 'the+thing' + "&page=1"
+          "http://www.omdbapi.com/?apiKey=" + key.key + "&s=" + search + "&page=1"
         )
         .then(response => {
           console.log(response);
@@ -26,11 +34,25 @@ export default new Vuex.Store({
       ctx.commit("setSearchResult", result);
       console.log(ctx.checkSignedIn)
     },
+    async fetchSpecificMovie(ctx, payload) {
+      let specificSearchResult = [];
+      let result = [];
+      await axios.get('http://www.omdbapi.com/?apiKey='+ key.key + '&t='+ payload.searchReplaced + '&y=' + payload.year).then((response) => { console.log(response); specificSearchResult = response.data });
+      result.push(specificSearchResult);
+      ctx.commit('setSearchResult', result);
+    },
     async fetchCollection(ctx) {
       console.log(db)
       console.log(fb)
       console.log(ctx.checkSignedIn)
     }
   },
-  modules: {}
+  getters: {
+    getSearch(state) {
+      return state.search;
+    },
+    getSearchResult(state) {
+      return state.searchResult;
+    },
+  }
 });
