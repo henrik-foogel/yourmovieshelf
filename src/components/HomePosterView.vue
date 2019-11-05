@@ -1,6 +1,6 @@
 <template>
-  <article class="home-comp">
-    <section class="search-bar">
+    <article class="home-comp">
+        <section class="search-bar">
       <div class="search-bar-search">
       <div class="search-bar-search-div">
         <i class="fa fa-search"></i>
@@ -10,46 +10,44 @@
       </div>
     </section>
     <section class="home-not-signed-in" v-if="signedIn == false">
-      <div class="home-not-signed-in-container">
+         <div class="home-not-signed-in-container">
         <h2 class="home-not-signed-in-container-header">Page Under Construction</h2>
         <p>-Some things may not work or design is not implemented-</p>
         <h3 class="home-not-signed-in-container-header">Please register or sign in</h3>
       </div>
     </section>
     <div class="home-movie-title" v-show="signedIn == true">
-      <div class="home-movie-poster-view-check"><p></p><input type="button" class="home-poster-view-button button" @click="viewSwitch(true)" label="Poster View" value="Poster View"></div>
+      <div class="home-movie-poster-view-check"><p></p><input type="button" class="home-poster-view-button button" @click="viewSwitch(false)" label="Poster View" value="Regular View"></div>
       <h1>Your Collection:</h1>
-    </div>
-    <div class="home-search-criteria-container" v-show="signedIn == true">
+      <div class="home-search-criteria-container">
         <select class="home-search-criteria" v-model="search" label="Search criteria dropdown select">
           <option value="" disabled selected label="Criteria">Criteria</option>
-          <option value="" disabled selected alt="Format">Your shelfs &#8659;</option>
-          <option v-for="shelf in getShelfs" :key="shelf" :label="shelf" :alt="shelf">{{ shelf }}</option>
-          <option value="" disabled selected alt="Formats">Formats &#8659;</option>
-          <option v-for="format in getFormats" :key="format" :label="format" :alt="format">{{ format }}</option>
-          <option value="" disabled selected alt="Editions">Editions &#8659;</option>
-          <option v-for="edition in getEditions" :key="edition" :label="edition" :alt="edition">{{ edition }}</option>
+          <option v-for="shelf in getShelfs" :key="shelf" :label="shelf">{{ shelf }}</option>
+          <option value="" disabled selected label="-">-</option>
+          <option v-for="format in getFormats" :key="format" :label="format">{{ format }}</option>
+          <option value="" disabled selected label="-">-</option>
+          <option v-for="edition in getEditions" :key="edition" :label="edition">{{ edition }}</option>
         </select>
       </div>
-    <section class="home-collection">
-      <div class="home-collection-movie" v-for="movie in filterCollection" :key="movie.movie.imdbID" @click="imdbID = movie.movie.imdbId; selectMovie(movie.movie)">
-        <div class="home-collection-movie-poster">
-            <img :src="movie.movie.Poster" :alt="movie.movie.Title+' poster'">
-        </div>
-        <div class="home-collection-movie-text">
-        <h4 :alt="'Movie title: '+movie.movie.Title">{{ movie.movie.Title }}(<span :alt="'year: '+movie.Year">{{movie.movie.Year}}</span>)</h4>
-        <p :alt="'On what shelf: '+movie.movie.shelf">{{ movie.movie.shelf }}</p>
-        <h5 :alt="'Director: '+movie.movie.Director">{{ movie.movie.Director }}</h5>
-        <p :alt="'Director: '+movie.movie.Actors">{{ movie.movie.Actors }}</p>
-        </div>
+    </div>
+    <section class="home-not-signed-in" v-show="signedIn == false"> 
+      <div class="home-not-signed-in-container">
+        <h2 class="home-not-signed-in-container-header">Page Under Construction</h2>
+        <p>-Some things may not work or design is not implemented-</p>
+        <h3 class="home-not-signed-in-container-header">Please register or sign in</h3>
       </div>
     </section>
-  </article>
+    <section class="home-collection poster">
+      <div class="home-collection-movie" v-for="movie in filterCollection" :key="movie.movie.imdbID" @click="imdbID = movie.movie.imdbId; selectMovie(movie.movie)">
+        <img :src="movie.movie.Poster" alt="Movie poster">
+      </div>
+    </section>
+    </article>
 </template>
 
 <script>
 export default {
-  name: 'home',
+    name: 'home',
   data() {
     return { 
       search: '',
@@ -88,7 +86,8 @@ export default {
   },
   methods: {
     async selectMovie(movie) {
-      this.$store.commit('setInCollection', true);
+      let inCollection = true;
+      this.$store.commit('setInCollection', inCollection);
       await this.$store.commit('setSelectedMovie', movie);
       this.$router.push('/selected');
     },
@@ -99,4 +98,3 @@ export default {
   }
 }
 </script>
-

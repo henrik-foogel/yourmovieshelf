@@ -1,0 +1,47 @@
+export const getters = {
+  getSearch(state) {
+    return state.search;
+  },
+  getUser(state) {
+    return state.user;
+  },
+  getPosterViewTrueFalse(state) {
+    return state.posterView;
+  },
+  getSearchResult(state) {
+    return state.searchResult;
+  },
+  getLoginFailure(state) {
+    return state.loginFailure;
+  },
+  getFailureMessage(state) {
+    return state.failureMessage;
+  },
+  getSignedIn(state) {
+    return state.signedIn;
+  },
+  getSignedInStorage(state) {
+    return state.signedInStorage;
+  },
+  getUserCollection(state) {
+    return state.userCollection;
+  },
+  getCustomShelfs(state) {
+    return state.customShelfs;
+  },
+  getSelectedMovie(state) {
+    return state.selectedMovie;
+  },
+  getInCollection(state) {
+    return state.inCollection;
+  },
+  getEmailDocumentId(state) {
+    return state.emaildocumentId;
+  },
+  getFormats(state) {
+    return state.formats.sort((a, b) => (a > b ? 1 : -1));
+  },
+  getEditions(state) {
+    return state.editions.sort((a, b) => (a > b ? 1 : -1));
+  }
+};

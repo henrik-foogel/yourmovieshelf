@@ -15,6 +15,7 @@
           >{{ year }}</option>
         </select>
       </div>
+      <input type="button" class="home-search-button" @click="fetchMovies" value="Search" alt="Search button">
     </section>
     <section class="add-search-result-to-many-alert" v-show="!alertWindowClosed">
       <div class="add-search-result-to-many-alert-text">
@@ -78,6 +79,21 @@ export default {
       } else {
         this.alertWindowClosed = true;
       }
+    },
+    async selectMovie(movie, id) {
+
+      let movieArr = {
+        shelf: 'none',
+        soundtrack: 'somebody',
+        rating: '0',
+        format: 'something',
+        edition: 'something'
+      }
+      let inCollection = false;
+      let payload = {movieArr, id};
+      this.$store.commit('setInCollection', inCollection);
+      this.$store.dispatch('fetchMovieById', payload);
+      this.$router.push('/selected')
     },
     }
 };
