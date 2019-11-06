@@ -4,6 +4,7 @@ export const state = {
         loginFailure: false,
         failureMessage: '',
         signedIn: false,
+        keepSignedIn: false,
         user: '',
         signedInStorage: '',
         userCollection: [],

@@ -38,7 +38,13 @@ export const actions = {
           ctx.userCollection = ctx.getters.getUserCollection;
           ctx.commit("setUser", response.user.uid);
           ctx.commit('setSignedIn', true);
-          localStorage.setItem("loggedIn", response.user.uid);
+          if(payload[2] == true) {
+            ctx.commit('setKeepSignedIn', true);
+            localStorage.setItem("loggedIn", response.user.uid);
+          } else {
+            ctx.commit('setKeepSignedIn', false);
+            sessionStorage.setItem('loggedIn', response.user.uid);
+          }
           ctx.dispatch("fetchCustomShelfs");
         })
         .catch(error => {
@@ -53,6 +59,7 @@ export const actions = {
           .then(() => {
             ctx.commit('setSignedIn', false);
             localStorage.removeItem("loggedIn");
+            sessionStorage.removeItem("loggedIn");
             ctx.commit('setSignedInStorage', "");
           });
       },
@@ -87,7 +94,6 @@ export const actions = {
       },
       async addToCollection(ctx, payload) {
         let movieArr = [];
-        console.log(payload.shelf);
         await axios.get('http://www.omdbapi.com/?i=' + payload.id + '&apikey=206f5d4e').then((response) => { console.log(response); movieArr = response.data });
         let movie = {
           Title: movieArr.Title,
@@ -126,7 +132,6 @@ export const actions = {
             respArr.push(doc.data())
           }
         })
-        console.log(respArr)
         ctx.collection = respArr.sort((a, b) => (a.movie.Title > b.movie.Title) ? 1 : -1);
         ctx.commit('setUserCollection', respArr);
         ctx.dispatch('fetchCustomShelfs');
@@ -146,5 +151,37 @@ export const actions = {
       })
       ctx.customShelfs = respArr[0].customShelf.sort((a, b) => (a > b) ? 1 : -1);
         ctx.commit('setCustomShelfs', ctx.customShelfs);
+      },
+      async addShelfToCustomShelfs(ctx, newShelf) {
+        var docRef = await db.collection(fb.auth().currentUser.uid).doc(ctx.getters.getEmailDocumentId);
+        let shelf = newShelf;
+        console.log(docRef);
+        await docRef.get().then(function(doc) {
+          if (doc.data().customShelf != undefined) {
+              let dataArr = [];
+              if(Array.isArray(doc.data().customShelf)) {
+                doc.data().customShelf.forEach(shelf => {
+                  dataArr.push(shelf);
+                });
+              } else {
+                dataArr.push(doc.data().customShelf);
+              }
+              dataArr.push(shelf);
+              let data = {
+                customShelf: dataArr
+                };
+              docRef.update(data);
+
+              ctx.dispatch('fetchCustomShelfs');
+          } else {
+              let data = [];
+              data.push(shelf);
+              docRef.update({customShelf: shelf});
+              console.log("No such document!");
+          }
+      }).catch(function(error) {
+          console.log("Error getting document:", error);
+      });
+        
       },
     }

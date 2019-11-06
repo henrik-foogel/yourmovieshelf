@@ -23,6 +23,9 @@ export const getters = {
   getSignedInStorage(state) {
     return state.signedInStorage;
   },
+  getKeepSignedIn(state) {
+    return state.keepSignedIn;
+  },
   getUserCollection(state) {
     return state.userCollection;
   },
@@ -36,7 +39,7 @@ export const getters = {
     return state.inCollection;
   },
   getEmailDocumentId(state) {
-    return state.emaildocumentId;
+    return state.emailDocumentId;
   },
   getFormats(state) {
     return state.formats.sort((a, b) => (a > b ? 1 : -1));

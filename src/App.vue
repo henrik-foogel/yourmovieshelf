@@ -46,6 +46,9 @@
           v-show="register"
         >Register</button>
         <button class="sign-in-button button" @click="userSignIn" v-show="!register">Sign In</button>
+        <div class="sign-in-keep-me-logged-in-button">
+          <input type="checkbox" alt="Keep me signed in check box" v-model="keepSignedIn" label="Keep me signed in"> Keep me signed in
+        </div>
         <h6 class="login-failure-message" v-show="loginFailure" alt="Failure to login message">{{ failureMessage }}</h6>
         <h6 class="register-message" v-show="!register" alt="Need to register message">
           If you don't have an account, please register
@@ -62,8 +65,6 @@
 </template>
 
 <script>
-// import { fb } from "../firebase-config";
-// import { db } from "./firebase-config";
 export default {
   data() {
     return {
@@ -76,7 +77,8 @@ export default {
       userIsSignedIn: false,
       signedInStorage: "",
       spin: true,
-      payload: []
+      payload: [],
+      keepSignedIn: false
     };
   },
   computed: {
@@ -105,6 +107,7 @@ export default {
     async userSignIn() {
       this.payload.push(this.email);
       this.payload.push(this.password);
+      this.payload.push(this.keepSignedIn);
       await this.$store.dispatch('userSignIn', this.payload);
       if(this.checkSignedIn == true) {
         this.email = "";
@@ -124,7 +127,11 @@ export default {
       this.$store.commit("setSignedIn", true);
       this.$store.dispatch("fetchUserCollection", localStorage.getItem("loggedIn"));
       this.$store.commit("setUser", localStorage.getItem("loggedIn"));
-    } 
+    } else if(sessionStorage.getItem('loggedIn') != null) {
+      this.$store.commit("setSignedIn", true);
+      this.$store.dispatch("fetchUserCollection", sessionStorage.getItem("loggedIn"));
+      this.$store.commit("setUser", localStorage.getItem("loggedIn"));
+    }
   }
 }
 </script>

@@ -31,8 +31,22 @@
           <option v-for="edition in getEditions" :key="edition" :label="edition" :alt="edition">{{ edition }}</option>
         </select>
       </div>
-    <section class="home-collection">
+      <input type="button" class="home-movie-night-button button" label="Create a Movie Night List" value="Create a Movie Night List" @click="movieNightButton = !movieNightButton; movieNight()">
+    <section class="home-collection" v-show="!movieNightButton">
       <div class="home-collection-movie" v-for="movie in filterCollection" :key="movie.movie.imdbID" @click="imdbID = movie.movie.imdbId; selectMovie(movie.movie)">
+        <div class="home-collection-movie-poster">
+            <img :src="movie.movie.Poster" :alt="movie.movie.Title+' poster'">
+        </div>
+        <div class="home-collection-movie-text">
+        <h4 :alt="'Movie title: '+movie.movie.Title">{{ movie.movie.Title }}(<span :alt="'year: '+movie.Year">{{movie.movie.Year}}</span>)</h4>
+        <p :alt="'On what shelf: '+movie.movie.shelf">{{ movie.movie.shelf }}</p>
+        <h5 :alt="'Director: '+movie.movie.Director">{{ movie.movie.Director }}</h5>
+        <p :alt="'Director: '+movie.movie.Actors">{{ movie.movie.Actors }}</p>
+        </div>
+      </div>
+    </section>
+    <section class="home-collection" v-show="movieNightButton">
+      <div class="home-collection-movie" v-for="movie in filterCollection" :id="movie.movie.imdbID" :key="movie.movie.imdbID" @click="chooseMovieForMovieNight(movie.movie)">
         <div class="home-collection-movie-poster">
             <img :src="movie.movie.Poster" :alt="movie.movie.Title+' poster'">
         </div>
@@ -55,6 +69,8 @@ export default {
       search: '',
       searchResult: '',
       signedInStorage: '',
+      movieNightButton: false,
+      movieNightList: []
     }
   },
   computed: {
@@ -95,6 +111,35 @@ export default {
     viewSwitch(view) {
         this.$store.commit('setSearch', this.search);
         this.$store.commit('setPosterViewTrueFalse', view);
+    },
+    movieNight() {
+      if(this.movieNightButton == true) {
+        document.querySelector('.home-movie-night-button').style.background = "#7DC2AF"
+        document.querySelector('.home-movie-night-button').style.color = "#282828"
+        document.querySelector('.home-movie-night-button').style.boxShadow = "inset 0 0 10px #000000"
+        document.querySelector('.home-movie-night-button').value = "Save";
+      } else {
+        document.querySelector('.home-movie-night-button').style.background = "#282828"
+        document.querySelector('.home-movie-night-button').style.color = "#7DC2AF"
+        document.querySelector('.home-movie-night-button').style.boxShadow = "0px 3px 3px rgba(0, 0, 0, 0.25)"
+        document.querySelector('.home-movie-night-button').value = "Create a Movie Night List";
+
+      }
+    },
+    chooseMovieForMovieNight(movie) {
+      if(document.querySelector('#'+movie.imdbID).style.opacity != '0.5') {
+        this.movieNightList.push(movie);
+        document.querySelector('#'+movie.imdbID).style.opacity = '.5'
+        document.querySelector('#'+movie.imdbID).style.boxShadow = "inset 0 0 10px #000000"
+      } else {
+        for(var i = this.movieNightList.length; i >= 0; i--) {
+          if(this.movieNightList[i] == movie) {
+            this.movieNightList.splice(i, 1)
+          }
+        }
+        document.querySelector('#'+movie.imdbID).style.opacity = '1.0'
+        document.querySelector('#'+movie.imdbID).style.boxShadow = 'none'
+      }
     }
   }
 }

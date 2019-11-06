@@ -24,6 +24,11 @@ const routes = [
     path: '/customize',
     name: 'customize',
     component: () => import('../views/Customize.vue')
+  },
+  {
+    path: '/movienight',
+    name: 'movie-night',
+    component: () => import('../views/MovieNight.vue')
   }
 ]
 

@@ -23,6 +23,9 @@ export const mutations = {
       setSignedInStorage(state, storage) {
         state.signedInStorage = storage;
       },
+      setKeepSignedIn(state, keep) {
+        state.keepSignedIn = keep;
+      },
       setUserCollection(state, collection) {
         state.userCollection = collection;
       },

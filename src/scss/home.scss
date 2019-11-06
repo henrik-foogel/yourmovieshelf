@@ -30,7 +30,7 @@
         display: flex;
         align-items: center;
 
-        .home-poster-view-button {
+        .home-poster-view-button, .home-movie-night-button {
           border: none;
           background: #282828;
           color: $main-colour;
@@ -43,6 +43,13 @@
         margin: 2rem 0 0;
       }
     }
+
+    .home-movie-night-button {
+      border: none;
+      background: #282828;
+      color: $main-colour;
+    }
+    
     .home-collection {
         display: flex;
         flex-direction: column;
