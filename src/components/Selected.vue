@@ -5,18 +5,16 @@
             <img class="selected-movie-img" :src="selectedMovie.Poster" :alt="selectedMovie.Title+' poster'">
             <div class="selected-movie-title"  alt="Title: ">{{ selectedMovie.Title }} (<span alt="Year: ">{{ selectedMovie.Year }}</span>)</div>
             <div class="selected-movie-director" alt="Director: ">{{ selectedMovie.Director }}</div>
+            <div class="selected-movie-genre" alt="Genre: ">{{ selectedMovie.Genre }}</div>
+            <div class="selected-movie-shelf" v-show="inCollection" alt="Shelf: ">({{ selectedMovie.shelf }})</div>
             <div class="selected-movie-actors" alt="Actors: ">{{ selectedMovie.Actors }}</div>
             <div class="selected-movie-plot plot" alt="Plot: ">{{ selectedMovie.Plot }}</div>
             <div class="more-info-button" @click="moreInfo = !moreInfo" v-show="inCollection">More Info &#8691;</div>
             <div class="selected-movie-more-info" v-if="inCollection && moreInfo == true" alt="More info dropdown">
               <h4>Music:</h4>
               <div class="selected-movie-Music" alt="Soundtrack: ">{{ selectedMovie.soundtrack }}</div>
-              <h4>Genre:</h4>
-              <div class="selected-movie-genre" alt="Genre: ">{{ selectedMovie.Genre }}</div>
               <h4>Format / Edition:</h4>
-              <div class="selected-movie-shelf" alt="Format: ">{{ selectedMovie.format }} / {{ selectedMovie.edition }}</div>
-              <h4>Your Shelf:</h4>
-              <div class="selected-movie-shelf" alt="Shelf: ">{{ selectedMovie.shelf }}</div>              
+              <div class="selected-movie-shelf" alt="Format: ">{{ selectedMovie.format }} / {{ selectedMovie.edition }}</div>              
               <h4>Your Rating:</h4>
               <div class="custom-rating" alt="Your rating: ">{{ selectedMovie.rating }}</div>
               <h4>{{selectedMovie.Ratings[0].Source}}:</h4>

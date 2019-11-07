@@ -11,14 +11,14 @@
       <div class="customize-user-custom-container-content" v-for="shelf in getCustomShelfs" :key="shelf">
         {{shelf}}
       </div>
-        <div class="add-shelf-button button" @click="editOn = true, editShelf">Edit</div>
+        <div class="add-shelf-button button" @click="editOn = true;">Edit</div>
       </div>
     </section>
     <section class="customize-user-custom-container" v-if="editOn == true">
       <div>
       <h2 class="customize-user-custom-title">Your Shelfs:</h2>
-      <input type="text" class="customize-user-custom-container-content edit" v-for="shelf in getCustomShelfs" :key="shelf" :value="shelf">
-        <div class="add-shelf-button button" @click="editOn = false, editShelf">Save</div>
+      <input type="text" class="customize-user-custom-container-content edit" v-for="(shelf, index) in shelfs" :key="shelf" v-model="shelfs[index]">
+        <div class="add-shelf-button button" @click="editOn = false; saveShelfs()">Save</div>
       </div>
     </section>
   </article>
@@ -30,7 +30,8 @@ export default {
     data() {
       return {
           customShelf: '',
-          editOn: false
+          editOn: false,
+          shelfs: null
       }
   },
   computed: {
@@ -38,16 +39,24 @@ export default {
           return this.$store.getters.getCustomShelfs;
       }
   },
+  watch: {
+    getCustomShelfs() {
+      this.shelfs = this.getCustomShelfs;
+    }
+  },
   methods: {
       async addShelfToCustomShelfs() {
-        await this.$store.dispatch('addShelfToCustomShelfs', this.customShelf);
-          
+        await this.$store.dispatch('addShelfToCustomShelfs', this.customShelf);   
         this.customShelf = '';
       },
       
-      editShelf(shelf) {
-          console.log(shelf);
+      async saveShelfs() {
+        await this.$store.dispatch('editShelfs', this.shelfs);
+        this.shelfs = this.getCustomShelfs;
       }
+  },
+  mounted() {
+      this.shelfs = this.getCustomShelfs;
   }
 }
 </script>

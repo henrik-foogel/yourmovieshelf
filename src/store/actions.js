@@ -138,7 +138,6 @@ export const actions = {
       },
       async fetchCustomShelfs(ctx) {
         let shelfs = '';
-          // shelfs = await db.collection(ctx.getters.getUser).get();
           shelfs = await db.collection(fb.auth().currentUser.uid).get();
         let respArr = [];
         shelfs.forEach(doc => {
@@ -152,6 +151,7 @@ export const actions = {
       ctx.customShelfs = respArr[0].customShelf.sort((a, b) => (a > b) ? 1 : -1);
         ctx.commit('setCustomShelfs', ctx.customShelfs);
       },
+
       async addShelfToCustomShelfs(ctx, newShelf) {
         var docRef = await db.collection(fb.auth().currentUser.uid).doc(ctx.getters.getEmailDocumentId);
         let shelf = newShelf;
@@ -184,4 +184,9 @@ export const actions = {
       });
         
       },
+      async editShelfs(ctx, shelfs) {
+        var docRef = await db.collection(fb.auth().currentUser.uid).doc(ctx.getters.getEmailDocumentId);
+        docRef.update({customShelf: shelfs});
+        ctx.commit('setCustomShelfs', shelfs);
+      }
     }

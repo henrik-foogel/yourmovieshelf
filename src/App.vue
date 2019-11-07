@@ -9,7 +9,7 @@
       <div
         class="nav-lock" alt="Sign Out" title="Sign Out" v-show="checkSignedIn == true" @click="userSignOut">X</div>
     </nav>
-    <div class="dropdown-container" v-show="dropdown == true">
+    <div class="dropdown-container" v-show="dropdown">
       <div class="dropdown">
         <div class="dropdown-link-container" @click="dropdown = !dropdown">
           <router-link to="/">Home</router-link>

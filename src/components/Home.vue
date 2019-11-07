@@ -6,7 +6,7 @@
         <i class="fa fa-search"></i>
         <input class="search-bar-input" type="text" v-model="search" placeholder="search" label="Search input field">
       </div>
-      <i class="fa fa-times" aria-hidden="true" @click="search = ''"></i>
+      <i class="fa fa-times" aria-hidden="true" @click="filterCriteria = 'all'; search = ''"></i>
       </div>
     </section>
     <section class="home-not-signed-in" v-if="signedIn == false">
@@ -21,14 +21,15 @@
       <h1>Your Collection:</h1>
     </div>
     <div class="home-search-criteria-container" v-show="signedIn == true">
-        <select class="home-search-criteria" v-model="search" label="Search criteria dropdown select">
+        <select class="home-search-criteria" v-model="search" label="Search criteria dropdown select" @change="filterChange">
           <option value="" disabled selected label="Criteria">Criteria</option>
-          <option value="" disabled selected alt="Format">Your shelfs &#8659;</option>
-          <option v-for="shelf in getShelfs" :key="shelf" :label="shelf" :alt="shelf">{{ shelf }}</option>
+          <option value="" label="All" data-foo="all">All</option>
+          <option value="" disabled selected alt="Shelfs">Your shelfs &#8659;</option>
+          <option class="shelfs" v-for="shelf in getShelfs" :value="shelf" :key="shelf" :label="shelf" :alt="shelf" data-foo="shelf">{{ shelf }}</option>
           <option value="" disabled selected alt="Formats">Formats &#8659;</option>
-          <option v-for="format in getFormats" :key="format" :label="format" :alt="format">{{ format }}</option>
+          <option class="formats"  v-for="format in getFormats" :value="format" :key="format" :label="format" :alt="format" ref="format" data-foo="format">{{ format }}</option>
           <option value="" disabled selected alt="Editions">Editions &#8659;</option>
-          <option v-for="edition in getEditions" :key="edition" :label="edition" :alt="edition">{{ edition }}</option>
+          <option class="editions" v-for="edition in getEditions" :value="edition" :key="edition" :label="edition" :alt="edition" ref="edition"  data-foo="edition">{{ edition }}</option>
         </select>
       </div>
       <input type="button" class="home-movie-night-button button" label="Create a Movie Night List" value="Create a Movie Night List" @click="movieNightButton = !movieNightButton; movieNight()">
@@ -39,7 +40,7 @@
         </div>
         <div class="home-collection-movie-text">
         <h4 :alt="'Movie title: '+movie.movie.Title">{{ movie.movie.Title }}(<span :alt="'year: '+movie.Year">{{movie.movie.Year}}</span>)</h4>
-        <p :alt="'On what shelf: '+movie.movie.shelf">{{ movie.movie.shelf }}</p>
+        <p :alt="'What genre: '+movie.movie.Genre+' and on what shelf: '+movie.movie.shelf">{{movie.movie.Genre}} (<span>{{ movie.movie.shelf }}</span>)</p>
         <h5 :alt="'Director: '+movie.movie.Director">{{ movie.movie.Director }}</h5>
         <p :alt="'Director: '+movie.movie.Actors">{{ movie.movie.Actors }}</p>
         </div>
@@ -70,7 +71,8 @@ export default {
       searchResult: '',
       signedInStorage: '',
       movieNightButton: false,
-      movieNightList: []
+      movieNightList: [],
+      filterCriteria: ''
     }
   },
   computed: {
@@ -81,15 +83,27 @@ export default {
         return this.$store.getters.getUserCollection;
     },
     filterCollection() {
-         return this.getCollection.filter((movie) => {
+      if(this.filterCriteria == 'shelf') {
+        return this.getCollection.filter((movie) => {
+          return movie.movie.shelf.toLowerCase()===(this.search.toLowerCase()) 
+        });
+      } else if(this.filterCriteria == 'format') {
+        return this.getCollection.filter((movie) => {
+          return movie.movie.format.toLowerCase()===(this.search.toLowerCase()) 
+        });
+      } else if(this.filterCriteria == 'edition') {
+        return this.getCollection.filter((movie) => {
+          return movie.movie.edition.toLowerCase()===(this.search.toLowerCase()) 
+        });
+      } else if(this.filterCriteria.toLowerCase == 'all') {
+        return this.getCollection
+      }
+          return this.getCollection.filter((movie) => {
           return movie.movie.Title.toLowerCase().includes(this.search.toLowerCase()) || 
           movie.movie.Director.toLowerCase().includes(this.search.toLowerCase()) || 
           movie.movie.Actors.toLowerCase().includes(this.search.toLowerCase()) || 
-          movie.movie.Genre.toLowerCase().includes(this.search.toLowerCase()) || 
-          movie.movie.format.toLowerCase().includes(this.search.toLowerCase()) || 
-          movie.movie.edition.toLowerCase().includes(this.search.toLowerCase()) || 
-          movie.movie.soundtrack.toLowerCase().includes(this.search.toLowerCase()) || 
-          movie.movie.shelf.toLowerCase().includes(this.search.toLowerCase());
+          movie.movie.Genre.toLowerCase().includes(this.search.toLowerCase()) ||  
+          movie.movie.soundtrack.toLowerCase().includes(this.search.toLowerCase())
         });
       },
       getShelfs() {
@@ -140,6 +154,9 @@ export default {
         document.querySelector('#'+movie.imdbID).style.opacity = '1.0'
         document.querySelector('#'+movie.imdbID).style.boxShadow = 'none'
       }
+    },
+    filterChange(e) {
+      this.filterCriteria = e.target.options[e.target.options.selectedIndex].dataset.foo;
     }
   }
 }
