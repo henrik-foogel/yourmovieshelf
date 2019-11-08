@@ -7,8 +7,8 @@
 <script>
 import MovieNight from '@/components/MovieNight.vue'
 export default {
-    name: 'movie-night',
-    component: {
+    name: 'movienight',
+    components: {
         MovieNight
     }
 }

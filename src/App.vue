@@ -18,6 +18,9 @@
           <router-link to="/addmovie">Add Movie</router-link>
         </div>
         <div class="dropdown-link-container" @click="dropdown = !dropdown">
+          <router-link to="/movienight">Movie Night Lists</router-link>
+        </div>
+        <div class="dropdown-link-container" @click="dropdown = !dropdown">
           <router-link to="/customize">Customize</router-link>
         </div>
       </div>

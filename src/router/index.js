@@ -27,7 +27,7 @@ const routes = [
   },
   {
     path: '/movienight',
-    name: 'movie-night',
+    name: 'movienight',
     component: () => import('../views/MovieNight.vue')
   }
 ]

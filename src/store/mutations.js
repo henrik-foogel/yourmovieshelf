@@ -8,6 +8,9 @@ export const mutations = {
       setSearchResult(state, search) {
         state.searchResult = search;
       },
+      setFilterCriteria(state, criteria) {
+        state.filterCriteria = criteria;
+      },
       setLoginFailure(state, login) {
         state.loginFailure = login;
       },
@@ -40,5 +43,17 @@ export const mutations = {
       },
       setSelectedMovie(state, selectedMovie) {
         state.selectedMovie = selectedMovie;
+      },
+      setMovieNightList(state, list) {
+        state.movieNightList = list;
+      },
+      setMovieNightListPush(state, movie) {
+        state.movieNightList.push(movie);
+      },
+      setMovieNightButton(state, button) {
+        state.movieNightButton = button;
+      },
+      setStateFlex(state, flex) {
+        state.stateFlex = flex;
       }
 }

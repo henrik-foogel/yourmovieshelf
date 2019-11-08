@@ -1,6 +1,7 @@
 export const state = {
         checkSignedIn: false,
         searchResult: '',
+        filterCriteria: '',
         loginFailure: false,
         failureMessage: '',
         signedIn: false,
@@ -14,6 +15,9 @@ export const state = {
         posterView: false,
         customShelfs: [],
         selectedMovie: [],
+        movieNightList: [],
+        movieNightButton: false,
+        stateFlex: 'row',
         formats: ['Blu-ray', 'DVD', 'Blu-ray/DVD', 'VHS', 'Laserdisc', 'VCD'],
         editions: ["Regular", "Collector's", "Special", "Collection", "Steelbook", "Limited", "Limited/Collection"]
   };

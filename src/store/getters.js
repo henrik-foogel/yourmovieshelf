@@ -11,6 +11,9 @@ export const getters = {
   getSearchResult(state) {
     return state.searchResult;
   },
+  getFilterCriteria(state) {
+    return state.filterCriteria
+  },
   getLoginFailure(state) {
     return state.loginFailure;
   },
@@ -46,5 +49,14 @@ export const getters = {
   },
   getEditions(state) {
     return state.editions.sort((a, b) => (a > b ? 1 : -1));
+  },
+  getMovieNightList(state) {
+    return state.movieNightList
+  },
+  getMovieNightButton(state) {
+    return state.movieNightButton;
+  },
+  getStateFlex(state) {
+    return state.stateFlex;
   }
 };

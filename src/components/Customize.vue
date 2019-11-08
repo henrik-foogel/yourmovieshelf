@@ -17,7 +17,7 @@
     <section class="customize-user-custom-container" v-if="editOn == true">
       <div>
       <h2 class="customize-user-custom-title">Your Shelfs:</h2>
-      <input type="text" class="customize-user-custom-container-content edit" v-for="(shelf, index) in shelfs" :key="shelf" v-model="shelfs[index]">
+      <input type="text" class="customize-user-custom-container-content edit" v-for="(shelf, index) in shelfs" :key="shelf" v-model="shelfs[index]" @change="change($event, index)">
         <div class="add-shelf-button button" @click="editOn = false; saveShelfs()">Save</div>
       </div>
     </section>
@@ -53,6 +53,10 @@ export default {
       async saveShelfs() {
         await this.$store.dispatch('editShelfs', this.shelfs);
         this.shelfs = this.getCustomShelfs;
+      },
+
+      change(e, i) {
+        e.target.parentNode.children[i+1].focus()
       }
   },
   mounted() {
