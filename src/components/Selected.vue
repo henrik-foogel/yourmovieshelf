@@ -110,6 +110,8 @@ export default {
     },
   },
   beforeMount() {
+    this.$store.commit('setSearchResult', '');
+    this.$store.commit('setFilterCriteria', '');
     if(!fb.auth().currentUser) {
       this.$router.push('/');
     } else {

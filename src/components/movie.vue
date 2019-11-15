@@ -104,8 +104,7 @@ export default {
             document.querySelector('#'+movie.imdbID).style.boxShadow = "inset 0 0 10px #000000"
             document.querySelector('#'+movie.imdbID+'poster').style.opacity = '.5'
             document.querySelector('#'+movie.imdbID+'poster').style.boxShadow = "inset 0 0 10px #000000"
-        } else {
-            
+        } else {          
             this.list.forEach((m, index) => {
                 if(m[0] == movie) {
                     this.list.splice(index)
@@ -130,7 +129,7 @@ export default {
   margin: 0 -1.5rem;
 
   .row {
-    width: 100%;
+    width: 95%;
     display: flex;
     flex-direction: row;
     cursor: pointer;

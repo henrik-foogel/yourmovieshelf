@@ -32,6 +32,12 @@ body {
              opacity: 0.5;
           }
         }
+
+        .menu-close {
+          color: gray;
+          font-size: 3rem;
+          cursor: pointer;
+        }
   
         .nav-logo {
           width: 15rem;
@@ -49,6 +55,11 @@ body {
           
             &:hover {
             opacity: 0.5;
+            }
+
+            img {
+              width: 3rem;
+              background: none;
             }
         }
       }

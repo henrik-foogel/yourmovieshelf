@@ -6,6 +6,10 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: "/index.html",
+    redirect: "/" 
+  },
+  {
     path: '/',
     name: 'home',
     component: Home
@@ -21,7 +25,7 @@ const routes = [
     component: () => import('../views/Selected.vue')
   },
   {
-    path: '/customize',
+    path: '/yourshelfs',
     name: 'customize',
     component: () => import('../views/Customize.vue')
   },

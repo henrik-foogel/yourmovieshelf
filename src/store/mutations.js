@@ -55,5 +55,11 @@ export const mutations = {
       },
       setStateFlex(state, flex) {
         state.stateFlex = flex;
+      },
+      setSavedMovieNightLists(state, movieNightList) {
+        state.savedMovieNightList.push(movieNightList);
+      },
+      setMovieNightListFromDB(state, movies) {
+        state.movieNightListFromDB = movies;
       }
 }

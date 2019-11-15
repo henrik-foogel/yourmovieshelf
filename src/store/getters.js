@@ -58,5 +58,11 @@ export const getters = {
   },
   getStateFlex(state) {
     return state.stateFlex;
+  },
+  getSavedMovieNightLists(state) {
+    return state.savedMovieNightList;
+  },
+  getMovieNightListFromDB(state) {
+    return state.movieNightListFromDB
   }
 };

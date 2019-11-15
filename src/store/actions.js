@@ -46,6 +46,7 @@ export const actions = {
             sessionStorage.setItem('loggedIn', response.user.uid);
           }
           ctx.dispatch("fetchCustomShelfs");
+          ctx.dispatch('fetchMovieNightLists', response.user.uid)
         })
         .catch(error => {
           this.loginFailure = true;
@@ -70,7 +71,7 @@ export const actions = {
             "http://www.omdbapi.com/?apiKey=" + key.key + "&s=" + search + "&page=1"
           )
           .then(response => {
-            console.log(response);
+            // console.log(response);
             result = response.data.Search;
           });
         ctx.commit("setSearchResult", result);
@@ -114,27 +115,31 @@ export const actions = {
           Poster: movieArr.Poster
         }
   
-        await db.collection(ctx.getters.getUser).add({
+        await db.collection(fb.auth().currentUser.uid).add({
             movie: movie
         })
         ctx.dispatch('fetchUserCollection', fb.auth().currentUser.uid)
       
       },
       async fetchUserCollection(ctx, user) {
+        if(user != '') {
         let collection = await db.collection(user).get();
-        var docRef = await db.collection(fb.auth().currentUser.uid).doc(collection.docs[0].id);
-        ctx.commit('setEmailDocumentId', docRef.id)
         let respArr = [];
         collection.forEach(doc => {
           if(hasOwnProperty.call(doc.data(), 'userEmail')) {
             ctx.commit('setEmailDocumentId', doc.id)
           } else {
-            respArr.push(doc.data())
+            if(hasOwnProperty.call(doc.data(), 'movieNightList')) {
+              ctx.commit('setSavedMovieNightLists', doc.id);
+            } else {
+              respArr.push(doc.data())
+            }
           }
         })
         ctx.collection = respArr.sort((a, b) => (a.movie.Title > b.movie.Title) ? 1 : -1);
         ctx.commit('setUserCollection', respArr);
         ctx.dispatch('fetchCustomShelfs');
+      }
       },
       async fetchCustomShelfs(ctx) {
         let shelfs = '';
@@ -146,16 +151,14 @@ export const actions = {
           } else {
             return
           }
-        respArr.push(doc.data())
       })
-      ctx.customShelfs = respArr[0].customShelf.sort((a, b) => (a > b) ? 1 : -1);
-        ctx.commit('setCustomShelfs', ctx.customShelfs);
+      let customShelfs = respArr[0].customShelf.sort((a, b) => (a > b) ? 1 : -1);
+        ctx.commit('setCustomShelfs', customShelfs);
       },
 
       async addShelfToCustomShelfs(ctx, newShelf) {
         var docRef = await db.collection(fb.auth().currentUser.uid).doc(ctx.getters.getEmailDocumentId);
         let shelf = newShelf;
-        console.log(docRef);
         await docRef.get().then(function(doc) {
           if (doc.data().customShelf != undefined) {
               let dataArr = [];
@@ -188,5 +191,48 @@ export const actions = {
         var docRef = await db.collection(fb.auth().currentUser.uid).doc(ctx.getters.getEmailDocumentId);
         docRef.update({customShelf: shelfs});
         ctx.commit('setCustomShelfs', shelfs);
+      },
+      async addMovieNightList(ctx, payload) {
+        var docRef = await db.collection(fb.auth().currentUser.uid);
+        var data = [];
+        var name = payload.name
+        payload.list.map(movie => movie[0].seen = false);
+        payload.list.forEach(movie => {
+          data.push(movie[0])
+        });
+        console.log(data)
+        await docRef.add({
+          movieNightList: data,
+          name: name,
+        })
+        
+      },
+      async fetchMovieNightLists(ctx, user) {
+        if(user != '') {
+        let collection = await db.collection(user).get();
+        let respArr = [];
+        collection.forEach(doc => {
+          if(hasOwnProperty.call(doc.data(), 'movieNightList')) {
+            respArr.push(doc.data())
+          } else {
+            return
+          }
+      });
+      ctx.commit('setMovieNightListFromDB', respArr)
       }
+    },
+    async deleteMovieNightList(ctx, name) {
+      await db.collection(ctx.getters.getUser).where('name', '==', name).get().then(snap => {
+        snap.forEach(doc => 
+          db.collection(ctx.getters.getUser).doc(doc.id).delete()
+        );
+      })
+    },
+    async updateMovieNightList(ctx, payload) {
+      await db.collection(ctx.getters.getUser).where('name', '==', payload.name).get().then(snap => {
+        snap.forEach(doc => 
+          db.collection(ctx.getters.getUser).doc(doc.id).set(payload.list)
+        );
+      })
     }
+  }

@@ -1,18 +1,32 @@
 <template>
   <article class="home-movie">
-    <section class="home-search-section">
+    <section class="home-not-signed-in" v-if="signedIn == false">
+      <div class="home-not-signed-in-container">
+        <h2 class="home-not-signed-in-container-header">Page Under Construction</h2>
+        <p>-Some things may not work or design is not implemented-</p>
+        <h3 class="home-not-signed-in-container-header">Please register or sign in</h3>
+      </div>
+    </section>
+    <section class="home-search-section" v-if="signedIn == true">
       <Search />
     </section>
-      <div class="home-movie-view-check"><p></p><input type="button" class="home-poster-view-button button" @click="viewSwitch()" label="View" value="Poster View"></div>
-    <h1>Your Collection:</h1>
-    <input type="button" class="home-movie-night-button button" label="Create a Movie Night List" value="Create a Movie Night List" @click="movieNightButton = !movieNightButton; movieNight(); movieNightButtonChange()">
-    <section class="home-criteria-section">
+      <div v-show="getState == 'row'" v-if="signedIn == true" class="home-movie-view-check"><p></p><input type="button" class="home-poster-view-button button" @click="viewSwitch()" label="View" value="Poster View"></div>
+      <div v-show="getState == 'poster'" v-if="signedIn == true" class="home-movie-view-check"><p></p><input type="button" class="home-poster-view-button button" @click="viewSwitch()" label="View" value="Regular View"></div>
+    <h1 v-if="signedIn == true" @click="randomMovie">Your Collection:</h1>
+    <div class="home-movie-night-button-container">
+      <input v-if="signedIn == true" type="button" class="home-movie-night-button button" label="Create a Movie Night List" value="Create a Movie Night List" @click="movieNightButton = !movieNightButton; movieNight(); movieNightButtonChange()">
+      <i v-show="movieNightButton" class="fa fa-times" aria-hidden="true" @click="movieNightClose = true; movieNightButtonClose()"></i>
+    </div>
+      <input class="home-movie-night-name" v-show="movieNightButton" type="text" placeholder="Name your movie night list" v-model="movieNightName">
+      <p v-show="movieNightSaveFail" class="home-movie-night-name-failure" style="color=red">Make sure you've chosen at least one movie and given your list a name</p>
+    <section v-if="signedIn == true" class="home-criteria-section">
       <Criteria />
     </section>
+    <div v-show="signedIn == true && !movieNightButton"  class="home-movie-random button" @click="randomMovie">Random movie from whole list or with a criteria </div>
     <section class="home-movie-section">
       <movie
-        v-for="movie in filterCollection"
-        :key="movie.movie.imdbID"
+        v-for="(movie, index) in filterCollection"
+        :key="index"
         :movie="movie"
         :state="state"
       />
@@ -37,9 +51,15 @@ export default {
       search: "",
       filterCriteria: "",
       movieNightButton: false,
+      movieNightName: '',
+      movieNightSaveFail: false,
+      movieNightClose: false
     };
   },
   computed: {
+    signedIn() {
+      return this.$store.getters.getSignedIn;
+    },
     getCollection() {
       return this.$store.getters.getUserCollection;
     },
@@ -129,61 +149,68 @@ export default {
         document.querySelector('.home-movie-night-button').style.boxShadow = "inset 0 0 10px #000000"
         document.querySelector('.home-movie-night-button').value = "Save";
       } else if(this.movieNightButton == false) {
-        document.querySelector('.home-movie-night-button').style.background = "#282828"
-        document.querySelector('.home-movie-night-button').style.color = "#7DC2AF"
-        document.querySelector('.home-movie-night-button').style.boxShadow = "0px 3px 3px rgba(0, 0, 0, 0.25)"
-        document.querySelector('.home-movie-night-button').value = "Create a Movie Night List";
+        if(!Array.isArray(this.$store.getters.getMovieNightList) || this.movieNightName != '') {
+          document.querySelector('.home-movie-night-button').style.background = "#282828"
+          document.querySelector('.home-movie-night-button').style.color = "#7DC2AF"
+          document.querySelector('.home-movie-night-button').style.boxShadow = "0px 3px 3px rgba(0, 0, 0, 0.25)"
+          document.querySelector('.home-movie-night-button').value = "Create a Movie Night List";
+          let payload = [];
+          payload.push({
+            list: this.$store.getters.getMovieNightList,
+            name: this.movieNightName
+          });
+          // this.$store.getters.getMovieNightListFromDB.forEach(e => {
+          //   console.log(e)
+          //   if(e.name == payload.name) {
+          //     console.log('in in')
+          //     this.movieNightSaveFail = true;
+          //   }
+          // });
+          this.movieNightSaveFail = false;
+          this.$store.dispatch('addMovieNightList', payload[0]);
+        } else if(this.movieNightClose == true) {
+          document.querySelector('.home-movie-night-button').style.background = "#282828"
+          document.querySelector('.home-movie-night-button').style.color = "#7DC2AF"
+          document.querySelector('.home-movie-night-button').style.boxShadow = "0px 3px 3px rgba(0, 0, 0, 0.25)"
+          document.querySelector('.home-movie-night-button').value = "Create a Movie Night List";
+          this.movieNightSaveFail = false;
+          this.movieNightClose = false;
+        } else {
+          console.log('out');
+          this.movieNightSaveFail = true;
+          this.movieNightButton = true;
+        }
       }
     },
     movieNightButtonChange() {
       this.$store.commit('setMovieNightButton', this.movieNightButton);
+    },
+    movieNightButtonClose() {
+      this.movieNightButton = false;
+      this.$store.commit('setMovieNightButton',   false);
+      this.movieNight();
+    },
+    async randomMovie() {
+      let random = Math.floor(Math.random() * this.filterCollection.length);
+      let movie = this.filterCollection[random];
+      this.$store.commit('setInCollection', true);
+      await this.$store.commit('setSelectedMovie', movie.movie);
+      this.$router.push('/selected');
     }
   },
   mounted() {
     this.state = this.$store.getters.getStateFlex;
-
     if(this.state == 'row') {
-      document.querySelector('.home-movie-section').style.flexDirection = 'column'
+      document.querySelector('.home-movie-section').style.flexDirection = 'column';
       } else {
-      document.querySelector('.home-movie-section').style.flexDirection = 'row'
+      document.querySelector('.home-movie-section').style.flexDirection = 'row';
     }
   }
 };
 </script>
 <style lang="scss">
- @import "../scss/variables";
-.home-movie {
-    padding: 0;
-    margin: 0;
-
-  .home-movie-view-check {
-        display: flex;
-        align-items: center;
-
-        .home-poster-view-button, .home-movie-night-button {
-          border: none;
-          background: #282828;
-          color: $main-colour;
-        }
-      }
-      .home-movie-night-button {
-          border: none;
-          background: #282828;
-          color: $main-colour;
-        }
-
-  h1 {
-    font-weight: 800;
-    color: rgb(56, 56, 56);
-    margin: .5rem 0 1.5rem;
-  }
-
-  .home-movie-section {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 1rem;
-  }
+.home-movie-night-name-failure {
+  color: rgb(134, 1, 1);
+  font-weight: 700;
 }
 </style>

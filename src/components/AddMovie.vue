@@ -95,6 +95,11 @@ export default {
       this.$store.dispatch('fetchMovieById', payload);
       this.$router.push('/selected')
     },
+    },
+    mounted() {
+      if(this.$store.getters.getUser == '') {
+        this.$router.push('/');
+      }
     }
 };
 </script>

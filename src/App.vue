@@ -1,13 +1,14 @@
 <template>
   <div id="app">
     <nav class="nav-bar">
-      <div class="menu-bars" @click="dropdown = !dropdown">&#9776;</div>
+      <div v-show="!dropdown" class="menu-bars" @click="dropdown = !dropdown">&#9776;</div>
+      <font-awesome-icon v-show="dropdown" class="menu-close" icon="times" @click="dropdown = !dropdown"/>
       <router-link to="/">
         <img class="nav-logo" src="./assets/images/Logo.png" alt="Your Movie Shelf" />
       </router-link>
-      <div class="nav-lock" alt="Sign In" @click="signIn = !signIn" v-show="checkSignedIn == false">&#9919;</div>
+      <div class="nav-lock" alt="Sign In" @click="signIn = !signIn" v-show="checkSignedIn == false"><font-awesome-icon icon="lock"/></div>
       <div
-        class="nav-lock" alt="Sign Out" title="Sign Out" v-show="checkSignedIn == true" @click="userSignOut">X</div>
+        class="nav-lock" alt="Sign Out" title="Sign Out" v-show="checkSignedIn == true" @click="userSignOut"><font-awesome-icon icon="lock-open"/></div>
     </nav>
     <div class="dropdown-container" v-show="dropdown">
       <div class="dropdown">
@@ -21,14 +22,14 @@
           <router-link to="/movienight">Movie Night Lists</router-link>
         </div>
         <div class="dropdown-link-container" @click="dropdown = !dropdown">
-          <router-link to="/customize">Customize</router-link>
+          <router-link to="/yourshelfs">Your Shelfs</router-link>
         </div>
       </div>
     </div>
     <div class="sign-in-container" v-show="signIn">
       <div class="sign-in">
         <h4 class="username-text">E-Mail:</h4>
-        <input type="text" class="sign-in-email" v-model="email" />
+        <input type="e-mail" class="sign-in-email" v-model="email" />
         <h4 class="username-text">Password:</h4>
         <input
           type="password"
@@ -74,8 +75,8 @@ export default {
       dropdown: false,
       signIn: false,
       register: false,
-      email: "test@test.com",
-      password: "testing",
+      email: "",
+      password: "",
       passwordConfirmation: "",
       userIsSignedIn: false,
       signedInStorage: "",
@@ -133,7 +134,7 @@ export default {
     } else if(sessionStorage.getItem('loggedIn') != null) {
       this.$store.commit("setSignedIn", true);
       this.$store.dispatch("fetchUserCollection", sessionStorage.getItem("loggedIn"));
-      this.$store.commit("setUser", localStorage.getItem("loggedIn"));
+      this.$store.commit("setUser", sessionStorage.getItem("loggedIn"));
     }
   }
 }

@@ -18,6 +18,9 @@ export const state = {
         movieNightList: [],
         movieNightButton: false,
         stateFlex: 'row',
+        currentDate: new Date(),
+        savedMovieNightList: [],
+        movieNightListFromDB: [],
         formats: ['Blu-ray', 'DVD', 'Blu-ray/DVD', 'VHS', 'Laserdisc', 'VCD'],
         editions: ["Regular", "Collector's", "Special", "Collection", "Steelbook", "Limited", "Limited/Collection"]
   };
