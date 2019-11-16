@@ -6,7 +6,7 @@
                 <font-awesome-icon class="movie-night-trash" icon="trash-alt" @click="deleteList(lists.name)" />
             </div>
             <section class="movie-night-list">
-            <div :ref="lists.name" class="movie-night-list-div" v-for="(li, index) in lists.movieNightList" :key="li.imdbID">
+            <div :ref="lists.name" class="movie-night-list-div" v-for="(li, index) in lists.movieNightList" :key="index">
                 <img :src="li.Poster" alt="" @click="selectMovie(li)">
                     <input class="movie-night-checkbox" type="checkbox" :checked="li.seen" @click="seen(lists.name, lists, index)">
             </div>

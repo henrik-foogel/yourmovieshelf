@@ -18,7 +18,7 @@
       <input v-if="signedIn == true" type="button" class="home-movie-night-button button" label="Create a Movie Night List" value="Create a Movie Night List" @click="movieNightButton = !movieNightButton; movieNight(); movieNightButtonChange()">
       <i v-show="movieNightButton" class="fa fa-times" aria-hidden="true" @click="movieNightClose = true; movieNightButtonClose()"></i>
     </div>
-      <input class="home-movie-night-name" v-show="movieNightButton" type="text" placeholder="Name your movie night list" v-model="movieNightName">
+      <input class="home-movie-night-name" v-show="movieNightButton" type="text" v-model="movieNightName" placeholder="Name your movie night list">
       <p v-show="movieNightSaveFail" class="home-movie-night-name-failure" style="color=red">Make sure you've chosen at least one movie and given your list a name</p>
     <section v-if="signedIn == true" class="home-criteria-section">
       <Criteria />
@@ -157,18 +157,18 @@ export default {
         document.querySelector('.home-movie-night-button').style.boxShadow = "inset 0 0 10px #000000"
         document.querySelector('.home-movie-night-button').value = "Save";
       } else if(this.movieNightButton == false) {
-        if(!Array.isArray(this.$store.getters.getMovieNightList) || this.movieNightName != '') {
-          document.querySelector('.home-movie-night-button').style.background = "#282828"
-          document.querySelector('.home-movie-night-button').style.color = "#7DC2AF"
-          document.querySelector('.home-movie-night-button').style.boxShadow = "0px 3px 3px rgba(0, 0, 0, 0.25)"
-          document.querySelector('.home-movie-night-button').value = "Create a Movie Night List";
-          let payload = [];
-          payload.push({
-            list: this.$store.getters.getMovieNightList,
-            name: this.movieNightName
-          });
-          this.movieNightSaveFail = false;
-          this.$store.dispatch('addMovieNightList', payload[0]);
+        if(this.$store.getters.getMovieNightList[0] != null && this.movieNightName != '') {
+            document.querySelector('.home-movie-night-button').style.background = "#282828"
+            document.querySelector('.home-movie-night-button').style.color = "#7DC2AF"
+            document.querySelector('.home-movie-night-button').style.boxShadow = "0px 3px 3px rgba(0, 0, 0, 0.25)"
+            document.querySelector('.home-movie-night-button').value = "Create a Movie Night List";
+            let payload = [];
+            payload.push({
+              list: this.$store.getters.getMovieNightList,
+              name: this.movieNightName
+            });
+            this.movieNightSaveFail = false;
+            this.$store.dispatch('addMovieNightList', payload[0]);
         } else if(this.movieNightClose == true) {
           document.querySelector('.home-movie-night-button').style.background = "#282828"
           document.querySelector('.home-movie-night-button').style.color = "#7DC2AF"
