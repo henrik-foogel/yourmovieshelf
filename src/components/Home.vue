@@ -167,13 +167,6 @@ export default {
             list: this.$store.getters.getMovieNightList,
             name: this.movieNightName
           });
-          // this.$store.getters.getMovieNightListFromDB.forEach(e => {
-          //   console.log(e)
-          //   if(e.name == payload.name) {
-          //     console.log('in in')
-          //     this.movieNightSaveFail = true;
-          //   }
-          // });
           this.movieNightSaveFail = false;
           this.$store.dispatch('addMovieNightList', payload[0]);
         } else if(this.movieNightClose == true) {
@@ -184,7 +177,6 @@ export default {
           this.movieNightSaveFail = false;
           this.movieNightClose = false;
         } else {
-          console.log('out');
           this.movieNightSaveFail = true;
           this.movieNightButton = true;
         }

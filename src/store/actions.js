@@ -279,7 +279,6 @@ export const actions = {
         let resultArray = Object.keys(data[0]).map(function(key) {
           return [Number(key), data[0][key]];
         });
-        console.log(resultArray)
         resultArray.sort((a, b) => (a[1].soundtrackTitle > b[1].soundtrackTitle) ? 1 : -1)
         ctx.commit('setSoundtrackList', resultArray);
     },
