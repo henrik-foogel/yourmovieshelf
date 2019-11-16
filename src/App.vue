@@ -13,16 +13,22 @@
     <div class="dropdown-container" v-show="dropdown">
       <div class="dropdown">
         <div class="dropdown-link-container" @click="dropdown = !dropdown">
-          <router-link to="/">Home</router-link>
+          <router-link to="/">Your Movie Collection</router-link>
         </div>
         <div class="dropdown-link-container" @click="dropdown = !dropdown">
           <router-link to="/addmovie">Add Movie</router-link>
         </div>
         <div class="dropdown-link-container" @click="dropdown = !dropdown">
+          <router-link to="/yourshelfs">Your Shelfs</router-link>
+        </div>
+        <div class="dropdown-link-container" @click="dropdown = !dropdown">
           <router-link to="/movienight">Movie Night Lists</router-link>
         </div>
         <div class="dropdown-link-container" @click="dropdown = !dropdown">
-          <router-link to="/yourshelfs">Your Shelfs</router-link>
+          <router-link to="/soundtracks">Your Soundtracks</router-link>
+        </div>
+        <div class="dropdown-link-container" @click="dropdown = !dropdown">
+          <router-link to="/addsoundtracks">Add Soundtracks</router-link>
         </div>
       </div>
     </div>
@@ -126,15 +132,21 @@ export default {
       }
     }
   },
-  beforeMount() {
+  async beforeMount() {
     if (localStorage.getItem("loggedIn") != null) {
-      this.$store.commit("setSignedIn", true);
-      this.$store.dispatch("fetchUserCollection", localStorage.getItem("loggedIn"));
-      this.$store.commit("setUser", localStorage.getItem("loggedIn"));
+      await this.$store.commit("setSignedIn", true);
+      await this.$store.commit("setUser", localStorage.getItem("loggedIn"));
+      await this.$store.dispatch("fetchUserCollection", localStorage.getItem("loggedIn"));
+      await this.$store.dispatch('fetchYourSoundtracks', this.$store.getters.getUser);
+      await this.$store.dispatch('fetchCustomShelfs', this.$store.getters.getUser);
     } else if(sessionStorage.getItem('loggedIn') != null) {
-      this.$store.commit("setSignedIn", true);
-      this.$store.dispatch("fetchUserCollection", sessionStorage.getItem("loggedIn"));
-      this.$store.commit("setUser", sessionStorage.getItem("loggedIn"));
+      await this.$store.commit("setSignedIn", true);
+      await this.$store.commit("setUser", sessionStorage.getItem("loggedIn"));
+      await this.$store.dispatch("fetchUserCollection", sessionStorage.getItem("loggedIn"));
+      await this.$store.dispatch('fetchYourSoundtracks', this.$store.getters.getUser);
+      await this.$store.dispatch('fetchCustomShelfs', this.$store.getters.getUser);
+    } else {
+      this.$router.push('/')
     }
   }
 }

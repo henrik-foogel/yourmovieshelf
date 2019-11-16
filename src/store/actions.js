@@ -3,6 +3,7 @@ import axios from "axios";
 import { db } from "../../firebase-config";
 import { fb } from "../../firebase-config";
 import { key } from "../../omdb-config";
+import { token } from "../../discogs-config";
 
 export const actions = {
     async registerWithFirebase(ctx, payload) {
@@ -71,7 +72,6 @@ export const actions = {
             "http://www.omdbapi.com/?apiKey=" + key.key + "&s=" + search + "&page=1"
           )
           .then(response => {
-            // console.log(response);
             result = response.data.Search;
           });
         ctx.commit("setSearchResult", result);
@@ -95,7 +95,7 @@ export const actions = {
       },
       async addToCollection(ctx, payload) {
         let movieArr = [];
-        await axios.get('http://www.omdbapi.com/?i=' + payload.id + '&apikey=206f5d4e').then((response) => { console.log(response); movieArr = response.data });
+        await axios.get('http://www.omdbapi.com/?i=' + payload.id + '&apikey='+key.key).then((response) => { console.log(response); movieArr = response.data });
         let movie = {
           Title: movieArr.Title,
           Director: movieArr.Director,
@@ -115,24 +115,28 @@ export const actions = {
           Poster: movieArr.Poster
         }
   
-        await db.collection(fb.auth().currentUser.uid).add({
+        await db.collection(ctx.getters.getUser).add({
             movie: movie
         })
-        ctx.dispatch('fetchUserCollection', fb.auth().currentUser.uid)
+        ctx.dispatch('fetchUserCollection', ctx.getters.getUser)
       
       },
       async fetchUserCollection(ctx, user) {
         if(user != '') {
         let collection = await db.collection(user).get();
         let respArr = [];
-        collection.forEach(doc => {
+        await collection.forEach(doc => {
           if(hasOwnProperty.call(doc.data(), 'userEmail')) {
             ctx.commit('setEmailDocumentId', doc.id)
           } else {
             if(hasOwnProperty.call(doc.data(), 'movieNightList')) {
               ctx.commit('setSavedMovieNightLists', doc.id);
             } else {
-              respArr.push(doc.data())
+              if(hasOwnProperty.call(doc.data(), 'soundtracks')) {
+                ctx.commit('setSoundtracksId', doc.id);
+              } else {
+                respArr.push(doc.data())
+              }
             }
           }
         })
@@ -143,7 +147,7 @@ export const actions = {
       },
       async fetchCustomShelfs(ctx) {
         let shelfs = '';
-          shelfs = await db.collection(fb.auth().currentUser.uid).get();
+          shelfs = await db.collection(ctx.getters.getUser).get();
         let respArr = [];
         shelfs.forEach(doc => {
           if(hasOwnProperty.call(doc.data(), 'userEmail')) {
@@ -200,7 +204,6 @@ export const actions = {
         payload.list.forEach(movie => {
           data.push(movie[0])
         });
-        console.log(data)
         await docRef.add({
           movieNightList: data,
           name: name,
@@ -234,5 +237,50 @@ export const actions = {
           db.collection(ctx.getters.getUser).doc(doc.id).set(payload.list)
         );
       })
-    }
+    },
+    async findSoundtrack(ctx, payload) {
+      let music = [];
+      if(payload.title != '' && payload.artist != '') {
+        music = await axios.get('https://api.discogs.com/database/search?release_title='+payload.title+'&style=soundtrack&artist='+payload.artist+'&token='+token.token)
+      } else if(payload.title == '' && payload.artist != '') {
+        music = await axios.get('https://api.discogs.com/database/search?style=soundtrack&artist='+payload.artist+'&token='+token.token)
+      } else if(payload.title != '' && payload.artist == '') {
+        music = await axios.get('https://api.discogs.com/database/search?release_title='+payload.title+'&style=soundtrack&token='+token.token)
+      }
+      let list = music.data.results.slice(music.data.results[0]);
+      ctx.commit('setSoundtrackSearchResult', list);
+    },
+    async addSoundtrackToDB(ctx, soundtrack) {
+      if(ctx.getters.getSoundtracksId == '') {
+        let docRef = await db.collection(fb.auth().currentUser.uid);
+        let data = {
+          0: soundtrack,
+          soundtracks: true
+        }
+        docRef.add(data);
+      } else {
+        let docRef = await db.collection(fb.auth().currentUser.uid).doc(ctx.getters.getSoundtracksId);
+        let data = []
+        await docRef.get().then(e => {
+          data.push(e.data())
+        });
+        await docRef.update({[Object.keys(data[0]).length-1]:soundtrack})
+      }
+      ctx.dispatch('fetchUserCollection', fb.auth().currentUser.uid);
+      ctx.dispatch('fetchYourSoundtracks');
+    },
+    async fetchYourSoundtracks(ctx, user) {
+      let docRef = await db.collection(user).doc(ctx.getters.getSoundtracksId);
+      let data = []
+        await docRef.get().then(e => {
+            data.push(e.data())
+        });
+        delete data[0].soundtracks;
+        let resultArray = Object.keys(data[0]).map(function(key) {
+          return [Number(key), data[0][key]];
+        });
+        console.log(resultArray)
+        resultArray.sort((a, b) => (a[1].soundtrackTitle > b[1].soundtrackTitle) ? 1 : -1)
+        ctx.commit('setSoundtrackList', resultArray);
+    },
   }

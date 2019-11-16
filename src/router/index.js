@@ -20,11 +20,6 @@ const routes = [
     component: () => import('../views/AddMovie.vue')
   },
   {
-    path: '/selected',
-    name: 'selected',
-    component: () => import('../views/Selected.vue')
-  },
-  {
     path: '/yourshelfs',
     name: 'customize',
     component: () => import('../views/Customize.vue')
@@ -33,7 +28,18 @@ const routes = [
     path: '/movienight',
     name: 'movienight',
     component: () => import('../views/MovieNight.vue')
-  }
+  },
+  {
+    path: '/addsoundtracks',
+    name: 'addsoundtracks',
+    component: () => import('../views/AddSoundtracks.vue')
+  },
+  {
+    path: '/soundtracks',
+    name: 'soundtracks',
+    component: () => import('../views/Soundtracks.vue')
+  },
+  
 ]
 
 const router = new VueRouter({

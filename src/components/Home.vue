@@ -10,9 +10,10 @@
     <section class="home-search-section" v-if="signedIn == true">
       <Search />
     </section>
+    <section class="button-container" v-show="!getInCollection">
       <div v-show="getState == 'row'" v-if="signedIn == true" class="home-movie-view-check"><p></p><input type="button" class="home-poster-view-button button" @click="viewSwitch()" label="View" value="Poster View"></div>
       <div v-show="getState == 'poster'" v-if="signedIn == true" class="home-movie-view-check"><p></p><input type="button" class="home-poster-view-button button" @click="viewSwitch()" label="View" value="Regular View"></div>
-    <h1 v-if="signedIn == true" @click="randomMovie">Your Collection:</h1>
+    <h1 v-if="signedIn == true">Your Collection:</h1>
     <div class="home-movie-night-button-container">
       <input v-if="signedIn == true" type="button" class="home-movie-night-button button" label="Create a Movie Night List" value="Create a Movie Night List" @click="movieNightButton = !movieNightButton; movieNight(); movieNightButtonChange()">
       <i v-show="movieNightButton" class="fa fa-times" aria-hidden="true" @click="movieNightClose = true; movieNightButtonClose()"></i>
@@ -22,8 +23,9 @@
     <section v-if="signedIn == true" class="home-criteria-section">
       <Criteria />
     </section>
-    <div v-show="signedIn == true && !movieNightButton"  class="home-movie-random button" @click="randomMovie">Random movie from whole list or with a criteria </div>
-    <section class="home-movie-section">
+    <div v-show="signedIn == true && !movieNightButton"  class="home-movie-random button" @click="randomMovie">Random movie from whole list or from a criteria </div>
+    </section>
+    <section class="home-movie-section" v-show="!getInCollection">
       <movie
         v-for="(movie, index) in filterCollection"
         :key="index"
@@ -31,6 +33,7 @@
         :state="state"
       />
     </section>
+    <Selected v-show="getInCollection"/>
   </article>
 </template>
 
@@ -38,12 +41,14 @@
 import Movie from "@/components/movie.vue";
 import Search from "@/components/search.vue";
 import Criteria from "@/components/searchCriteria.vue";
+import Selected from '@/components/selected.vue'
 export default {
   name: "home",
   components: {
     Movie,
     Search,
-    Criteria
+    Criteria,
+    Selected
   },
   data() {
     return {
@@ -106,9 +111,12 @@ export default {
     getState() {
       return this.$store.getters.getStateFlex;
     },
-      getMovieNightButton() {
-        return this.movieNightButton;
-      }
+    getMovieNightButton() {
+      return this.movieNightButton;
+    },
+    getInCollection() {
+      return this.$store.getters.getInCollection;
+    }
   },
   watch: {
     getSearchResult() {
@@ -193,9 +201,8 @@ export default {
     async randomMovie() {
       let random = Math.floor(Math.random() * this.filterCollection.length);
       let movie = this.filterCollection[random];
-      this.$store.commit('setInCollection', true);
       await this.$store.commit('setSelectedMovie', movie.movie);
-      this.$router.push('/selected');
+      this.$store.commit('setInCollection', true);
     }
   },
   mounted() {

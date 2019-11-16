@@ -17,33 +17,25 @@
       </div>
       <input type="button" class="home-search-button" @click="fetchMovies" value="Search" alt="Search button">
     </section>
-    <section class="add-search-result-to-many-alert" v-show="!alertWindowClosed">
-      <div class="add-search-result-to-many-alert-text">
-        <div class="add-search-result-to-many-alert-close-div">
-          <i class="fa fa-times" aria-hidden="true" @click="alertWindowClosed = true"></i>
-        </div>
-        <h2>Too Many Search Results</h2>
-        <h4>Please choose a year to narrow down result</h4>
-      </div>
-    </section>
-    <section class="add-search-result">
-      <div class="add-search-result-movie" v-for="movie in searchResult" :key="movie.imdbID" @click="imdbID = movie.imdbID; selectMovie(movie, movie.imdbID)">
-        <img :src="movie.Poster" alt="Movie poster">
-        <h4>{{ movie.Title }}(<span>{{ movie.Year }}</span>)</h4>
-      </div>
-    </section>
+  <addMovieSearch v-show="!getChosen"/> 
+  <Selected v-show="getChosen"/> 
   </article>
 </template>
-
 <script>
+import addMovieSearch from '@/components/addMovieSearch.vue'
+import Selected from '@/components/selected.vue'
+
 export default {
-      data() {
-        return {
-        search: '',
-        specificSearch: '',
-        specificSearchYear: '',
-        alertWindowClosed: true
-        }
+  components: {
+    addMovieSearch,
+    Selected
+  },
+  data() {
+    return {
+      search: '',
+      specificSearch: '',
+      specificSearchYear: '',
+      }
     },
     computed: {
         searchResult() {
@@ -52,15 +44,16 @@ export default {
         getCurrentYear() {
             const year = new Date().getFullYear()
             return Array.from({length: year - 1900}, (value, index) => 1901 + index)
+        },
+        getChosen() {
+          return this.$store.getters.getChosen;
         }
     },
     methods: {
     async fetchMovies() {
       let searchReplaced = '';
       
-        searchReplaced = this.specificSearch.replace(/ /g, "+");
-        console.log(searchReplaced);
-
+      searchReplaced = this.specificSearch.replace(/ /g, "+");
 
       if(this.specificSearchYear == 'Year' || this.specificSearchYear == '') {
         await this.$store.dispatch('fetchMovies', searchReplaced);
@@ -70,31 +63,16 @@ export default {
         await this.$store.dispatch('fetchSpecificMovie', payload);
       }
 
-      this.specificSearch = '';
-      this.specificSearchYear = '';
-      this.search = '';
+      this.$store.commit('setChosen', false);
 
       if(this.$store.getters.getSearchResult == undefined) {
-        this.alertWindowClosed = false;
-      } else {
-        this.alertWindowClosed = true;
-      }
-    },
-    async selectMovie(movie, id) {
+        this.$store.commit('setAlertWindowClosed', false);
 
-      let movieArr = {
-        shelf: 'none',
-        soundtrack: 'somebody',
-        rating: '0',
-        format: 'something',
-        edition: 'something'
+      } else {
+        this.$store.commit('setAlertWindowClosed', true);
       }
-      let inCollection = false;
-      let payload = {movieArr, id};
-      this.$store.commit('setInCollection', inCollection);
-      this.$store.dispatch('fetchMovieById', payload);
-      this.$router.push('/selected')
     },
+    
     },
     mounted() {
       if(this.$store.getters.getUser == '') {

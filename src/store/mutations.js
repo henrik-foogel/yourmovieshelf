@@ -1,5 +1,5 @@
 export const mutations = {
-    setSearch(state, search) {
+      setSearch(state, search) {
         state.search = search;
       },
       setPosterViewTrueFalse(state, view) {
@@ -44,6 +44,12 @@ export const mutations = {
       setSelectedMovie(state, selectedMovie) {
         state.selectedMovie = selectedMovie;
       },
+      setChosen(state, view) {
+        state.chosen = view;
+      },
+      setAlertWindowClosed(state, closed) {
+        state.alertWindowClosed = closed;
+      },
       setMovieNightList(state, list) {
         state.movieNightList = list;
       },
@@ -61,5 +67,29 @@ export const mutations = {
       },
       setMovieNightListFromDB(state, movies) {
         state.movieNightListFromDB = movies;
+      },
+      setSoundtrackSearchResult(state, list) {
+        state.soundtrackSearchResult = list;
+      },
+      setSelectedSoundtrack(state, soundtrack) {
+        state.selectedSoundtrack = soundtrack;
+      },
+      setSelectedTrueFalse(state, trueFalse) {
+        state.selectedTrueFalse = trueFalse;
+      },
+      setSoundtracksId(state, id) {
+        state.soundtracksId = id;
+      },
+      setSoundtrackList(state, list) {
+        state.soundtrackList = list;
+      },
+      setSearchFailure(state, failure) {
+        state.searchFailure = failure;
+      },
+      setSearchSavedSoundtracks(state, search) {
+        state.searchSavedSoundtracks = search;
+      },
+      setSoundtrackInCollection(state, inCollection) {
+        state.soundtrackInCollection = inCollection;
       }
 }

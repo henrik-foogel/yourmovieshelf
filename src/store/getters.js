@@ -12,7 +12,7 @@ export const getters = {
     return state.searchResult;
   },
   getFilterCriteria(state) {
-    return state.filterCriteria
+    return state.filterCriteria;
   },
   getLoginFailure(state) {
     return state.loginFailure;
@@ -38,6 +38,12 @@ export const getters = {
   getSelectedMovie(state) {
     return state.selectedMovie;
   },
+  getChosen(state) {
+    return state.chosen;
+  },
+  getAlertWindowClosed(state) {
+    return state.alertWindowClosed
+  },
   getInCollection(state) {
     return state.inCollection;
   },
@@ -51,7 +57,7 @@ export const getters = {
     return state.editions.sort((a, b) => (a > b ? 1 : -1));
   },
   getMovieNightList(state) {
-    return state.movieNightList
+    return state.movieNightList;
   },
   getMovieNightButton(state) {
     return state.movieNightButton;
@@ -63,6 +69,33 @@ export const getters = {
     return state.savedMovieNightList;
   },
   getMovieNightListFromDB(state) {
-    return state.movieNightListFromDB
+    return state.movieNightListFromDB;
+  },
+  getSoundtrackSearchResult(state) {
+    return state.soundtrackSearchResult;
+  },
+  getMusicFormats(state) {
+    return state.musicFormats;
+  },
+  getSelectedSoundtrack(state) {
+    return state.selectedSoundtrack;
+  },
+  getSelectedTrueFalse(state) {
+    return state.selectedTrueFalse;
+  },
+  getSoundtracksId(state) {
+    return state.soundtracksId;
+  },
+  getSoundtrackList(state) {
+    return state.soundtrackList;
+  },
+  getSearchFailure(state) {
+    return state.searchFailure;
+  },
+  getSearchSavedSoundtracks(state) {
+    return state.searchSavedSoundtracks;
+  },
+  getSoundtrackInCollection(state) {
+    return state.soundtrackInCollection;
   }
 };

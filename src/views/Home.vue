@@ -1,6 +1,6 @@
 <template>
   <main class="home">
-    <Home v-show="!getPosterViewTrueFalse"/>
+    <Home/>
   </main>
 </template>
 
@@ -13,10 +13,5 @@ export default {
   components: {
     Home
   },
-  computed: {
-    getPosterViewTrueFalse() {
-      return this.$store.getters.getPosterViewTrueFalse;
-    }
-  }
 }
 </script>
