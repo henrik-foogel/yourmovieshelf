@@ -6,7 +6,8 @@
       <router-link to="/">
         <img class="nav-logo" src="./assets/images/Logo.png" alt="Your Movie Shelf" />
       </router-link>
-      <div class="nav-lock" alt="Sign In" @click="signIn = !signIn" v-show="checkSignedIn == false"><font-awesome-icon icon="lock"/></div>
+      <div class="nav-lock" alt="Sign In" @click="signIn = !signIn; register = false" v-if="signIn== false" v-show="checkSignedIn == false"><font-awesome-icon icon="lock"/></div>
+      <div class="nav-lock darker" alt="Sign In" @click="signIn = !signIn; register = false" v-show="signIn == true"><font-awesome-icon icon="lock"/></div>
       <div
         class="nav-lock" alt="Sign Out" title="Sign Out" v-show="checkSignedIn == true" @click="userSignOut"><font-awesome-icon icon="lock-open"/></div>
     </nav>
@@ -101,6 +102,32 @@ export default {
     failureMessage() {
       return this.$store.getters.getFailureMessage;
     },
+    getSignInBox() {
+      return this.$store.getters.getSignInBox;
+    },
+    getRegisterBox() {
+      return this.$store.getters.getRegisterBox;
+    },
+    getSignIn() {
+      return this.signIn;
+    },
+    getRegister() {
+      return this.register;
+    }
+  },
+  watch: {
+    getSignInBox() {
+      this.signIn = this.$store.getters.getSignInBox;
+    },
+    getRegisterBox() {
+      this.register = this.$store.getters.getRegisterBox;
+    },
+    getSignIn() {
+      this.$store.commit('setSignInBox', this.signIn);
+    },
+    getRegister() {
+      this.$store.commit('setRegisterBox', this.register);
+    }
   },
   methods: {
     async registerWithFirebase() {

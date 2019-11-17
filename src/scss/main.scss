@@ -52,6 +52,10 @@ body {
           font-size: 3rem;
           margin: -0.6rem 0.3rem 0 0;
           cursor: pointer;
+
+          &.darker { 
+          color: rgb(41, 41, 41);
+          }
           
             &:hover {
             opacity: 0.5;
@@ -170,7 +174,7 @@ body {
         article {
           display: flex;
           align-items: center;
-          max-width: 70rem;
+          max-width: 100vw;
           flex-direction: column;
           min-width: 60vw;
         }

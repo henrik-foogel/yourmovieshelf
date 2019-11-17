@@ -23,6 +23,12 @@ export const getters = {
   getSignedIn(state) {
     return state.signedIn;
   },
+  getSignInBox(state) {
+    return state.signInBox;
+  },
+  getRegisterBox(state) {
+    return state.registerBox;
+  },
   getSignedInStorage(state) {
     return state.signedInStorage;
   },

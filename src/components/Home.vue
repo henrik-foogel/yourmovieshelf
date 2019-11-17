@@ -4,7 +4,7 @@
       <div class="home-not-signed-in-container">
         <h2 class="home-not-signed-in-container-header">Page Under Construction</h2>
         <p>-Some things may not work or design is not implemented-</p>
-        <h3 class="home-not-signed-in-container-header">Please register or sign in</h3>
+        <h3 class="home-not-signed-in-container-header">Please <span @click="signInBox(true)">REGISTER</span> or <span @click="signInBox(false)">SIGN IN</span></h3>
       </div>
     </section>
     <section class="home-search-section" v-if="signedIn == true">
@@ -33,7 +33,7 @@
         :state="state"
       />
     </section>
-    <Selected v-show="getInCollection"/>
+    <selected v-show="getInCollection"/>
   </article>
 </template>
 
@@ -41,14 +41,14 @@
 import Movie from "@/components/movie.vue";
 import Search from "@/components/search.vue";
 import Criteria from "@/components/searchCriteria.vue";
-import Selected from '@/components/selected.vue'
+import selected from '@/components/selected.vue'
 export default {
   name: "home",
   components: {
     Movie,
     Search,
     Criteria,
-    Selected
+    selected
   },
   data() {
     return {
@@ -137,6 +137,15 @@ export default {
     }
   },
   methods: {
+    signInBox(register) {
+      if(register == true) {
+        this.$store.commit('setRegisterBox', true);
+        this.$store.commit('setSignInBox', true);
+        } else if(register == false) {
+        this.$store.commit('setSignInBox', true);
+        this.$store.commit('setRegisterBox', false);
+      }
+    },
     viewSwitch() {
         this.$store.commit('setSearchResult', this.search);
         if(this.state == 'row') {

@@ -22,6 +22,9 @@
               <h4>{{selectedMovie.Ratings[0].Source}}:</h4>
               <div class="custom-rating" alt="Imdb rating: ">{{selectedMovie.Ratings[0].Value}}</div>
             </div>
+            <div class="delete-container" v-show="inCollection">
+              <div class="delete-button button" @click="deleteFromList">Delete</div>
+            </div>
             <addSelectedMovie :selectedMovie='selectedMovie' v-show="!inCollection"/>
           </div>
       </section>
@@ -67,6 +70,9 @@ export default {
     setChosen() {
       this.$store.commit('setChosen', false);
       this.$store.commit('setInCollection', false);
+    },
+    deleteFromList() {
+      this.$store.dispatch('deleteFromCollection', this.selectedMovie)
     }
   }
 }
@@ -148,6 +154,17 @@ export default {
           text-align: justify;
           font-weight: 700;
         }
+
+        &.delete-container {
+          display: flex;
+          justify-content: flex-start;
+          width: 100%;
+            .delete-button {
+              color: #282828;
+              padding: .2rem .5rem;
+              margin-bottom: 0;
+            }
+          }
 
         &.more-info-button {
           color: #fff;

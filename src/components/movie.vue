@@ -129,6 +129,7 @@ export default {
 
   .row {
     width: 95%;
+    max-width: 100vw;
     display: flex;
     flex-direction: row;
     cursor: pointer;

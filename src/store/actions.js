@@ -119,7 +119,22 @@ export const actions = {
             movie: movie
         })
         ctx.dispatch('fetchUserCollection', ctx.getters.getUser)
-      
+      },
+      async deleteFromCollection(ctx, movie) {
+        let collection = await db.collection(ctx.getters.getUser).get();
+
+        await collection.forEach(doc => {
+          Object.keys(doc.data()).forEach(function(key) {     
+            if(doc.data()[key].Actors == movie.Actors && doc.data()[key].Director == movie.Director && 
+            doc.data()[key].Genre == movie.Genre && doc.data()[key].Plot == movie.Plot && 
+            doc.data()[key].Title == movie.Title && doc.data()[key].edition == movie.edition && 
+            doc.data()[key].format == movie.format && doc.data()[key].shelf == movie.shelf) {
+              db.collection(ctx.getters.getUser).doc(doc.id).delete()
+            }      
+          });
+        });
+        ctx.dispatch('fetchUserCollection', ctx.getters.getUser);
+        ctx.commit('setInCollection', false);
       },
       async fetchUserCollection(ctx, user) {
         if(user != '') {

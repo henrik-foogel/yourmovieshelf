@@ -20,6 +20,12 @@ export const mutations = {
       setSignedIn(state, signedIn) {
         state.signedIn = signedIn;
       },
+      setSignInBox(state, signInBox) {
+        state.signInBox = signInBox;
+      },
+      setRegisterBox(state, registerBox) {
+        state.registerBox = registerBox;
+      },
       setUser(state, user) {
         state.user = user;
       },
