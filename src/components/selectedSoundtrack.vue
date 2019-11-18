@@ -20,6 +20,9 @@
             </select>
             <div class="add-soundtrack-button button" @click="saveSoundtrack()">Add</div>
             </div>
+            <div class="delete-soundtrack-container" v-show="getInCollection">
+              <div class="delete-button button" @click="deleteSoundtrackFromList(); setSelectedTrueFalse()">Delete</div>
+            </div>
         </section>
     </section>
 </template>
@@ -47,7 +50,6 @@ export default {
             this.$store.commit('setSelectedTrueFalse', false);
         },
         saveSoundtrack() {
-
             let data = {
                 soundtrackImg: this.getSelectedSoundtrack.cover_image,
                 soundtrackTitle: this.getSelectedSoundtrack.title,
@@ -55,6 +57,9 @@ export default {
             }
             this.$store.dispatch('addSoundtrackToDB', data);
             this.$store.commit('setSelectedTrueFalse', false);
+        },
+        deleteSoundtrackFromList() {
+            this.$store.dispatch('deleteSoundtrack', this.getSelectedSoundtrack);   
         }
     }
 }
@@ -117,8 +122,19 @@ export default {
                     border-radius: .5rem;
                     width: 12rem;
                 }
+
                 
             }
+                .delete-soundtrack-container {
+                    display: flex;
+                    justify-content: center;
+                    width: 100%;
+                        .delete-button {
+                        color: #282828;
+                        padding: .2rem .5rem;
+                        margin-bottom: 0;
+                    }
+                }
             
         }
     }

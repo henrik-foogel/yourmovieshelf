@@ -7,7 +7,7 @@
         <img class="nav-logo" src="./assets/images/Logo.png" alt="Your Movie Shelf" />
       </router-link>
       <div class="nav-lock" alt="Sign In" @click="signIn = !signIn; register = false" v-if="signIn== false" v-show="checkSignedIn == false"><font-awesome-icon icon="lock"/></div>
-      <div class="nav-lock darker" alt="Sign In" @click="signIn = !signIn; register = false" v-show="signIn == true"><font-awesome-icon icon="lock"/></div>
+      <div class="nav-lock darker" alt="Sign In" @click="signIn = !signIn; register = false" v-show="signIn == true"><font-awesome-icon icon="times"/></div>
       <div
         class="nav-lock" alt="Sign Out" title="Sign Out" v-show="checkSignedIn == true" @click="userSignOut"><font-awesome-icon icon="lock-open"/></div>
     </nav>

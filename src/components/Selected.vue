@@ -72,7 +72,7 @@ export default {
       this.$store.commit('setInCollection', false);
     },
     deleteFromList() {
-      this.$store.dispatch('deleteFromCollection', this.selectedMovie)
+      this.$store.dispatch('deleteFromCollection', this.selectedMovie);
     }
   }
 }

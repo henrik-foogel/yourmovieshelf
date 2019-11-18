@@ -267,19 +267,24 @@ export const actions = {
     },
     async addSoundtrackToDB(ctx, soundtrack) {
       if(ctx.getters.getSoundtracksId == '') {
-        let docRef = await db.collection(fb.auth().currentUser.uid);
+        console.log(ctx.getters.getSoundtracksId)
+        let docRef = await db.collection(ctx.getters.getUser);
         let data = {
           0: soundtrack,
           soundtracks: true
         }
         docRef.add(data);
       } else {
-        let docRef = await db.collection(fb.auth().currentUser.uid).doc(ctx.getters.getSoundtracksId);
+        let docRef = await db.collection(ctx.getters.getUser).doc(ctx.getters.getSoundtracksId);
         let data = []
         await docRef.get().then(e => {
           data.push(e.data())
         });
-        await docRef.update({[Object.keys(data[0]).length-1]:soundtrack})
+        if(Object.keys(data[0]).length == 0) {
+          await docRef.update({[Object.keys(data[0]).length+1]:soundtrack})
+        } else {
+          await docRef.update({[Object.keys(data[0]).length]:soundtrack})
+        }
       }
       ctx.dispatch('fetchUserCollection', fb.auth().currentUser.uid);
       ctx.dispatch('fetchYourSoundtracks');
@@ -297,4 +302,20 @@ export const actions = {
         resultArray.sort((a, b) => (a[1].soundtrackTitle > b[1].soundtrackTitle) ? 1 : -1)
         ctx.commit('setSoundtrackList', resultArray);
     },
+    async deleteSoundtrack(ctx, soundtrack) {
+      let list = [];
+      let obj = [];
+      await ctx.getters.getSoundtrackList.forEach(album => {
+        if(album[1].soundtrackTitle == soundtrack.soundtrackTitle && 
+          album[1].soundtrackImg == soundtrack.soundtrackImg && 
+          album[1].soundtrackFormat == soundtrack.soundtrackFormat) {
+            console.log(album[1])
+          } else {
+            list.push(album[1])
+          }
+        })
+        obj = Object.assign({}, list, {'soundtracks': true});
+        db.collection(ctx.getters.getUser).doc(ctx.getters.getSoundtracksId).set(obj);
+        ctx.dispatch('fetchYourSoundtracks', ctx.getters.getUser);
+    }
   }
