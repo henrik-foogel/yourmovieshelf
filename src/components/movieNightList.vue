@@ -31,11 +31,6 @@ export default {
         return this.lists
        }
     },
-    watch: {
-        getLists() {
-            this.$store.dispatch('fetchMovieNightLists', this.$store.getters.getUser)
-        }
-    },
     methods: {
         openList(info) {
             var refName = this.$refs[info];
@@ -52,7 +47,6 @@ export default {
         },
         deleteList(name) {
             this.$store.dispatch('deleteMovieNightList', name);
-            this.$store.dispatch('fetchMovieNightLists', this.$store.getters.getUser)
         },
         seen(name, list, index) {
             list.movieNightList[index].seen = !list.movieNightList[index].seen;

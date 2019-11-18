@@ -236,7 +236,7 @@ export const actions = {
             return
           }
       });
-      ctx.commit('setMovieNightListFromDB', respArr)
+      ctx.commit('setMovieNightListFromDB', respArr);
       }
     },
     async deleteMovieNightList(ctx, name) {
@@ -245,6 +245,7 @@ export const actions = {
           db.collection(ctx.getters.getUser).doc(doc.id).delete()
         );
       })
+      ctx.dispatch('fetchMovieNightLists', ctx.getters.getUser);
     },
     async updateMovieNightList(ctx, payload) {
       await db.collection(ctx.getters.getUser).where('name', '==', payload.name).get().then(snap => {

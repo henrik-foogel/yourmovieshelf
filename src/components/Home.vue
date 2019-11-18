@@ -19,7 +19,7 @@
       <i v-show="movieNightButton" class="fa fa-times" aria-hidden="true" @click="movieNightClose = true; movieNightButtonClose()"></i>
     </div>
       <input class="home-movie-night-name" v-show="movieNightButton" type="text" v-model="movieNightName" placeholder="Name your movie night list">
-      <p v-show="movieNightSaveFail" class="home-movie-night-name-failure" style="color=red">Make sure you've chosen at least one movie and given your list a name</p>
+      <p v-show="movieNightSaveFail" class="home-movie-night-name-failure" style="color=red">Make sure you've chosen at least one movie and given your list a name and that it's name is not already in use</p>
     <section v-if="signedIn == true" class="home-criteria-section">
       <Criteria />
     </section>
@@ -166,6 +166,13 @@ export default {
         document.querySelector('.home-movie-night-button').style.boxShadow = "inset 0 0 10px #000000"
         document.querySelector('.home-movie-night-button').value = "Save";
       } else if(this.movieNightButton == false) {
+        for (let i = 0; i < this.$store.getters.getMovieNightListFromDB.length; i++) {
+          if(this.$store.getters.getMovieNightListFromDB[i].name == this.movieNightName) {
+            this.movieNightSaveFail = true;
+            this.movieNightButton = true;
+            return
+          }    
+        }
         if(this.$store.getters.getMovieNightList[0] != null && this.movieNightName != '') {
             document.querySelector('.home-movie-night-button').style.background = "#282828"
             document.querySelector('.home-movie-night-button').style.color = "#7DC2AF"
