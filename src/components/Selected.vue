@@ -10,7 +10,7 @@
             <div class="selected-movie-shelf" v-show="inCollection" alt="Shelf: ">({{ selectedMovie.shelf }})</div>
             <div class="selected-movie-actors" alt="Actors: ">{{ selectedMovie.Actors }}</div>
             <div class="selected-movie-plot plot" alt="Plot: ">{{ selectedMovie.Plot }}</div>
-            <div class="more-info-button button" @click="moreInfo = !moreInfo" v-show="inCollection">More Info &#8691;</div>
+            <div class="more-info-button button" @click="moreInfo = !moreInfo" v-show="inCollection">MORE INFO &#8691;</div>
             <div class="selected-movie-more-info" v-if="inCollection && moreInfo == true" alt="More info dropdown">
               <h4>Music:</h4>
               <div class="selected-movie-Music" alt="Soundtrack: ">{{ selectedMovie.soundtrack }}</div>
@@ -23,8 +23,8 @@
             </div>
             
             <div class="delete-container" v-show="inCollection">
-              <div class="selected-movie-card-back button" @click="setChosen">Back</div>
-              <div class="delete-button button" @click="deleteBox = true">Delete</div>
+              <div class="selected-movie-card-back button" @click="setChosen">BACK</div>
+              <font-awesome-icon icon="trash-alt" class="trash-button button" @click="deleteBox = true">Delete</font-awesome-icon>
             </div>
             <addSelectedMovie :selectedMovie='selectedMovie' v-show="!inCollection"/>
           </div>
@@ -33,8 +33,8 @@
         <div class="delete-container">
           <h5 class="delete-question-title">Are you sure you want to delete this movie?</h5>
           <div class="delete-button-container">
-            <div class="delete-button" @click="deleteBox = false">Cancel</div>
-            <div class="delete-button" @click="deleteFromList">Yes</div>
+            <div class="delete-button" @click="deleteBox = false">CANCEL</div>
+            <div class="delete-button" @click="deleteFromList">YES</div>
           </div>
         </div>
       </section>
@@ -173,10 +173,12 @@ export default {
           justify-content: space-between;
           width: 100%;
           margin: 0;
-            .button {
-              color: #8d0000;
+            .trash-button {
               padding-left: .7rem;
               padding-right: .7rem;
+              font-size: 2rem;
+            }
+            .button {
               margin: 1rem;
             }
           }

@@ -11,12 +11,12 @@
       <Search />
     </section>
     <section class="button-container" v-show="!getInCollection">
-      <div v-show="getState == 'row'" v-if="signedIn == true" class="home-movie-view-check"><p></p><input type="button" class="home-poster-view-button button" @click="viewSwitch()" label="View" value="Poster View"></div>
-      <div v-show="getState == 'poster'" v-if="signedIn == true" class="home-movie-view-check"><p></p><input type="button" class="home-poster-view-button button" @click="viewSwitch()" label="View" value="Regular View"></div>
+      <div v-show="getState == 'row'" v-if="signedIn == true" class="home-movie-view-check"><p></p><input type="button" class="home-poster-view-button button" @click="viewSwitch()" label="View" value="POSTER VIEW"></div>
+      <div v-show="getState == 'poster'" v-if="signedIn == true" class="home-movie-view-check"><p></p><input type="button" class="home-poster-view-button button" @click="viewSwitch()" label="View" value="REGULAR VIEW"></div>
     <h1 v-if="signedIn == true">Your Collection:</h1>
     <div class="home-movie-night-button-container">
-      <input v-if="signedIn == true" type="button" class="home-movie-night-button button" label="Create a Movie Night List" value="Create a Movie Night List" @click="movieNightButton = !movieNightButton; movieNight(); movieNightButtonChange()">
-      <i v-show="movieNightButton" class="fa fa-times" aria-hidden="true" @click="movieNightClose = true; movieNightButtonClose()"></i>
+      <input v-if="signedIn == true" type="button" class="home-movie-night-button button" label="Create a Movie Night List" value="CREATE A MOVIE NIGHT LIST" @click="movieNightButton = !movieNightButton; movieNight(); movieNightButtonChange()">
+      <font-awesome-icon icon="times" v-show="movieNightButton" class="fa fa-times" aria-hidden="true" @click="movieNightClose = true; movieNightButtonClose()"></font-awesome-icon>
     </div>
       <input class="home-movie-night-name" v-show="movieNightButton" type="text" v-model="movieNightName" placeholder="Name your movie night list">
       <p v-show="movieNightSaveFail" class="home-movie-night-name-failure" style="color=red">Make sure you've chosen at least one movie and given your list a name and that it's name is not already in use</p>
@@ -164,7 +164,7 @@ export default {
         document.querySelector('.home-movie-night-button').style.background = "#7DC2AF"
         document.querySelector('.home-movie-night-button').style.color = "#282828"
         document.querySelector('.home-movie-night-button').style.boxShadow = "inset 0 0 10px #000000"
-        document.querySelector('.home-movie-night-button').value = "Save";
+        document.querySelector('.home-movie-night-button').value = "SAVE";
       } else if(this.movieNightButton == false) {
         for (let i = 0; i < this.$store.getters.getMovieNightListFromDB.length; i++) {
           if(this.$store.getters.getMovieNightListFromDB[i].name == this.movieNightName) {

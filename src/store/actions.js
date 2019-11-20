@@ -47,11 +47,11 @@ export const actions = {
             sessionStorage.setItem('loggedIn', response.user.uid);
           }
           ctx.dispatch("fetchCustomShelfs");
-          ctx.dispatch('fetchMovieNightLists', response.user.uid)
+          ctx.dispatch('fetchMovieNightLists', response.user.uid);
         })
         .catch(error => {
-          this.loginFailure = true;
-          this.failureMessage = error.message;
+          ctx.commit('setLoginFailure', true);
+          ctx.commit('setFailureMessage', error.message);
           console.log(error);
         });
       },

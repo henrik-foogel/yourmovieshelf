@@ -47,13 +47,20 @@ body {
         }
   
         .nav-lock {
-          color: gray;
-          font-size: 3rem;
-          margin: -0.6rem 0.3rem 0 0;
+          display: flex;
+          flex-direction: column;
+          color: $main-colour;
+          align-items: center;
+          font-size: 1rem;
           cursor: pointer;
+          border: 3px solid $main-colour;
+          font-weight: 700;
+          padding: .5rem;
+          border-radius: .5rem;
 
           &.darker { 
           font-size: 3.7rem;
+          border: none;
           }
           
             &:hover {
@@ -68,7 +75,7 @@ body {
       }
 
       .dropdown-container {
-        width: 100%;
+        width: 100vw;
         display: flex;
         .dropdown {
           display: flex;

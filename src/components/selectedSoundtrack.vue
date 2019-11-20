@@ -17,19 +17,19 @@
                 <select class="selected-soundtrack-custom-format" v-model="customMusicFormat">
                 <option v-for="format in getMusicFormats" :key="format">{{ format }}</option>
             </select>
-            <div class="add-soundtrack-button button" @click="saveSoundtrack()">Add</div>
+            <div class="add-soundtrack-button button" @click="saveSoundtrack()">ADD</div>
             </div>
             <div class="delete-soundtrack-container" v-show="getInCollection">
-            <div class="selected-soundtrack-button button" @click="setSelectedTrueFalse">Back</div>
-              <div class="delete-button button" @click="deleteBox = true">Delete</div>
+            <div class="selected-soundtrack-button button" @click="setSelectedTrueFalse">BACK</div>
+              <font-awesome-icon icon="trash-alt" class="trash-button button" @click="deleteBox = true">DELETE</font-awesome-icon>
             </div>
         </section>
         <section v-show="deleteBox" class="delete-soundtrack-question-section">
         <div class="delete-container">
           <h5 class="delete-question-title">Are you sure you want to delete this soundtrack?</h5>
           <div class="delete-button-container">
-            <div class="delete-button" @click="deleteBox = false">Cancel</div>
-            <div class="delete-button" @click="deleteSoundtrackFromList">Yes</div>
+            <div class="delete-button" @click="deleteBox = false">CANCEL</div>
+            <div class="delete-button" @click="deleteSoundtrackFromList">YES</div>
           </div>
         </div>
       </section>
@@ -144,11 +144,11 @@ export default {
                     display: flex;
                     justify-content: space-between;
                     width: 100%;
-                        .delete-button {
-                        color: #8d0000;
-                        padding-left: .7rem;
-                        padding-right: .7rem;
-                    }
+                        .trash-button {
+                            font-size: 2rem;
+                            padding-left: .7rem;
+                            padding-right: .7rem;
+                        }
                 }
             
         }

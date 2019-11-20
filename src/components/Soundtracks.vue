@@ -45,9 +45,11 @@ export default {
             this.$store.commit('setSoundtrackInCollection', true);
         },
     },
-    async beforeMount() {
+    async created() {
       if(this.$store.getters.getUser == '') {
         this.$router.push('/');
+      } else {
+      await this.$store.dispatch('fetchYourSoundtracks', this.$store.getters.getUser);
       }
     },
 }

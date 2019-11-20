@@ -6,10 +6,10 @@
       <router-link to="/">
         <img class="nav-logo" src="./assets/images/Logo.png" alt="Your Movie Shelf" @click="dropdown = false" />
       </router-link>
-      <div class="nav-lock" alt="Sign In" @click="signIn = !signIn; dropdown = false; register = false" v-if="signIn== false" v-show="checkSignedIn == false"><font-awesome-icon icon="lock"/></div>
+      <div class="nav-lock" alt="Sign In" @click="signIn = !signIn; dropdown = false; register = false" v-if="signIn== false" v-show="checkSignedIn == false"><span>SIGN</span><span>IN</span></div>
       <div class="nav-lock darker" alt="Sign In" @click="signIn = !signIn; register = false; dropdown = false" v-show="signIn == true"><font-awesome-icon icon="times"/></div>
       <div
-        class="nav-lock" alt="Sign Out" title="Sign Out" v-show="checkSignedIn == true" @click="userSignOut(); dropdown = false"><font-awesome-icon icon="lock-open"/></div>
+        class="nav-lock" alt="Sign Out" title="Sign Out" v-show="checkSignedIn == true" @click="userSignOut(); dropdown = false"><span>SIGN</span><span>OUT</span></div>
     </nav>
     <div class="dropdown-container" v-show="dropdown">
       <div class="dropdown">
@@ -42,7 +42,7 @@
           type="password"
           class="sign-in-password"
           v-model="password"
-          @keyup.enter="userSignIn"
+          @keyup.enter="loading = true; userSignIn()"
         />
         <h4 class="username-text" v-show="register">Verify Password:</h4>
         <input
@@ -56,7 +56,7 @@
           @click="registerWithFirebase"
           v-show="register"
         >Register</button>
-        <button class="sign-in-button button" @click="userSignIn" v-show="!register">Sign In</button>
+        <button class="sign-in-button button" @click="loading = true; userSignIn()" v-show="!register">Sign In</button>
         <div class="sign-in-keep-me-logged-in-button">
           <input type="checkbox" alt="Keep me signed in check box" v-model="keepSignedIn" label="Keep me signed in"> Keep me signed in
         </div>
@@ -69,6 +69,7 @@
           If you already have an account, please sign in
           <span @click="register = false; loginFailure = false">HERE</span>
         </h6>
+        <div class="loading-message" v-show="loading">Signing in...</div>
       </div>
     </div>
     <router-view class="router-view" />
@@ -89,7 +90,8 @@ export default {
       signedInStorage: "",
       spin: true,
       payload: [],
-      keepSignedIn: false
+      keepSignedIn: false,
+      loading: false
     };
   },
   computed: {
@@ -133,6 +135,9 @@ export default {
     },
     getMenuDropdown() {
       this.dropdown = this.$store.getters.getMenuDropdown;
+    },
+    loginFailure() {
+        this.loading = false;
     }
   },
   methods: {
@@ -175,7 +180,7 @@ export default {
     } else if(sessionStorage.getItem('loggedIn') != null) {
       await this.$store.commit("setSignedIn", true);
       await this.$store.commit("setUser", sessionStorage.getItem("loggedIn"));
-      await this.$store.dispatch("fetchUserCollection", sessionStorage.getItem("loggedIn"));
+      await this.$store.dispatch("fetchUserCollection", this.$store.getters.getUser);
       await this.$store.dispatch('fetchYourSoundtracks', this.$store.getters.getUser);
       await this.$store.dispatch('fetchCustomShelfs', this.$store.getters.getUser);
     } else {
