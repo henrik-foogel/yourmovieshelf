@@ -3,20 +3,20 @@
         <searchSavedSoundtrack/>
             <div class="home-movie-random button" @click="randomSoundtrack" v-show="!getSelectedTrueFalse">Random soundtrack</div>
         <section class="soundtracks-list-container">
-            <SoundtrackList v-show="!getSelectedTrueFalse" v-for="(soundtrack, index) in filterSoundtracks" :key="index" :soundtrack="soundtrack" />
+            <soundtrackList v-show="!getSelectedTrueFalse" v-for="(soundtrack, index) in filterSoundtracks" :key="index" :soundtrack="soundtrack" />
         </section>
         <selectedSoundtrack v-show="getSelectedTrueFalse"/>
     </article>
 </template>
 <script>
-import SoundtrackList from '@/components/soundtrackList.vue'
+import soundtrackList from '@/components/soundtrackList.vue'
 import searchSavedSoundtrack from '@/components/searchSavedSoundtracks.vue'
 import selectedSoundtrack from '@/components/selectedSoundtrack'
 
 export default {
     name: 'soundtracks-comp',
     components: {
-      SoundtrackList,
+      soundtrackList,
       searchSavedSoundtrack,
       selectedSoundtrack  
     },

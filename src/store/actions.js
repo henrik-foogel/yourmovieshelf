@@ -157,6 +157,9 @@ export const actions = {
         })
         ctx.collection = respArr.sort((a, b) => (a.movie.Title > b.movie.Title) ? 1 : -1);
         ctx.commit('setUserCollection', respArr);
+        if(respArr == '') {
+          ctx.commit('setFirstTimeUser', true)
+        }
         ctx.dispatch('fetchCustomShelfs');
       }
       },
@@ -171,7 +174,12 @@ export const actions = {
             return
           }
       })
-      let customShelfs = respArr[0].customShelf.sort((a, b) => (a > b) ? 1 : -1);
+      let customShelfs = ''
+      if(respArr[0].customShelf.length > 0) {
+        customShelfs = respArr[0].customShelf.sort((a, b) => (a > b) ? 1 : -1);
+      } else {
+        customShelfs = respArr[0].customShelf;
+      }
         ctx.commit('setCustomShelfs', customShelfs);
       },
 

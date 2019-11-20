@@ -76,6 +76,7 @@ export default {
         }
         await this.$store.dispatch('addToCollection', payload);
         this.$router.push('/addmovie');
+        this.$store.commit('setFirstTimeUser', false);
         this.$store.commit('setChosen', false);
     },
   },

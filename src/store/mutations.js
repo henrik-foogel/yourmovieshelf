@@ -29,6 +29,9 @@ export const mutations = {
       setUser(state, user) {
         state.user = user;
       },
+      setFirstTimeUser(state, first) {
+        state.firstTimeUser = first;
+      },
       setSignedInStorage(state, storage) {
         state.signedInStorage = storage;
       },

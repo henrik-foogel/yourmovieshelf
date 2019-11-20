@@ -49,7 +49,7 @@
           type="password"
           class="sign-in-password-confirmation"
           v-model="passwordConfirmation"
-          v-show="register"
+          v-show="register" @keyup.enter="registerWithFirebase"
         />
         <button
           class="register-button button"
@@ -150,6 +150,8 @@ export default {
         this.email = "";
         this.password = "";
         this.signIn = false;
+        this.register = false
+        this.$store.commit('setSignInBox', false);
       }
     },
     async userSignIn() {
@@ -175,13 +177,11 @@ export default {
       await this.$store.commit("setSignedIn", true);
       await this.$store.commit("setUser", localStorage.getItem("loggedIn"));
       await this.$store.dispatch("fetchUserCollection", localStorage.getItem("loggedIn"));
-      await this.$store.dispatch('fetchYourSoundtracks', this.$store.getters.getUser);
       await this.$store.dispatch('fetchCustomShelfs', this.$store.getters.getUser);
     } else if(sessionStorage.getItem('loggedIn') != null) {
       await this.$store.commit("setSignedIn", true);
       await this.$store.commit("setUser", sessionStorage.getItem("loggedIn"));
       await this.$store.dispatch("fetchUserCollection", this.$store.getters.getUser);
-      await this.$store.dispatch('fetchYourSoundtracks', this.$store.getters.getUser);
       await this.$store.dispatch('fetchCustomShelfs', this.$store.getters.getUser);
     } else {
       this.$router.push('/')

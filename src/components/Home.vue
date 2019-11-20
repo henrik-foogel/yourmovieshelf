@@ -10,7 +10,7 @@
     <section class="home-search-section" v-if="signedIn == true">
       <Search />
     </section>
-    <section class="button-container" v-show="!getInCollection">
+    <section class="button-container" v-show="!getInCollection && !getFirstTimeUser">
       <div v-show="getState == 'row'" v-if="signedIn == true" class="home-movie-view-check"><p></p><input type="button" class="home-poster-view-button button" @click="viewSwitch()" label="View" value="POSTER VIEW"></div>
       <div v-show="getState == 'poster'" v-if="signedIn == true" class="home-movie-view-check"><p></p><input type="button" class="home-poster-view-button button" @click="viewSwitch()" label="View" value="REGULAR VIEW"></div>
     <h1 v-if="signedIn == true">Your Collection:</h1>
@@ -34,6 +34,10 @@
       />
     </section>
     <selected v-show="getInCollection"/>
+    <section v-show="getFirstTimeUser" class="first-time-user-section">
+      <img src="../assets/images/Howtouse1.jpg">
+      <img src="../assets/images/Howtouse2.jpg">
+    </section>
   </article>
 </template>
 
@@ -58,7 +62,8 @@ export default {
       movieNightButton: false,
       movieNightName: '',
       movieNightSaveFail: false,
-      movieNightClose: false
+      movieNightClose: false,
+      firstTimeUser: true
     };
   },
   computed: {
@@ -116,6 +121,9 @@ export default {
     },
     getInCollection() {
       return this.$store.getters.getInCollection;
+    },
+    getFirstTimeUser() {
+      return this.$store.getters.getFirstTimeUser;
     }
   },
   watch: {
@@ -134,7 +142,7 @@ export default {
     },
     getMovieNightButton() {
       this.MovieNightButton = this.$store.getters.getMovieNightButton;
-    }
+    },
   },
   methods: {
     signInBox(register) {

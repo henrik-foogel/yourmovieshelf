@@ -9,6 +9,7 @@ export const state = {
         signInBox: false,
         registerBox: false,
         user: '',
+        firstTimeUser: false,
         signedInStorage: '',
         userCollection: [],
         emailDocumentId: '',

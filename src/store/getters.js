@@ -35,6 +35,9 @@ export const getters = {
   getKeepSignedIn(state) {
     return state.keepSignedIn;
   },
+  getFirstTimeUser(state) {
+    return state.firstTimeUser;
+  },
   getUserCollection(state) {
     return state.userCollection;
   },
