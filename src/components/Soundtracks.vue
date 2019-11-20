@@ -49,7 +49,6 @@ export default {
       if(this.$store.getters.getUser == '') {
         this.$router.push('/');
       }
-      await this.$store.dispatch('fetchYourSoundtracks', this.$store.getters.getUser);
     },
 }
 </script>
@@ -62,6 +61,7 @@ export default {
             flex-direction: row;
             flex-wrap: wrap;
             justify-content: center;
+            max-width: 70rem;
         }
     }
 </style>

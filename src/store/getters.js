@@ -103,5 +103,8 @@ export const getters = {
   },
   getSoundtrackInCollection(state) {
     return state.soundtrackInCollection;
+  },
+  getMenuDropdown(state) {
+    return state.menuDropdown;
   }
 };

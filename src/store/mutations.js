@@ -97,5 +97,8 @@ export const mutations = {
       },
       setSoundtrackInCollection(state, inCollection) {
         state.soundtrackInCollection = inCollection;
+      },
+      setMenuDropdown(state, drop) {
+        state.menuDropdown = drop;
       }
 }

@@ -1,7 +1,6 @@
 <template>
-    <section class="selected-sountrack">
+    <article class="selected-sountrack">
          <section class="sountrack-card">
-            <div class="selected-soundtrack-button button" @click="setSelectedTrueFalse">Back</div>
             <div class="soundtrack-in-collection soundtrack-collection" v-show="getInCollection">
             <img :src="getSelectedSoundtrack.soundtrackImg" alt="" v-show="getInCollection">
             <h3 class="selected-sountrack-title">
@@ -21,17 +20,28 @@
             <div class="add-soundtrack-button button" @click="saveSoundtrack()">Add</div>
             </div>
             <div class="delete-soundtrack-container" v-show="getInCollection">
-              <div class="delete-button button" @click="deleteSoundtrackFromList(); setSelectedTrueFalse()">Delete</div>
+            <div class="selected-soundtrack-button button" @click="setSelectedTrueFalse">Back</div>
+              <div class="delete-button button" @click="deleteBox = true">Delete</div>
             </div>
         </section>
-    </section>
+        <section v-show="deleteBox" class="delete-soundtrack-question-section">
+        <div class="delete-container">
+          <h5 class="delete-question-title">Are you sure you want to delete this soundtrack?</h5>
+          <div class="delete-button-container">
+            <div class="delete-button" @click="deleteBox = false">Cancel</div>
+            <div class="delete-button" @click="deleteSoundtrackFromList">Yes</div>
+          </div>
+        </div>
+      </section>
+    </article>
 </template>
 <script>
 export default {
     name: 'selected-soundtrack',
     data() {
         return {
-            customMusicFormat: ''
+            customMusicFormat: '',
+            deleteBox: false
         }
     },
     computed: {
@@ -60,6 +70,8 @@ export default {
         },
         deleteSoundtrackFromList() {
             this.$store.dispatch('deleteSoundtrack', this.getSelectedSoundtrack);   
+            this.deleteBox = false;
+            this.setSelectedTrueFalse();
         }
     }
 }
@@ -73,13 +85,15 @@ export default {
         flex-direction: column;
         flex-wrap: wrap;
         align-items: center;
-        margin: 2rem;
-        padding: 2rem 2rem 2rem;
+        margin: 2rem 10rem;
+        padding: 2rem 0;
         background: #fff;
         color: #fff;
         border-radius: 1rem;
         box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.30);
-        max-width: 50rem;
+        width: 30rem !important;
+        max-width: 100vw !important;
+        min-width: 0 !important;
 
 
         .sountrack-card {
@@ -90,6 +104,7 @@ export default {
             background: rgba(29, 29, 29, 0.842);
             box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.30);
             border-radius: 1rem;
+            width: 23rem;
             
             .selected-soundtrack-button {
                 max-width: 2rem;
@@ -127,15 +142,54 @@ export default {
             }
                 .delete-soundtrack-container {
                     display: flex;
-                    justify-content: center;
+                    justify-content: space-between;
                     width: 100%;
                         .delete-button {
-                        color: #282828;
-                        padding: .2rem .5rem;
-                        margin-bottom: 0;
+                        color: #8d0000;
+                        padding-left: .7rem;
+                        padding-right: .7rem;
                     }
                 }
             
         }
     }
+    .delete-soundtrack-question-section {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        width: 100vw;
+        padding: 0 0 40rem;
+
+        .delete-container {
+            background: $main-colour;
+            padding: 1rem;
+            border-radius: .5rem;
+            box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.25);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            color: #282828;
+
+            h5 {
+                font-size: 1rem;
+            }
+
+            .delete-button-container {
+            display: flex;
+            justify-content: flex-end;
+
+            .delete-button {
+                background: #282828;
+                color: $main-colour;
+                padding: .5rem;
+                border-radius: .5rem;
+                margin: .5rem;
+                box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.25);
+                cursor: pointer;
+            }
+        }
+    }
+}
 </style>

@@ -2,9 +2,11 @@
     <section class="search-bar specific">
       <div class="search-bar-search search-bar-saved-soundtrack">
         <div class="search-bar-search-div">
-          <i class="fa fa-search" @click="searchSoundtracks"></i>
-          <input  class="search-bar-input artist" type="text" placeholder="search" v-model="search" @keyup.enter="searchSoundtracks"/>
-          <font-awesome-icon class="search-remove" icon="times" @click="search = ''"/>
+            <div class="input">
+                <i class="fa fa-search" @click="searchSoundtracks"></i>
+                <input  class="search-bar-input artist" type="text" placeholder="search" v-model="search" @keyup.enter="searchSoundtracks"/>
+                <font-awesome-icon class="search-remove" icon="times" @click="search = ''"/>
+            </div>
         </div>
       <input type="button" class="home-search-button soundtrack-button" @click="searchSoundtracks" value="Search" alt="Search button">
       </div>

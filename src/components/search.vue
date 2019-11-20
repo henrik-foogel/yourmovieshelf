@@ -2,10 +2,10 @@
     <section class="search-bar">
       <div class="search-bar-search">
       <div class="search-bar-search-div">
-        <i class="fa fa-search"></i>
+        <font-awesome-icon icon="search" class="fa fa-search"></font-awesome-icon>
         <input class="search-bar-input" type="text" v-model="search" placeholder="search" label="Search input field" @change="searchChange" @keyup.enter="changeView">
       </div>
-      <i class="fa fa-times" aria-hidden="true" @click="search = ''; filterCriteria = 'all'"></i>
+      <font-awesome-icon icon="times" class="fa fa-times" aria-hidden="true" @click="search = ''; filterCriteria = 'all'"></font-awesome-icon>
       </div>
     </section>
 </template>
@@ -99,10 +99,6 @@ export default {
   
       &.search-bar-add {
         width: 100%;
-  
-        input {
-          width: 100%;
-        }
       }
     }
   }

@@ -27,7 +27,7 @@ export const state = {
         movieNightListFromDB: [],
         soundtrackSearchResult: [],
         formats: ['Blu-ray', 'DVD', 'Blu-ray/DVD', 'VHS', 'Laserdisc', 'VCD'],
-        editions: ["Regular", "Collector's", "Special", "Collection", "Steelbook", "Limited", "Limited/Collection"],
+        editions: ["Regular", "Collector's", "Special", "Collection", "Steelbook", "Limited", "Limited/Collection", "Limited Collector's", "Uncut", "R-Rated"],
         musicFormats: ["Vinyl", "CD", "Cassette", "8-track"],
         selectedSoundtrack: [],
         selectedTrueFalse: false,
@@ -37,5 +37,6 @@ export const state = {
         searchSoundtrackArtist: '',
         searchFailure: false,
         searchSavedSoundtracks: '',
-        soundtrackInCollection: false
+        soundtrackInCollection: false,
+        menuDropdown: false
   };

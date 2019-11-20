@@ -5,10 +5,10 @@ import store from './store/store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSpinner, faTrashAlt, faCheck, faLock, faLockOpen, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faSpinner, faTrashAlt, faCheck, faLock, faLockOpen, faTimes, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faSpinner, faTrashAlt, faCheck, faLock, faLockOpen, faTimes)
+library.add(faSpinner, faTrashAlt, faCheck, faLock, faLockOpen, faTimes, faSearch)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
  
 Vue.use(VueAxios, axios)

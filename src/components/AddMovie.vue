@@ -3,7 +3,7 @@
     <section class="search-bar specific">
       <div class="search-bar-search search-bar-add">
         <div class="search-bar-search-div">
-          <i class="fa fa-search" @click="fetchMovies"></i>
+          <font-awesome-icon icon="search" class="fa fa-search" @click="fetchMovies"></font-awesome-icon>
           <input  class="search-bar-input specific" type="text" v-model="specificSearch" placeholder="specific search" @keyup.enter="fetchMovies"/>
         </div>
         <select class="search-bar-year-selector" v-model.number="specificSearchYear">

@@ -1,13 +1,17 @@
 <template>
     <section class="search-bar specific">
       <div class="search-bar-search search-bar-add-soundtrack">
-        <div class="search-bar-search-div">
-          <i class="fa fa-search" @click="fetchSoundtracks"></i>
+        <div class="search-bar-search-div soundtrack-input">
+          <div class="input">
+          <font-awesome-icon icon="search" class="fa fa-search" @click="fetchSoundtracks"></font-awesome-icon>
           <input  class="search-bar-input artist" type="text" placeholder="artist" v-model="artist" @keyup.enter="fetchSoundtracks"/>
           <font-awesome-icon class="search-remove" icon="times" @click="artist = ''"/>
-          <i class="fa fa-search" @click="fetchSoundtracks"></i>
+          </div>
+          <div class="input">
+          <font-awesome-icon icon="search" class="fa fa-search" @click="fetchSoundtracks"></font-awesome-icon>
           <input  class="search-bar-input title" type="text" placeholder="title" v-model="title" @keyup.enter="fetchSoundtracks"/>
           <font-awesome-icon class="search-remove" icon="times" @click="title = ''"/>
+          </div>
         </div>
       <input type="button" class="home-search-button" @click="fetchSoundtracks" value="Search" alt="Search button">
       </div>
@@ -60,8 +64,9 @@ export default {
       justify-content: space-between;
       align-items: center;
   
-      .search-bar-search-div {
+      .soundtrack-input {
         display: flex;
+        flex-direction: column;
         align-items: center;
   
         .fa-search {
