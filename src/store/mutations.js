@@ -103,5 +103,14 @@ export const mutations = {
       },
       setMenuDropdown(state, drop) {
         state.menuDropdown = drop;
+      },
+      setUneditedShelfs(state, shelfs) {
+        state.uneditedShelfs = shelfs;
+      },
+      setEditedShelfs(state, shelf) {
+        state.editedShelfs.push(shelf);
+      },
+      setBeforeEditShelfs(state, shelf) {
+        state.beforeEditShelfs.push(shelf);
       }
 }

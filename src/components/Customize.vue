@@ -17,7 +17,7 @@
     <section class="customize-user-custom-container" v-if="editOn == true">
       <div>
       <h2 class="customize-user-custom-title">Your Shelfs:</h2>
-      <input type="text" class="customize-user-custom-container-content edit" v-for="(shelf, index) in shelfs" :key="shelf" v-model="shelfs[index]" @change="change($event, index)">
+      <input type="text" class="customize-user-custom-container-content edit" v-for="(shelf, index) in shelfs" :key="shelf" @change="change($event, index)" v-model="shelfs[index]">
         <div class="add-shelf-button button" @click="editOn = false; saveShelfs()">Save</div>
       </div>
     </section>
@@ -31,7 +31,10 @@ export default {
       return {
           customShelf: '',
           editOn: false,
-          shelfs: null
+          shelfs: null,
+          editShelf: '',
+          previousShelf: [],
+          savedShelfs: false
       }
   },
   computed: {
@@ -51,16 +54,21 @@ export default {
       },
       
       async saveShelfs() {
-        await this.$store.dispatch('editShelfs', this.shelfs);
-        this.shelfs = this.getCustomShelfs;
+        for (let i = 0; i < this.getCustomShelfs.length; i++) {
+          if(this.getCustomShelfs[i] != this.$store.getters.getUneditedShelfs[i]) {
+            this.$store.commit('setBeforeEditShelfs', this.$store.getters.getUneditedShelfs[i]);
+            this.$store.commit('setEditedShelfs', this.getCustomShelfs[i])
+          }
+        }
+        if(this.$store.getters.getEditedShelfs.length != 0) {
+          await this.$store.dispatch('editShelfs', this.shelfs);
+          this.shelfs = this.getCustomShelfs;
+        }
       },
 
       change(e, i) {
         e.target.parentNode.children[i+1].focus()
       }
-  },
-  mounted() {
-      this.shelfs = this.getCustomShelfs;
   }
 }
 </script>

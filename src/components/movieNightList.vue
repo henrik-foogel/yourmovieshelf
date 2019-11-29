@@ -75,8 +75,6 @@ export default {
 
             h1 {
                 font-size: 1.5rem;  
-                padding-left: 4rem;
-                padding-right: 4rem;
                 background: #282828;
                 color: #7DC2AF;
                 cursor: pointer;

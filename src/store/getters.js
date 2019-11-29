@@ -109,5 +109,14 @@ export const getters = {
   },
   getMenuDropdown(state) {
     return state.menuDropdown;
+  },
+  getUneditedShelfs(state) {
+    return state.uneditedShelfs;
+  },
+  getEditedShelfs(state) {
+    return state.editedShelfs;
+  },
+  getBeforeEditShelfs(state) {
+    return state.beforeEditShelfs;
   }
 };

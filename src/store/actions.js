@@ -181,6 +181,9 @@ export const actions = {
         customShelfs = respArr[0].customShelf;
       }
         ctx.commit('setCustomShelfs', customShelfs);
+        if(ctx.getters.getUneditedShelfs.length == 0) {
+          ctx.commit('setUneditedShelfs', customShelfs);
+        }
       },
 
       async addShelfToCustomShelfs(ctx, newShelf) {
@@ -218,6 +221,39 @@ export const actions = {
         var docRef = await db.collection(fb.auth().currentUser.uid).doc(ctx.getters.getEmailDocumentId);
         docRef.update({customShelf: shelfs});
         ctx.commit('setCustomShelfs', shelfs);
+        ctx.dispatch('editShelfsInMovies', shelfs);
+      },
+      async editShelfsInMovies(ctx) {
+        var docRef = await db.collection(fb.auth().currentUser.uid).get();
+       await docRef.forEach(movie => {
+          if(hasOwnProperty.call(movie.data(), 'movie')) {
+            movie;
+            for (let i = 0; i < ctx.getters.getBeforeEditShelfs.length; i++) {
+              if(movie.data().movie.shelf == ctx.getters.getBeforeEditShelfs[i]) {
+                db.collection(fb.auth().currentUser.uid).doc(movie.id).update({movie: {
+                  Actors: movie.data().movie.Actors,
+                  Director: movie.data().movie.Director,
+                  Genre: movie.data().movie.Genre,
+                  Plot: movie.data().movie.Plot,
+                  Poster: movie.data().movie.Poster,
+                  Ratings: movie.data().movie.Ratings,
+                  Runtime: movie.data().movie.Runtime,
+                  Title: movie.data().movie.Title,
+                  Writer: movie.data().movie.Writer,
+                  Year: movie.data().movie.Year,
+                  edition: movie.data().movie.edition,
+                  format: movie.data().movie.format,
+                  imdbID: movie.data().movie.imdbID,
+                  rating: movie.data().movie.rating,
+                  shelf: ctx.getters.getEditedShelfs[i],
+                  soundtrack: movie.data().movie.soundtrack
+                }})
+              }
+            } 
+          }
+        });
+        ctx.commit('setBeforeEditShelfs', []);
+        ctx.commit('setEditedShelfs', []);
       },
       async addMovieNightList(ctx, payload) {
         var docRef = await db.collection(fb.auth().currentUser.uid);

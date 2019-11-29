@@ -178,6 +178,7 @@ export default {
       await this.$store.commit("setUser", localStorage.getItem("loggedIn"));
       await this.$store.dispatch("fetchUserCollection", localStorage.getItem("loggedIn"));
       await this.$store.dispatch('fetchCustomShelfs', this.$store.getters.getUser);
+
     } else if(sessionStorage.getItem('loggedIn') != null) {
       await this.$store.commit("setSignedIn", true);
       await this.$store.commit("setUser", sessionStorage.getItem("loggedIn"));

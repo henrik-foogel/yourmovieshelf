@@ -39,5 +39,8 @@ export const state = {
         searchFailure: false,
         searchSavedSoundtracks: '',
         soundtrackInCollection: false,
-        menuDropdown: false
+        menuDropdown: false,
+        uneditedShelfs: [],
+        editedShelfs: [],
+        beforeEditShelfs: []
   };
