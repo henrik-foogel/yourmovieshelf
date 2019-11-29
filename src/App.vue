@@ -53,7 +53,7 @@
         />
         <button
           class="register-button button"
-          @click="registerWithFirebase"
+          @click="loading = true; registerWithFirebase()"
           v-show="register"
         >Register</button>
         <button class="sign-in-button button" @click="loading = true; userSignIn()" v-show="!register">Sign In</button>

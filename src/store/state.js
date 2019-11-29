@@ -42,5 +42,6 @@ export const state = {
         menuDropdown: false,
         uneditedShelfs: [],
         editedShelfs: [],
-        beforeEditShelfs: []
+        beforeEditShelfs: [],
+        editShelfModeOn: false
   };

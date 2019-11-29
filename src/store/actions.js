@@ -39,6 +39,7 @@ export const actions = {
           ctx.userCollection = ctx.getters.getUserCollection;
           ctx.commit("setUser", response.user.uid);
           ctx.commit('setSignedIn', true);
+          ctx.commit('setSignInBox', false);
           if(payload[2] == true) {
             ctx.commit('setKeepSignedIn', true);
             localStorage.setItem("loggedIn", response.user.uid);
@@ -175,15 +176,21 @@ export const actions = {
           }
       })
       let customShelfs = ''
-      if(respArr[0].customShelf.length > 0) {
-        customShelfs = respArr[0].customShelf.sort((a, b) => (a > b) ? 1 : -1);
+      if(respArr[0].customShelf != null) {
+        if(Array.isArray(respArr[0].customShelf)) {
+          customShelfs = respArr[0].customShelf.sort((a, b) => (a > b) ? 1 : -1);
+        }
       } else {
         customShelfs = respArr[0].customShelf;
       }
         ctx.commit('setCustomShelfs', customShelfs);
-        if(ctx.getters.getUneditedShelfs.length == 0) {
-          ctx.commit('setUneditedShelfs', customShelfs);
-        }
+          if(ctx.getters.getUneditedShelfs.length == 0) {
+            ctx.commit('setUneditedShelfs', customShelfs);
+            ctx.commit('setEditShelfModeOn', false);
+          } else if(ctx.getters.getEditShelfModeOn == true) {
+            ctx.commit('setUneditedShelfs', customShelfs);
+            ctx.commit('setEditShelfModeOn', false);
+          }
       },
 
       async addShelfToCustomShelfs(ctx, newShelf) {
@@ -227,7 +234,6 @@ export const actions = {
         var docRef = await db.collection(fb.auth().currentUser.uid).get();
        await docRef.forEach(movie => {
           if(hasOwnProperty.call(movie.data(), 'movie')) {
-            movie;
             for (let i = 0; i < ctx.getters.getBeforeEditShelfs.length; i++) {
               if(movie.data().movie.shelf == ctx.getters.getBeforeEditShelfs[i]) {
                 db.collection(fb.auth().currentUser.uid).doc(movie.id).update({movie: {
@@ -249,6 +255,8 @@ export const actions = {
                   soundtrack: movie.data().movie.soundtrack
                 }})
               }
+              ctx.commit('setEditShelfModeOn', true);
+              ctx.dispatch('fetchUserCollection', ctx.getters.getUser);
             } 
           }
         });

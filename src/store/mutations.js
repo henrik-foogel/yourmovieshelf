@@ -112,5 +112,8 @@ export const mutations = {
       },
       setBeforeEditShelfs(state, shelf) {
         state.beforeEditShelfs.push(shelf);
+      },
+      setEditShelfModeOn(state, e) {
+        state.editShelfModeOn = e;
       }
 }

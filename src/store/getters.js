@@ -118,5 +118,8 @@ export const getters = {
   },
   getBeforeEditShelfs(state) {
     return state.beforeEditShelfs;
+  },
+  getEditShelfModeOn(state) {
+    return state.editShelfModeOn;
   }
 };

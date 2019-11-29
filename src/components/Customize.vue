@@ -60,15 +60,16 @@ export default {
             this.$store.commit('setEditedShelfs', this.getCustomShelfs[i])
           }
         }
-        if(this.$store.getters.getEditedShelfs.length != 0) {
           await this.$store.dispatch('editShelfs', this.shelfs);
           this.shelfs = this.getCustomShelfs;
-        }
       },
 
       change(e, i) {
         e.target.parentNode.children[i+1].focus()
       }
+  },
+  mounted() {
+    this.shelfs = this.getCustomShelfs;
   }
 }
 </script>
