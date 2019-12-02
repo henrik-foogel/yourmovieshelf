@@ -54,14 +54,16 @@ export default {
       },
       
       async saveShelfs() {
-        for (let i = 0; i < this.getCustomShelfs.length; i++) {
-          if(this.getCustomShelfs[i] != this.$store.getters.getUneditedShelfs[i]) {
-            this.$store.commit('setBeforeEditShelfs', this.$store.getters.getUneditedShelfs[i]);
+        if(this.getCustomShelfs != null) {
+          for (let i = 0; i < this.getCustomShelfs.length; i++) {
+            if(this.getCustomShelfs[i] != this.$store.getters.getUneditedShelfs[i]) {
+              this.$store.commit('setBeforeEditShelfs', this.$store.getters.getUneditedShelfs[i]);
             this.$store.commit('setEditedShelfs', this.getCustomShelfs[i])
           }
         }
           await this.$store.dispatch('editShelfs', this.shelfs);
           this.shelfs = this.getCustomShelfs;
+        }
       },
 
       change(e, i) {

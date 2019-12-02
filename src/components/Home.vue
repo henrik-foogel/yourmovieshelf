@@ -19,7 +19,8 @@
       <font-awesome-icon icon="times" v-show="movieNightButton" class="fa fa-times" aria-hidden="true" @click="movieNightClose = true; movieNightButtonClose()"></font-awesome-icon>
     </div>
       <input class="home-movie-night-name" v-show="movieNightButton" type="text" v-model="movieNightName" placeholder="Name your movie night list">
-      <p v-show="movieNightSaveFail" class="home-movie-night-name-failure" style="color=red">Make sure you've chosen at least one movie and given your list a name and that it's name is not already in use</p>
+      <p v-show="movieNightSaveFail" class="home-movie-night-name-failure" style="color=red">Make sure you've chosen at least one movie and given your list a name
+        <br>and that it's name is not already in use</p>
     <section v-if="signedIn == true" class="home-criteria-section">
       <Criteria />
     </section>
@@ -235,5 +236,6 @@ export default {
 .home-movie-night-name-failure {
   color: rgb(134, 1, 1);
   font-weight: 700;
+  text-align: center;
 }
 </style>

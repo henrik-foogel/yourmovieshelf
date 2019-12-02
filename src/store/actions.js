@@ -227,10 +227,10 @@ export const actions = {
         
       },
       async editShelfs(ctx, shelfs) {
-        var docRef = await db.collection(fb.auth().currentUser.uid).doc(ctx.getters.getEmailDocumentId);
-        docRef.update({customShelf: shelfs});
-        ctx.commit('setCustomShelfs', shelfs);
-        ctx.dispatch('editShelfsInMovies', shelfs);
+          var docRef = await db.collection(fb.auth().currentUser.uid).doc(ctx.getters.getEmailDocumentId);
+          docRef.update({customShelf: shelfs});
+          ctx.commit('setCustomShelfs', shelfs);
+          ctx.dispatch('editShelfsInMovies', shelfs);
       },
       async editShelfsInMovies(ctx) {
         var docRef = await db.collection(fb.auth().currentUser.uid).get();
@@ -322,7 +322,6 @@ export const actions = {
     },
     async addSoundtrackToDB(ctx, soundtrack) {
       if(ctx.getters.getSoundtracksId == '') {
-        console.log(ctx.getters.getSoundtracksId)
         let docRef = await db.collection(ctx.getters.getUser);
         let data = {
           0: soundtrack,

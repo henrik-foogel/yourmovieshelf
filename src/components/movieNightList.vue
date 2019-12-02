@@ -47,6 +47,7 @@ export default {
         },
         deleteList(name) {
             this.$store.dispatch('deleteMovieNightList', name);
+            this.$store.dispatch('fetchMovieNightLists', this.$store.getters.getUser);
         },
         seen(name, list, index) {
             list.movieNightList[index].seen = !list.movieNightList[index].seen;
@@ -55,7 +56,7 @@ export default {
         async selectMovie(movie) {
             this.$store.commit('setInCollection', true);
             await this.$store.commit('setSelectedMovie', movie);
-            this.$router.push('/selected');
+            this.$router.push('/');
         }
     }
 }

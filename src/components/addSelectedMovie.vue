@@ -1,7 +1,7 @@
 <template>
     <div class="selected-movie-custom-container">
-              <h4>Soundtrack:</h4>
-              <input type="text" class="selected-movie-custom-soundtrack" placeholder="Soundtrack" v-model="customInput.customSoundtrack">
+              <h4>Composer:</h4>
+              <input type="text" class="selected-movie-custom-soundtrack" placeholder="Composer" v-model="customInput.customSoundtrack">
               <h4>Custom shelf:</h4>
               <select type="text" class="selected-movie-custom-shelf" placeholder="Shelf" v-model="customInput.customShelf">
                 <option v-for="shelf in customShelfs" :key="shelf" >{{ shelf }}</option>
@@ -75,7 +75,6 @@ export default {
             edition: this.customInput.customEdition
         }
         await this.$store.dispatch('addToCollection', payload);
-        this.$router.push('/addmovie');
         this.$store.commit('setFirstTimeUser', false);
         this.$store.commit('setChosen', false);
     },

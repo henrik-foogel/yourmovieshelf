@@ -2,9 +2,9 @@
   <div id="app">
     <nav class="nav-bar">
       <div v-show="!dropdown" class="menu-bars" @click="dropdown = !dropdown; signIn = false">&#9776;</div>
-      <font-awesome-icon v-show="dropdown" class="menu-close" icon="times" @click="this.dropdown = !this.dropdown;"/>
+      <font-awesome-icon v-show="dropdown" class="menu-close" icon="times" @click="dropdown = !dropdown;"/>
       <router-link to="/">
-        <img class="nav-logo" src="./assets/images/Logo.png" alt="Your Movie Shelf" @click="dropdown = false" />
+        <img class="nav-logo" src="./assets/images/Logo.png" alt="Your Movie Shelf" @click="closeSelectedMovie(); dropdown = false" />
       </router-link>
       <div class="nav-lock" alt="Sign In" @click="signIn = !signIn; dropdown = false; register = false" v-if="signIn== false" v-show="checkSignedIn == false"><span>SIGN</span><span>IN</span></div>
       <div class="nav-lock darker" alt="Sign In" @click="closeLoginBox" v-show="signIn == true"><font-awesome-icon icon="times"/></div>
@@ -14,10 +14,10 @@
     <div class="dropdown-container" v-show="dropdown">
       <div class="dropdown">
         <div class="dropdown-link-container" @click="dropdown = !dropdown">
-          <router-link to="/">Your Movie Collection</router-link>
+          <router-link to="/"><span @click="closeSelectedMovie" >Your Movie Collection</span></router-link>
         </div>
         <div class="dropdown-link-container" @click="dropdown = !dropdown">
-          <router-link to="/addmovie">Add Movie</router-link>
+          <router-link to="/addmovie"><span @click="closeSelectedMovie">Add Movie</span></router-link>
         </div>
         <div class="dropdown-link-container" @click="dropdown = !dropdown">
           <router-link to="/yourshelfs">Your Shelfs</router-link>
@@ -141,6 +141,10 @@ export default {
     }
   },
   methods: {
+    closeSelectedMovie() {
+      this.$store.commit('setInCollection', false);
+      this.$store.commit('setChosen', false);
+    },
     loginFailureSetter(e) {
       this.$store.commit('setLoginFailure', e);
     },
@@ -196,8 +200,6 @@ export default {
       await this.$store.commit("setUser", sessionStorage.getItem("loggedIn"));
       await this.$store.dispatch("fetchUserCollection", this.$store.getters.getUser);
       await this.$store.dispatch('fetchCustomShelfs', this.$store.getters.getUser);
-    } else {
-      // this.$router.go();
     }
   }
 }

@@ -1,5 +1,5 @@
-import { db } from "../../firebase-config";
-import { fb } from "../../firebase-config";
+import { db } from "../../../firebase-config";
+import { fb } from "../../../firebase-config";
 
 export const actions = {    
     async addMovieNightList(ctx, payload) {

@@ -1,6 +1,6 @@
 import axios from "axios";
-import { db } from "../../firebase-config";
-import { key } from "../../omdb-config";
+import { db } from "../../../firebase-config";
+import { key } from "../../../omdb-config";
 
 export const actions = {
     async fetchMovies(ctx, search) {
