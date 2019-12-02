@@ -69,7 +69,11 @@ export default {
       }
   },
   mounted() {
-    this.shelfs = this.getCustomShelfs;
+    if(this.$store.getters.getUser == '') {
+      this.$router.push('/');
+    } else {
+      this.shelfs = this.getCustomShelfs;
+    }
   }
 }
 </script>

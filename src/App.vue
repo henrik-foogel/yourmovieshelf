@@ -2,12 +2,12 @@
   <div id="app">
     <nav class="nav-bar">
       <div v-show="!dropdown" class="menu-bars" @click="dropdown = !dropdown; signIn = false">&#9776;</div>
-      <font-awesome-icon v-show="dropdown" class="menu-close" icon="times" @click="dropdown = !dropdown"/>
+      <font-awesome-icon v-show="dropdown" class="menu-close" icon="times" @click="this.dropdown = !this.dropdown;"/>
       <router-link to="/">
         <img class="nav-logo" src="./assets/images/Logo.png" alt="Your Movie Shelf" @click="dropdown = false" />
       </router-link>
       <div class="nav-lock" alt="Sign In" @click="signIn = !signIn; dropdown = false; register = false" v-if="signIn== false" v-show="checkSignedIn == false"><span>SIGN</span><span>IN</span></div>
-      <div class="nav-lock darker" alt="Sign In" @click="signIn = !signIn; register = false; dropdown = false" v-show="signIn == true"><font-awesome-icon icon="times"/></div>
+      <div class="nav-lock darker" alt="Sign In" @click="closeLoginBox" v-show="signIn == true"><font-awesome-icon icon="times"/></div>
       <div
         class="nav-lock" alt="Sign Out" title="Sign Out" v-show="checkSignedIn == true" @click="userSignOut(); dropdown = false"><span>SIGN</span><span>OUT</span></div>
     </nav>
@@ -49,7 +49,7 @@
           type="password"
           class="sign-in-password-confirmation"
           v-model="passwordConfirmation"
-          v-show="register" @keyup.enter="registerWithFirebase"
+          v-show="register" @keyup.enter="loading = true; registerWithFirebase()"
         />
         <button
           class="register-button button"
@@ -63,11 +63,11 @@
         <h6 class="login-failure-message" v-show="loginFailure" alt="Failure to login message">{{ failureMessage }}</h6>
         <h6 class="register-message" v-show="!register" alt="Need to register message">
           If you don't have an account, please register
-          <span @click="register = true; loginFailure = false">HERE</span>
+          <span @click="register = true; loginFailureSetter(false)">HERE</span>
         </h6>
         <h6 class="register-message" v-show="register">
           If you already have an account, please sign in
-          <span @click="register = false; loginFailure = false">HERE</span>
+          <span @click="register = false; loginFailureSetter(false)">HERE</span>
         </h6>
         <div class="loading-message" v-show="loading">Signing in...</div>
       </div>
@@ -141,6 +141,18 @@ export default {
     }
   },
   methods: {
+    loginFailureSetter(e) {
+      this.$store.commit('setLoginFailure', e);
+    },
+    closeLoginBox() {
+      this.signIn = !this.signIn; 
+      this.register = false; 
+      this.dropdown = false;
+      this.email = "";
+      this.password = "";
+      this.$store.commit('setLoginFailure', false);
+      this.passwordConfirmation = '';
+    },
     async registerWithFirebase() {
       this.payload.push(this.email);
       this.payload.push(this.password);
@@ -185,7 +197,7 @@ export default {
       await this.$store.dispatch("fetchUserCollection", this.$store.getters.getUser);
       await this.$store.dispatch('fetchCustomShelfs', this.$store.getters.getUser);
     } else {
-      this.$router.push('/')
+      // this.$router.go();
     }
   }
 }

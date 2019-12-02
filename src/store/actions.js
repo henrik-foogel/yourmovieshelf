@@ -184,6 +184,7 @@ export const actions = {
         customShelfs = respArr[0].customShelf;
       }
         ctx.commit('setCustomShelfs', customShelfs);
+          if(ctx.getters.getUneditedShelfs) {
           if(ctx.getters.getUneditedShelfs.length == 0) {
             ctx.commit('setUneditedShelfs', customShelfs);
             ctx.commit('setEditShelfModeOn', false);
@@ -191,6 +192,7 @@ export const actions = {
             ctx.commit('setUneditedShelfs', customShelfs);
             ctx.commit('setEditShelfModeOn', false);
           }
+        }
       },
 
       async addShelfToCustomShelfs(ctx, newShelf) {
