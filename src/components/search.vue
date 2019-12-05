@@ -62,9 +62,9 @@ export default {
     background: #cbcbcb;
     flex-direction: column;
     max-width: 40rem;
-    border-bottom-right-radius: 0.5rem;
-    border-bottom-left-radius: 0.5rem;
+    border-radius: .5rem;
     box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.25);
+    margin-top: 1rem;
   
     .search-bar-search {
       display: flex;
@@ -106,7 +106,6 @@ export default {
 
 .specific {
   max-width: 40rem;
-  border-top: 1px solid #878787;
 
   .search-bar-search {
     

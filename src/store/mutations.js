@@ -115,5 +115,8 @@ export const mutations = {
       },
       setEditShelfModeOn(state, e) {
         state.editShelfModeOn = e;
+      },
+      setSearchResponse(state, response) {
+        state.searchResponse = response;
       }
 }

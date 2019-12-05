@@ -1,17 +1,18 @@
 <template>
     <article>
-        <section class="add-search-result-to-many-alert" v-show="!getAlertWindowClosed">
+        <section class="add-search-result-to-many-alert" v-show="!getAlertWindowClosed || getResponse == 'False'">
         <div class="add-search-result-to-many-alert-text">
             <div class="add-search-result-to-many-alert-close-div">
             <i class="fa fa-times" aria-hidden="true" @click="alertWindowClosed()"></i>
             </div>
-            <h2>Too Many Search Results</h2>
-            <h4>Please choose a year to narrow down result</h4>
+            <h2>Too Many Search Results<br>or it's not part of the database</h2>
+            <h4>Please choose a year to narrow down result<br>or add it manually HERE</h4>
         </div>
         </section>
-        <section class="add-search-result">
+        <section v-if="getResponse != 'False'" class="add-search-result">
         <div class="add-search-result-movie" v-for="movie in searchResult" :key="movie.imdbID" @click="imdbID = movie.imdbID; selectMovie(movie, movie.imdbID)">
-            <img :src="movie.Poster" alt="Movie poster">
+            <img v-if="movie.Poster != 'N/A'" :src="movie.Poster" alt="Movie poster">
+            <img v-if="movie.Poster == 'N/A'" src="../assets/images/noposter.png" alt="Movie poster">
             <h4>{{ movie.Title }}(<span>{{ movie.Year }}</span>)</h4>
         </div>
         </section>
@@ -35,6 +36,9 @@ export default {
         },
         getAlertWindowClosed() {
             return this.$store.getters.getAlertWindowClosed;
+        },
+        getResponse() {
+            return this.$store.getters.getSearchResponse;
         }
     },
     methods: {

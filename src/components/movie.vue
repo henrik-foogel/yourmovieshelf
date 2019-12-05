@@ -3,7 +3,8 @@
     <section class="row" v-show="state=='row'" :id="movie.movie.imdbID" @click="selectMovie(movie.movie)">
       <figure>
         <div class="home-collection-movie-poster">
-          <img :src="movie.movie.Poster" :alt="movie.movie.Title+' poster'" />
+          <img v-if="movie.movie.Poster != 'N/A'" :src="movie.movie.Poster" :alt="movie.movie.Title+' poster'" />
+          <img v-else src="../assets/images/noposter.png" :alt="movie.movie.Title+' poster'" />
         </div>
       </figure>
       <aside>
@@ -21,7 +22,7 @@
     </section>
     <section class="poster" v-show="state=='poster'" @click="selectMovie(movie.movie)">
       <figure>
-        <img :src="movie.movie.Poster" :id="movie.movie.imdbID+'poster'" :alt="movie.movie.Title + ' poster'" />
+        <img :src="movie.movie.Poster" :id="movie.movie+'poster'" :alt="movie.movie.Title + ' poster'" />
       </figure>
     </section>
   </article>

@@ -56,8 +56,15 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/scss/variables";
     .soundtracks-comp {
         min-width: 0 !important;
+
+        .home-movie-random {     
+            background: #282828;
+            color: $main-colour;
+        }
+
         .soundtracks-list-container {
             display: flex;
             flex-direction: row;

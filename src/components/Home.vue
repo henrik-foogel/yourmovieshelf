@@ -26,7 +26,7 @@
     </section>
     <div v-show="signedIn == true && !movieNightButton"  class="home-movie-random button" @click="randomMovie">Random movie from whole list or from a criteria </div>
     </section>
-    <section class="home-movie-section" v-show="!getInCollection">
+    <section class="home-movie-section" >
       <movie
         v-for="(movie, index) in filterCollection"
         :key="index"
@@ -34,7 +34,7 @@
         :state="state"
       />
     </section>
-    <selected v-show="getInCollection"/>
+    <selected class="selected-movie" v-show="getInCollection"/>
     <section v-show="getFirstTimeUser" class="first-time-user-section">
       <img src="../assets/images/Howtouse1.jpg">
       <img src="../assets/images/Howtouse2.jpg">
@@ -233,9 +233,22 @@ export default {
 };
 </script>
 <style lang="scss">
+@import "@/scss/variables";
+
 .home-movie-night-name-failure {
   color: rgb(134, 1, 1);
   font-weight: 700;
   text-align: center;
+}
+.home-movie-random {
+  background: #282828;
+  color: $main-colour;
+}
+
+.selected-movie {
+  position: fixed;
+  z-index: 900;
+  width: 100vw;
+  height: 100vh;
 }
 </style>

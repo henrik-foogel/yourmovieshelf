@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <nav class="nav-bar">
-      <div v-show="!dropdown" class="menu-bars" @click="dropdown = !dropdown; signIn = false">&#9776;</div>
+      <div v-if="!dropdown && checkSignedIn" class="menu-bars" @click="dropdown = !dropdown; signIn = false">&#9776;</div>
+      <div v-show="!dropdown && !checkSignedIn" class="menu-bars menu-not-signed-in">&#9776;</div>
       <font-awesome-icon v-show="dropdown" class="menu-close" icon="times" @click="dropdown = !dropdown;"/>
       <router-link to="/">
         <img class="nav-logo" src="./assets/images/Logo.png" alt="Your Movie Shelf" @click="closeSelectedMovie(); dropdown = false" />
@@ -14,19 +15,19 @@
     <div class="dropdown-container" v-show="dropdown">
       <div class="dropdown">
         <div class="dropdown-link-container" @click="dropdown = !dropdown">
-          <router-link to="/"><span @click="closeSelectedMovie" >Your Movie Collection</span></router-link>
+          <router-link to="/"><span @click="closeSelectedMovie" >My Movie Collection</span></router-link>
         </div>
         <div class="dropdown-link-container" @click="dropdown = !dropdown">
           <router-link to="/addmovie"><span @click="closeSelectedMovie">Add Movie</span></router-link>
         </div>
         <div class="dropdown-link-container" @click="dropdown = !dropdown">
-          <router-link to="/yourshelfs">Your Shelfs</router-link>
+          <router-link to="/yourshelfs">My Shelfs</router-link>
         </div>
         <div class="dropdown-link-container" @click="dropdown = !dropdown">
           <router-link to="/movienight">Movie Night Lists</router-link>
         </div>
         <div class="dropdown-link-container" @click="dropdown = !dropdown">
-          <router-link to="/soundtracks">Your Soundtracks</router-link>
+          <router-link to="/soundtracks">My Soundtracks</router-link>
         </div>
         <div class="dropdown-link-container" @click="dropdown = !dropdown">
           <router-link to="/addsoundtracks">Add Soundtracks</router-link>

@@ -58,7 +58,7 @@ export default {
       border: none;
       border-radius: 0.3rem;
       background: #282828;
-      color: $main-colour;
+      color: #fff;
       font-size: 1rem;
       padding: .5rem;
     }

@@ -3,12 +3,12 @@
     <section class="customize-container">
         <h1 class="customize-container-input-text">Custom shelf:</h1>
         <input class="customize-container-input-shelf" placeholder="Shelf" v-model="customShelf" @keyup.enter="addShelfToCustomShelfs()" label="Add custom shelf input">
-        <div class="add-shelf-button button" @click="addShelfToCustomShelfs()">Add</div>
+        <div class="add-shelf-button button" @click="addShelfToCustomShelfs">Add</div>
     </section>
     <section class="customize-user-custom-container" v-if="editOn == false">
       <div>
       <h2 class="customize-user-custom-title">Your Shelfs:</h2>
-      <div class="customize-user-custom-container-content" v-for="shelf in getCustomShelfs" :key="shelf">
+      <div class="customize-user-custom-container-content" v-for="(shelf, index) in getCustomShelfs" :key="index">
         {{shelf}}
       </div>
         <div class="add-shelf-button button" @click="editOn = true;">Edit</div>
@@ -52,7 +52,6 @@ export default {
         await this.$store.dispatch('addShelfToCustomShelfs', this.customShelf);   
         this.customShelf = '';
       },
-      
       async saveShelfs() {
         if(this.getCustomShelfs != null) {
           for (let i = 0; i < this.getCustomShelfs.length; i++) {

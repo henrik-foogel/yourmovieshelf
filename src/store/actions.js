@@ -75,14 +75,18 @@ export const actions = {
           .then(response => {
             result = response.data.Search;
           });
-        ctx.commit("setSearchResult", result);
-      },
-      async fetchSpecificMovie(ctx, payload) {
-        let specificSearchResult = [];
-        let result = [];
-        await axios.get('http://www.omdbapi.com/?apiKey='+ key.key + '&t='+ payload.searchReplaced + '&y=' + payload.year).then((response) => { console.log(response); specificSearchResult = response.data });
-        result.push(specificSearchResult);
+          ctx.commit("setSearchResult", result);
+          if(result == undefined) {
+            ctx.commit('setSearchResponse', false);
+          }
+        },
+        async fetchSpecificMovie(ctx, payload) {
+          let specificSearchResult = [];
+          let result = [];
+          await axios.get('http://www.omdbapi.com/?apiKey='+ key.key + '&t='+ payload.searchReplaced + '&y=' + payload.year).then((response) => { console.log(response); specificSearchResult = response.data });
+          result.push(specificSearchResult);
         ctx.commit('setSearchResult', result);
+        ctx.commit('setSearchResponse', result[0].Response);
       },
       async fetchMovieById(ctx, payload) {
         let  movie = [];
@@ -97,6 +101,10 @@ export const actions = {
       async addToCollection(ctx, payload) {
         let movieArr = [];
         await axios.get('http://www.omdbapi.com/?i=' + payload.id + '&apikey='+key.key).then((response) => { console.log(response); movieArr = response.data });
+        if(movieArr.Ratings == '') {
+          movieArr.Ratings.push({none: 'none'})
+        }
+
         let movie = {
           Title: movieArr.Title,
           Director: movieArr.Director,
@@ -123,19 +131,24 @@ export const actions = {
       },
       async deleteFromCollection(ctx, movie) {
         let collection = await db.collection(ctx.getters.getUser).get();
-
+        let number = 0;
         await collection.forEach(doc => {
           Object.keys(doc.data()).forEach(function(key) {     
             if(doc.data()[key].Actors == movie.Actors && doc.data()[key].Director == movie.Director && 
             doc.data()[key].Genre == movie.Genre && doc.data()[key].Plot == movie.Plot && 
             doc.data()[key].Title == movie.Title && doc.data()[key].edition == movie.edition && 
-            doc.data()[key].format == movie.format && doc.data()[key].shelf == movie.shelf) {
-              db.collection(ctx.getters.getUser).doc(doc.id).delete()
+            doc.data()[key].format == movie.format && doc.data()[key].shelf == movie.shelf && 
+            doc.data()[key].rating == movie.rating) {
+              if(number == 0) {
+                db.collection(ctx.getters.getUser).doc(doc.id).delete()
+                number = 1;
+              }
             }      
           });
         });
-        ctx.dispatch('fetchUserCollection', ctx.getters.getUser);
-        ctx.commit('setInCollection', false);
+        number = 0;
+        await ctx.dispatch('fetchUserCollection', ctx.getters.getUser);
+        await ctx.commit('setInCollection', false);
       },
       async fetchUserCollection(ctx, user) {
         if(user != '') {
@@ -166,7 +179,7 @@ export const actions = {
       },
       async fetchCustomShelfs(ctx) {
         let shelfs = '';
-          shelfs = await db.collection(ctx.getters.getUser).get();
+        shelfs = await db.collection(ctx.getters.getUser).get();
         let respArr = [];
         shelfs.forEach(doc => {
           if(hasOwnProperty.call(doc.data(), 'userEmail')) {
@@ -174,15 +187,14 @@ export const actions = {
           } else {
             return
           }
-      })
-      let customShelfs = ''
-      if(respArr[0].customShelf != null) {
-        if(Array.isArray(respArr[0].customShelf)) {
-          customShelfs = respArr[0].customShelf.sort((a, b) => (a > b) ? 1 : -1);
-        }
-      } else {
-        customShelfs = respArr[0].customShelf;
-      }
+        })
+        let customShelfs = [];
+        if(respArr[0].customShelf != null) {
+            if(Array.isArray(respArr[0].customShelf)) {
+              customShelfs = respArr[0].customShelf.sort((a, b) => (a > b) ? 1 : -1);
+            } else {              
+              customShelfs.push(respArr[0].customShelf);
+            }
         ctx.commit('setCustomShelfs', customShelfs);
           if(ctx.getters.getUneditedShelfs) {
           if(ctx.getters.getUneditedShelfs.length == 0) {
@@ -193,8 +205,8 @@ export const actions = {
             ctx.commit('setEditShelfModeOn', false);
           }
         }
+      }
       },
-
       async addShelfToCustomShelfs(ctx, newShelf) {
         var docRef = await db.collection(fb.auth().currentUser.uid).doc(ctx.getters.getEmailDocumentId);
         let shelf = newShelf;
@@ -220,6 +232,7 @@ export const actions = {
               data.push(shelf);
               docRef.update({customShelf: shelf});
               console.log("No such document!");
+              ctx.dispatch('fetchUserCollection', ctx.getters.getUser);
           }
       }).catch(function(error) {
           console.log("Error getting document:", error);

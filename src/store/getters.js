@@ -121,5 +121,8 @@ export const getters = {
   },
   getEditShelfModeOn(state) {
     return state.editShelfModeOn;
+  },
+  getSearchResponse(state) {
+    return state.searchResponse;
   }
 };

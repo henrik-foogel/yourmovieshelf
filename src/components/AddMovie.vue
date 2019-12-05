@@ -4,10 +4,10 @@
       <div class="search-bar-search search-bar-add">
         <div class="search-bar-search-div">
           <font-awesome-icon icon="search" class="fa fa-search" @click="fetchMovies"></font-awesome-icon>
-          <input  class="search-bar-input specific" type="text" v-model="specificSearch" placeholder="specific search" @keyup.enter="fetchMovies"/>
+          <input  class="search-bar-input specific" type="text" v-model="specificSearch" placeholder="title search" @keyup.enter="fetchMovies"/>
         </div>
         <select class="search-bar-year-selector" v-model.number="specificSearchYear">
-          <option class="search-bar-input year-placeholder" value disabled selected>Year</option>
+          <option class="search-bar-input year-placeholder" value selected>Year</option>
           <option
             class="search-bar-input year"
             v-for="year in getCurrentYear"
@@ -17,8 +17,8 @@
       </div>
       <input type="button" class="home-search-button" @click="fetchMovies" value="Search" alt="Search button">
     </section>
-  <addMovieSearch v-show="!getChosen"/> 
-  <Selected v-show="getChosen"/> 
+  <addMovieSearch/> 
+  <Selected class="add-selected" v-show="getChosen"/> 
   </article>
 </template>
 <script>
@@ -81,3 +81,10 @@ export default {
     }
 };
 </script>
+
+<style lang="scss">
+  .add-selected {
+    position: fixed;
+    z-index: 900;
+  }  
+</style>

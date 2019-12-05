@@ -102,24 +102,6 @@
           }
         }
 
-        &.selected-movie-custom-container {
-          input, select {
-            padding: .5rem .2rem;
-            border-radius: .5rem;
-            width: 12rem;
-            
-            option {
-              border-radius: .5rem;
-              font-size: 1rem;
-              font-weight: 700;
-            }
-          }
-
-          h4 {
-            color: #fff;
-            margin-bottom: .5rem;
-          }
-        }
         
       }
 
