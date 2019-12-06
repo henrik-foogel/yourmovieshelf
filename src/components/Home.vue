@@ -223,6 +223,7 @@ export default {
     }
   },
   mounted() {
+    window.scrollTo(0, 0)
     this.state = this.$store.getters.getStateFlex;
     if(this.state == 'row') {
       document.querySelector('.home-movie-section').style.flexDirection = 'column';

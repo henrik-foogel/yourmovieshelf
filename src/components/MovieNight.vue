@@ -26,6 +26,7 @@ export default {
     }
   },
   mounted() {
+    window.scrollTo(0, 0)
     if(this.$store.getters.getUser == '') {
       this.$router.push('/');
     }

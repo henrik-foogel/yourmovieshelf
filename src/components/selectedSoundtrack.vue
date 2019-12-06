@@ -85,13 +85,13 @@ export default {
         flex-direction: column;
         flex-wrap: wrap;
         align-items: center;
-        margin: 2rem 10rem;
-        padding: 2rem 0;
-        background: #fff;
+        justify-content: center;
+        margin: -5rem 0 0;
+        background: rgba(37, 37, 37, 0.7);
         color: #fff;
         border-radius: 1rem;
         box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.30);
-        width: 30rem !important;
+        width: 100vw !important;
         max-width: 100vw !important;
         min-width: 0 !important;
 
@@ -101,7 +101,7 @@ export default {
             flex-direction: column;
             align-items: center;
             padding: 0 1rem 1rem;
-            background: rgba(29, 29, 29, 0.842);
+            background: rgba(29, 29, 29, 1);
             box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.30);
             border-radius: 1rem;
             width: 23rem;
@@ -116,7 +116,7 @@ export default {
                 align-items: center;
 
                 img {
-                    width: 20rem;
+                    width: 19rem;
                     border-radius: .5rem;
                 }
 
@@ -127,7 +127,7 @@ export default {
                 }
 
                 h4 {
-                    margin-bottom: 1rem;
+                    margin-bottom: 0;
                     text-align: center;
                     color: $main-colour;
                 }

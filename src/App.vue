@@ -78,14 +78,16 @@
 </template>
 
 <script>
+// import { fb } from "../firebase-config";
+// import { auth } from "../firebase-config";
 export default {
   data() {
     return {
       dropdown: false,
       signIn: false,
       register: false,
-      email: "",
-      password: "",
+      email: "test@test.com",
+      password: "testing",
       passwordConfirmation: "",
       userIsSignedIn: false,
       signedInStorage: "",
@@ -190,18 +192,7 @@ export default {
     }
   },
   async beforeMount() {
-    if (localStorage.getItem("loggedIn") != null) {
-      await this.$store.commit("setSignedIn", true);
-      await this.$store.commit("setUser", localStorage.getItem("loggedIn"));
-      await this.$store.dispatch("fetchUserCollection", localStorage.getItem("loggedIn"));
-      await this.$store.dispatch('fetchCustomShelfs', this.$store.getters.getUser);
-
-    } else if(sessionStorage.getItem('loggedIn') != null) {
-      await this.$store.commit("setSignedIn", true);
-      await this.$store.commit("setUser", sessionStorage.getItem("loggedIn"));
-      await this.$store.dispatch("fetchUserCollection", this.$store.getters.getUser);
-      await this.$store.dispatch('fetchCustomShelfs', this.$store.getters.getUser);
-    }
+    this.$store.dispatch('checkUser');
   }
 }
 </script>

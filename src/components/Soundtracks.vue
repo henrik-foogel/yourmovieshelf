@@ -3,9 +3,9 @@
         <searchSavedSoundtrack/>
             <div class="home-movie-random button" @click="randomSoundtrack" v-show="!getSelectedTrueFalse">Random soundtrack</div>
         <section class="soundtracks-list-container">
-            <soundtrackList v-show="!getSelectedTrueFalse" v-for="(soundtrack, index) in filterSoundtracks" :key="index" :soundtrack="soundtrack" />
+            <soundtrackList v-for="(soundtrack, index) in filterSoundtracks" :key="index" :soundtrack="soundtrack" />
         </section>
-        <selectedSoundtrack v-show="getSelectedTrueFalse"/>
+        <selectedSoundtrack class="soundtracks-selected" v-show="getSelectedTrueFalse"/>
     </article>
 </template>
 <script>
@@ -49,9 +49,12 @@ export default {
       if(this.$store.getters.getUser == '') {
         this.$router.push('/');
       } else {
-      await this.$store.dispatch('fetchYourSoundtracks', this.$store.getters.getUser);
+      await this.$store.dispatch('fetchYourSoundtracks');
       }
     },
+    mounted() {
+        window.scrollTo(0, 0)
+    }
 }
 </script>
 
@@ -71,6 +74,12 @@ export default {
             flex-wrap: wrap;
             justify-content: center;
             max-width: 70rem;
+        }
+        .soundtracks-selected {  
+            position: fixed;
+            z-index: 900;
+            width: 100vw;
+            height: 100vh;
         }
     }
 </style>

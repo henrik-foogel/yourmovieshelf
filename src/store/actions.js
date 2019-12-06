@@ -2,6 +2,7 @@
 import axios from "axios";
 import { db } from "../../firebase-config";
 import { fb } from "../../firebase-config";
+import { auth } from "../../firebase-config";
 import { key } from "../../omdb-config";
 import { token } from "../../discogs-config";
 
@@ -12,7 +13,6 @@ export const actions = {
             .createUserWithEmailAndPassword(payload[0], payload[1])
             .then(response => {
               ctx.dispatch("createUserCollection", response);
-              console.log(response);
               ctx.dispatch('userSignIn', payload);
             })
             .catch(error => {
@@ -65,6 +65,21 @@ export const actions = {
             sessionStorage.removeItem("loggedIn");
             ctx.commit('setSignedInStorage', "");
           });
+      },
+      async checkUser(ctx) {
+        await fb.auth().onAuthStateChanged(function(user) {
+          if (user) {
+            console.log('in')
+            ctx.commit("setSignedIn", true);
+              console.log('inin')
+              ctx.commit("setUser", user.uid);
+              ctx.dispatch("fetchUserCollection");
+              ctx.dispatch('fetchCustomShelfs');
+            
+          } else {
+            console.log('Not signed in');
+          }
+        });
       },
       async fetchMovies(ctx, search) {
         let result = [];
@@ -124,13 +139,13 @@ export const actions = {
           Poster: movieArr.Poster
         }
   
-        await db.collection(ctx.getters.getUser).add({
+        await db.collection(auth.currentUser.uid).add({
             movie: movie
         })
-        ctx.dispatch('fetchUserCollection', ctx.getters.getUser)
+        ctx.dispatch('fetchUserCollection', auth.currentUser.uid)
       },
       async deleteFromCollection(ctx, movie) {
-        let collection = await db.collection(ctx.getters.getUser).get();
+        let collection = await db.collection(auth.currentUser.uid).get();
         let number = 0;
         await collection.forEach(doc => {
           Object.keys(doc.data()).forEach(function(key) {     
@@ -140,19 +155,20 @@ export const actions = {
             doc.data()[key].format == movie.format && doc.data()[key].shelf == movie.shelf && 
             doc.data()[key].rating == movie.rating) {
               if(number == 0) {
-                db.collection(ctx.getters.getUser).doc(doc.id).delete()
+                db.collection(auth.currentUser.uid).doc(doc.id).delete()
                 number = 1;
               }
             }      
           });
         });
         number = 0;
-        await ctx.dispatch('fetchUserCollection', ctx.getters.getUser);
+        await ctx.dispatch('fetchUserCollection', auth.currentUser.uid);
         await ctx.commit('setInCollection', false);
       },
-      async fetchUserCollection(ctx, user) {
-        if(user != '') {
-        let collection = await db.collection(user).get();
+      async fetchUserCollection(ctx) {
+        if(auth.currentUser.uid != null) {
+          await console.log(auth.currentUser.uid)
+        let collection = await db.collection(auth.currentUser.uid).get();
         let respArr = [];
         await collection.forEach(doc => {
           if(hasOwnProperty.call(doc.data(), 'userEmail')) {
@@ -179,7 +195,7 @@ export const actions = {
       },
       async fetchCustomShelfs(ctx) {
         let shelfs = '';
-        shelfs = await db.collection(ctx.getters.getUser).get();
+        shelfs = await db.collection(auth.currentUser.uid).get();
         let respArr = [];
         shelfs.forEach(doc => {
           if(hasOwnProperty.call(doc.data(), 'userEmail')) {
@@ -208,7 +224,7 @@ export const actions = {
       }
       },
       async addShelfToCustomShelfs(ctx, newShelf) {
-        var docRef = await db.collection(fb.auth().currentUser.uid).doc(ctx.getters.getEmailDocumentId);
+        var docRef = await db.collection(auth.currentUser.uid).doc(ctx.getters.getEmailDocumentId);
         let shelf = newShelf;
         await docRef.get().then(function(doc) {
           if (doc.data().customShelf != undefined) {
@@ -240,18 +256,18 @@ export const actions = {
         
       },
       async editShelfs(ctx, shelfs) {
-          var docRef = await db.collection(fb.auth().currentUser.uid).doc(ctx.getters.getEmailDocumentId);
+          var docRef = await db.collection(auth.currentUser.uid).doc(ctx.getters.getEmailDocumentId);
           docRef.update({customShelf: shelfs});
           ctx.commit('setCustomShelfs', shelfs);
           ctx.dispatch('editShelfsInMovies', shelfs);
       },
       async editShelfsInMovies(ctx) {
-        var docRef = await db.collection(fb.auth().currentUser.uid).get();
+        var docRef = await db.collection(auth.currentUser.uid).get();
        await docRef.forEach(movie => {
           if(hasOwnProperty.call(movie.data(), 'movie')) {
             for (let i = 0; i < ctx.getters.getBeforeEditShelfs.length; i++) {
               if(movie.data().movie.shelf == ctx.getters.getBeforeEditShelfs[i]) {
-                db.collection(fb.auth().currentUser.uid).doc(movie.id).update({movie: {
+                db.collection(auth.currentUser.uid).doc(movie.id).update({movie: {
                   Actors: movie.data().movie.Actors,
                   Director: movie.data().movie.Director,
                   Genre: movie.data().movie.Genre,
@@ -271,7 +287,7 @@ export const actions = {
                 }})
               }
               ctx.commit('setEditShelfModeOn', true);
-              ctx.dispatch('fetchUserCollection', ctx.getters.getUser);
+              ctx.dispatch('fetchUserCollection');
             } 
           }
         });
@@ -279,7 +295,7 @@ export const actions = {
         ctx.commit('setEditedShelfs', []);
       },
       async addMovieNightList(ctx, payload) {
-        var docRef = await db.collection(fb.auth().currentUser.uid);
+        var docRef = await db.collection(auth.currentUser.uid);
         var data = [];
         var name = payload.name
         payload.list.map(movie => movie[0].seen = false);
@@ -292,9 +308,9 @@ export const actions = {
         })
         
       },
-      async fetchMovieNightLists(ctx, user) {
-        if(user != '') {
-        let collection = await db.collection(user).get();
+      async fetchMovieNightLists(ctx) {
+        if(auth.currentUser.uid != null) {
+        let collection = await db.collection(auth.currentUser.uid).get();
         let respArr = [];
         collection.forEach(doc => {
           if(hasOwnProperty.call(doc.data(), 'movieNightList')) {
@@ -307,42 +323,42 @@ export const actions = {
       }
     },
     async deleteMovieNightList(ctx, name) {
-      await db.collection(ctx.getters.getUser).where('name', '==', name).get().then(snap => {
+      await db.collection(auth.currentUser.uid).where('name', '==', name).get().then(snap => {
         snap.forEach(doc => 
-          db.collection(ctx.getters.getUser).doc(doc.id).delete()
+          db.collection(auth.currentUser.uid).doc(doc.id).delete()
         );
       })
-      ctx.dispatch('fetchMovieNightLists', ctx.getters.getUser);
+      ctx.dispatch('fetchMovieNightLists');
     },
     async updateMovieNightList(ctx, payload) {
       await db.collection(ctx.getters.getUser).where('name', '==', payload.name).get().then(snap => {
         snap.forEach(doc => 
-          db.collection(ctx.getters.getUser).doc(doc.id).set(payload.list)
+          db.collection(auth.currentUser.uid).doc(doc.id).set(payload.list)
         );
       })
     },
     async findSoundtrack(ctx, payload) {
       let music = [];
       if(payload.title != '' && payload.artist != '') {
-        music = await axios.get('https://api.discogs.com/database/search?release_title='+payload.title+'&style=soundtrack&artist='+payload.artist+'&token='+token.token)
+        music = await axios.get('https://api.discogs.com/database/search?release_title='+payload.title+'&genre=Stage+&+Screen&artist='+payload.artist+'&token='+token.token)
       } else if(payload.title == '' && payload.artist != '') {
-        music = await axios.get('https://api.discogs.com/database/search?style=soundtrack&artist='+payload.artist+'&token='+token.token)
+        music = await axios.get('https://api.discogs.com/database/search?genre=Stage+&+Screen&artist='+payload.artist+'&token='+token.token)
       } else if(payload.title != '' && payload.artist == '') {
-        music = await axios.get('https://api.discogs.com/database/search?release_title='+payload.title+'&style=soundtrack&token='+token.token)
+        music = await axios.get('https://api.discogs.com/database/search?release_title='+payload.title+'&genre=Stage+&+Screen&token='+token.token)
       }
       let list = music.data.results.slice(music.data.results[0]);
       ctx.commit('setSoundtrackSearchResult', list);
     },
     async addSoundtrackToDB(ctx, soundtrack) {
       if(ctx.getters.getSoundtracksId == '') {
-        let docRef = await db.collection(ctx.getters.getUser);
+        let docRef = await db.collection(auth.currentUser.uid);
         let data = {
           0: soundtrack,
           soundtracks: true
         }
         docRef.add(data);
       } else {
-        let docRef = await db.collection(ctx.getters.getUser).doc(ctx.getters.getSoundtracksId);
+        let docRef = await db.collection(auth.currentUser.uid).doc(ctx.getters.getSoundtracksId);
         let data = []
         await docRef.get().then(e => {
           data.push(e.data())
@@ -353,11 +369,11 @@ export const actions = {
           await docRef.update({[Object.keys(data[0]).length]:soundtrack})
         }
       }
-      ctx.dispatch('fetchUserCollection', fb.auth().currentUser.uid);
+      ctx.dispatch('fetchUserCollection', auth.currentUser.uid);
       ctx.dispatch('fetchYourSoundtracks');
     },
-    async fetchYourSoundtracks(ctx, user) {
-      let docRef = await db.collection(user).doc(ctx.getters.getSoundtracksId);
+    async fetchYourSoundtracks(ctx) {
+      let docRef = await db.collection(auth.currentUser.uid).doc(ctx.getters.getSoundtracksId);
       let data = []
         await docRef.get().then(e => {
             data.push(e.data())
@@ -372,17 +388,19 @@ export const actions = {
     async deleteSoundtrack(ctx, soundtrack) {
       let list = [];
       let obj = [];
+      let number = 0;
       await ctx.getters.getSoundtrackList.forEach(album => {
         if(album[1].soundtrackTitle == soundtrack.soundtrackTitle && 
           album[1].soundtrackImg == soundtrack.soundtrackImg && 
-          album[1].soundtrackFormat == soundtrack.soundtrackFormat) {
+          album[1].soundtrackFormat == soundtrack.soundtrackFormat && number == 0) {
             console.log(album[1])
+            number = 1;
           } else {
             list.push(album[1])
           }
         })
         obj = Object.assign({}, list, {'soundtracks': true});
-        db.collection(ctx.getters.getUser).doc(ctx.getters.getSoundtracksId).set(obj);
-        ctx.dispatch('fetchYourSoundtracks', ctx.getters.getUser);
+        db.collection(auth.currentUser.uid).doc(ctx.getters.getSoundtracksId).set(obj);
+        ctx.dispatch('fetchYourSoundtracks');
     }
   }

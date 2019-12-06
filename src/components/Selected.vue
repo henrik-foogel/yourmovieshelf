@@ -8,7 +8,10 @@
             <div class="title-director-container">
               <div class="selected-movie-title"  alt="Title: ">{{ selectedMovie.Title }} (<span alt="Year: ">{{ selectedMovie.Year }}</span>)</div>
               <div class="selected-movie-director" alt="Director: ">{{ selectedMovie.Director }}</div>
-              <div class="selected-movie-writers" alt="Writers: ">( {{ selectedMovie.Writer }} )</div>
+              <div v-if="!writersWhole" class="selected-movie-writers" @click="writersWhole = true" alt="Writers: ">( {{ selectedMovie.Writer }} )</div>
+              <div v-else class="whole-writers-conatiner">
+                <div class="selected-movie-writers-whole" @click="writersWhole = false">{{ selectedMovie.Writer }}</div>
+              </div>
               <div class="selected-movie-actors" alt="Actors: ">{{ selectedMovie.Actors }}</div>
               <div class="selected-movie-genre" alt="Genre: ">{{ selectedMovie.Genre }}</div>
               <div class="selected-movie-shelf" v-show="inCollection" alt="Shelf: ">({{ selectedMovie.shelf }})</div>
@@ -36,7 +39,7 @@
             </div>
             
             <div class="delete-container" v-show="inCollection">
-              <div class="selected-movie-card-back button" @click="moreInfo = false; setChosen()">BACK</div>
+              <div class="selected-movie-card-back button" @click="moreInfo = false; writersWhole = false; setChosen()">BACK</div>
               <div class="more-info-button button" @click="moreInfo = !moreInfo" v-show="inCollection">MORE INFO &#8691;</div>
               <font-awesome-icon icon="trash-alt" class="trash-button button" @click="deleteBox = true">Delete</font-awesome-icon>
             </div>
@@ -74,7 +77,8 @@ export default {
         },
         deleteBox: false,
         moreInfo: false,
-        ratings: false
+        ratings: false,
+        writersWhole: false
         }
     },
     computed: {
@@ -185,7 +189,33 @@ export default {
             }
         
             .selected-movie-writers {
+              display: block;
               font-size: .8rem;
+              width: 200px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              cursor: pointer;
+            }
+            .whole-writers-conatiner {
+              display: flex;
+              justify-content: flex-start;
+              align-items: center;
+                position: fixed;
+                z-index: 3000;
+                width: 100vw;
+                height: 100vh;
+
+              .selected-movie-writers-whole {
+                background: #282828;
+                color: #fff;
+                padding: 1rem;
+                border-radius: .5rem;
+                cursor: pointer;
+                max-width: 460px;
+                width: 91vw;
+                margin-left: -11.5rem;
+              }
             }
 
             .selected-movie-actors {
