@@ -8,8 +8,8 @@
             <div class="title-director-container">
               <div class="selected-movie-title"  alt="Title: ">{{ selectedMovie.Title }} (<span alt="Year: ">{{ selectedMovie.Year }}</span>)</div>
               <div class="selected-movie-director" alt="Director: ">{{ selectedMovie.Director }}</div>
-              <div v-if="!writersWhole" class="selected-movie-writers" @click="writersWhole = true" alt="Writers: ">( {{ selectedMovie.Writer }} )</div>
-              <div v-else class="whole-writers-conatiner">
+              <div class="selected-movie-writers" @click="writersWhole = true" alt="Writers: ">( {{ selectedMovie.Writer }} )</div>
+              <div v-if="writersWhole" class="whole-writers-conatiner">
                 <div class="selected-movie-writers-whole" @click="writersWhole = false">{{ selectedMovie.Writer }}</div>
               </div>
               <div class="selected-movie-actors" alt="Actors: ">{{ selectedMovie.Actors }}</div>

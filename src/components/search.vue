@@ -5,7 +5,7 @@
         <font-awesome-icon icon="search" class="fa fa-search"></font-awesome-icon>
         <input class="search-bar-input" type="text" v-model="search" placeholder="search" label="Search input field" @change="searchChange" @keyup.enter="changeView">
       </div>
-      <font-awesome-icon icon="times" class="fa fa-times" aria-hidden="true" @click="search = ''; filterCriteria = 'all'"></font-awesome-icon>
+      <font-awesome-icon icon="times" class="fa fa-times" aria-hidden="true" @click="removeSearchCriteria"></font-awesome-icon>
       </div>
     </section>
 </template>
@@ -49,6 +49,11 @@ export default {
       },
       changeView() {
         this.$store.commit('setInCollection', false);
+      },
+      removeSearchCriteria() {
+        this.search = '';
+        this.filterCriteria = 'all'
+        window.scrollTo(0, 0);
       }
     }
 }

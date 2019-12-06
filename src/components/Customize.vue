@@ -66,6 +66,7 @@ export default {
       },
 
       change(e, i) {
+        console.log(e)
         e.target.parentNode.children[i+1].focus()
       }
   },

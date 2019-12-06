@@ -78,16 +78,14 @@
 </template>
 
 <script>
-// import { fb } from "../firebase-config";
-// import { auth } from "../firebase-config";
 export default {
   data() {
     return {
       dropdown: false,
       signIn: false,
       register: false,
-      email: "test@test.com",
-      password: "testing",
+      email: "",
+      password: "",
       passwordConfirmation: "",
       userIsSignedIn: false,
       signedInStorage: "",

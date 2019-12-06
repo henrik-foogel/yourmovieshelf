@@ -69,9 +69,7 @@ export const actions = {
       async checkUser(ctx) {
         await fb.auth().onAuthStateChanged(function(user) {
           if (user) {
-            console.log('in')
             ctx.commit("setSignedIn", true);
-              console.log('inin')
               ctx.commit("setUser", user.uid);
               ctx.dispatch("fetchUserCollection");
               ctx.dispatch('fetchCustomShelfs');

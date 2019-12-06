@@ -131,6 +131,7 @@ export default {
   .row {
     width: 95%;
     max-width: 100vw;
+    min-height: 8rem;
     display: flex;
     flex-direction: row;
     cursor: pointer;
@@ -143,9 +144,9 @@ export default {
 
         .home-collection-movie-poster {
             img {
-                max-width: 5rem;
-      }
-    }
+              max-width: 5rem;
+          }
+        }
     }
     aside {
       display: flex;

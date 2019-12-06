@@ -154,13 +154,13 @@ export default {
         }
     }
     .delete-soundtrack-question-section {
-        position: absolute;
+        position: fixed;
         display: flex;
         justify-content: center;
         align-items: center;
         z-index: 1000;
         width: 100vw;
-        padding: 0 0 40rem;
+        height: 100vh;
 
         .delete-container {
             background: $main-colour;

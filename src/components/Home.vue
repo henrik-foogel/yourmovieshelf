@@ -8,7 +8,7 @@
       </div>
     </section>
     <section class="home-search-section" v-if="signedIn == true">
-      <Search />
+      <Search class="search" />
     </section>
     <section class="button-container" v-show="!getInCollection && !getFirstTimeUser">
       <div v-show="getState == 'row'" v-if="signedIn == true" class="home-movie-view-check"><p></p><input type="button" class="home-poster-view-button button" @click="viewSwitch()" label="View" value="POSTER VIEW"></div>
@@ -235,6 +235,14 @@ export default {
 </script>
 <style lang="scss">
 @import "@/scss/variables";
+
+.search {
+  transform: translateX(-50%);
+  position: fixed;
+  top: 4rem;
+  left: 50%;
+  z-index: 200;
+}
 
 .home-movie-night-name-failure {
   color: rgb(134, 1, 1);
