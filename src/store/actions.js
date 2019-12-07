@@ -70,12 +70,14 @@ export const actions = {
         await fb.auth().onAuthStateChanged(function(user) {
           if (user) {
             ctx.commit("setSignedIn", true);
-              ctx.commit("setUser", user.uid);
-              ctx.dispatch("fetchUserCollection");
-              ctx.dispatch('fetchCustomShelfs');
-            
+            ctx.commit("setUser", user.uid);
+            ctx.dispatch("fetchUserCollection");
+            ctx.dispatch('fetchCustomShelfs');
+            ctx.dispatch('fetchMovieNightLists');
+            ctx.dispatch('fetchCustomShelfs');
           } else {
-            console.log('Not signed in');
+            console.log('Not signed in');   
+            ctx.$router.push('/');
           }
         });
       },
@@ -109,7 +111,7 @@ export const actions = {
           movie.rating = payload.movieArr.rating;
           movie.format = payload.movieArr.format;
           movie.edition = payload.movieArr.edition;
-        ctx.commit('setSelectedMovie', movie);
+          ctx.commit('setSelectedMovie', movie);
       },
       async addToCollection(ctx, payload) {
         let movieArr = [];
@@ -189,6 +191,7 @@ export const actions = {
           ctx.commit('setFirstTimeUser', true)
         }
         ctx.dispatch('fetchCustomShelfs');
+        ctx.dispatch('fetchYourSoundtracks');
       }
       },
       async fetchCustomShelfs(ctx) {
@@ -239,7 +242,7 @@ export const actions = {
                 customShelf: dataArr
                 };
               docRef.update(data);
-
+              ctx.dispatch('setBeforeEditShelfs', newShelf);
               ctx.dispatch('fetchCustomShelfs');
           } else {
               let data = [];

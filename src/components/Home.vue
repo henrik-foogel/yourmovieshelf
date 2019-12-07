@@ -10,10 +10,9 @@
     <section class="home-search-section" v-if="signedIn == true">
       <Search class="search" />
     </section>
-    <section class="button-container" v-show="!getInCollection && !getFirstTimeUser">
+    <section class="button-container" v-show="!getFirstTimeUser">
       <div v-show="getState == 'row'" v-if="signedIn == true" class="home-movie-view-check"><p></p><input type="button" class="home-poster-view-button button" @click="viewSwitch()" label="View" value="POSTER VIEW"></div>
       <div v-show="getState == 'poster'" v-if="signedIn == true" class="home-movie-view-check"><p></p><input type="button" class="home-poster-view-button button" @click="viewSwitch()" label="View" value="REGULAR VIEW"></div>
-    <h1 v-if="signedIn == true">Your Collection:</h1>
     <div class="home-movie-night-button-container">
       <input v-if="signedIn == true" type="button" class="home-movie-night-button button" label="Create a Movie Night List" value="CREATE A MOVIE NIGHT LIST" @click="movieNightButton = !movieNightButton; movieNight(); movieNightButtonChange()">
       <font-awesome-icon icon="times" v-show="movieNightButton" class="fa fa-times" aria-hidden="true" @click="movieNightClose = true; movieNightButtonClose()"></font-awesome-icon>
@@ -238,9 +237,9 @@ export default {
 
 .search {
   transform: translateX(-50%);
-  position: fixed;
-  top: 4rem;
   left: 50%;
+  position: fixed;
+  top: 11%;
   z-index: 200;
 }
 

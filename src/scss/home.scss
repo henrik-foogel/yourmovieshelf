@@ -1,5 +1,5 @@
 .home-movie {
-  padding: 0;
+  padding: 2rem 0 0;
   margin: 0;
 
 .home-not-signed-in {
@@ -29,6 +29,7 @@
 .home-movie-view-check {
       display: flex;
       align-items: center;
+      margin-top: 1rem;
 
       .home-poster-view-button {
         border: none;

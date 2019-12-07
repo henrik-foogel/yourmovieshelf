@@ -3,12 +3,12 @@
       <div class="search-bar-search search-bar-saved-soundtrack">
         <div class="search-bar-search-div">
             <div class="input">
+                <font-awesome-icon icon="search" class="fa fa-search"></font-awesome-icon>
                 <i class="fa fa-search" @click="searchSoundtracks"></i>
                 <input  class="search-bar-input artist" type="text" placeholder="search" v-model="search" @keyup.enter="searchSoundtracks"/>
-                <font-awesome-icon class="search-remove" icon="times" @click="search = ''"/>
+                <font-awesome-icon class="search-remove" icon="times" @click="removeSearchCriteria"/>
             </div>
         </div>
-      <input type="button" class="home-search-button soundtrack-button" @click="searchSoundtracks" value="Search" alt="Search button">
       </div>
     </section>
 </template>
@@ -35,6 +35,11 @@ export default {
         searchSoundtracks() {
             this.$store.commit('setSelectedTrueFalse', false);
             this.$store.dispatch('findSoundtrack', this.search);
+        },
+        removeSearchCriteria() {
+            this.search = ''
+            console.log('jhsgakjs')
+            window.scrollTo(0, 0);
         }
     }
 }
@@ -43,6 +48,11 @@ export default {
 <style lang="scss">
     .search-bar-saved-soundtrack {
         flex-direction: column;
+
+        .input {
+            display: flex;
+            align-items: center;
+        }
 
         .soundtrack-button {
             width: 100%;

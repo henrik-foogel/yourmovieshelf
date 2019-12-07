@@ -116,6 +116,7 @@ export default {
                 align-items: center;
 
                 img {
+                    margin-top: .5rem;
                     width: 19rem;
                     border-radius: .5rem;
                 }

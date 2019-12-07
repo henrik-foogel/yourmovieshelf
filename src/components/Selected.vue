@@ -3,8 +3,10 @@
       <section class="selected-movie-container">
           <div class="selected-movie-card">
             <section class="poster-title-director-container">
-              <img v-show="selectedMovie.Poster != 'N/A'" class="selected-movie-img" :src="selectedMovie.Poster" :alt="selectedMovie.Title+' poster'">
-              <img v-show="selectedMovie.Poster == 'N/A'" class="selected-movie-img" src="./../assets/images/noposter.png" alt="Movie poster">
+              <div class="poster-container">
+                <img v-show="selectedMovie.Poster != 'N/A'" class="selected-movie-img" :src="selectedMovie.Poster" :alt="selectedMovie.Title+' poster'">
+                <img v-show="selectedMovie.Poster == 'N/A'" class="selected-movie-img" src="./../assets/images/noposter.png" alt="Movie poster">
+              </div>
             <div class="title-director-container">
               <div class="selected-movie-title"  alt="Title: ">{{ selectedMovie.Title }} (<span alt="Year: ">{{ selectedMovie.Year }}</span>)</div>
               <div class="selected-movie-director" alt="Director: ">{{ selectedMovie.Director }}</div>
@@ -15,13 +17,16 @@
               <div class="selected-movie-actors" alt="Actors: ">{{ selectedMovie.Actors }}</div>
               <div class="selected-movie-genre" alt="Genre: ">{{ selectedMovie.Genre }}</div>
               <div class="selected-movie-shelf" v-show="inCollection" alt="Shelf: ">({{ selectedMovie.shelf }})</div>
-              <div class="selected-movie-plot plot" alt="Plot: ">{{ selectedMovie.Plot }}</div>
+              <div class="selected-movie-plot plot" @click="plotWhole = true" alt="Plot: ">{{ selectedMovie.Plot }}</div>
+              <div v-if="plotWhole" class="whole-plot-conatiner">
+                <div class="selected-movie-plot-whole" @click="plotWhole = false">{{ selectedMovie.Plot }}</div>
+              </div>
             </div>
             </section>
             
             <div class="selected-movie-more-info" v-if="inCollection && moreInfo == true" alt="More info dropdown">
               <div class="more-container">
-              <h4>Music:</h4>
+              <h4>Composer:</h4>
               <div class="selected-movie-Music" alt="Soundtrack: ">{{ selectedMovie.soundtrack }}</div>
               </div>
               <div class="more-container">
@@ -39,7 +44,7 @@
             </div>
             
             <div class="delete-container" v-show="inCollection">
-              <div class="selected-movie-card-back button" @click="moreInfo = false; writersWhole = false; setChosen()">BACK</div>
+              <div class="selected-movie-card-back button" @click="moreInfo = false; writersWhole = false; plotWhole = false; setChosen()">BACK</div>
               <div class="more-info-button button" @click="moreInfo = !moreInfo" v-show="inCollection">MORE INFO &#8691;</div>
               <font-awesome-icon icon="trash-alt" class="trash-button button" @click="deleteBox = true">Delete</font-awesome-icon>
             </div>
@@ -78,7 +83,8 @@ export default {
         deleteBox: false,
         moreInfo: false,
         ratings: false,
-        writersWhole: false
+        writersWhole: false,
+        plotWhole: false
         }
     },
     computed: {
@@ -120,7 +126,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     background: rgba(37, 37, 37, 0.7);
     box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.25);
     width: 100vw;
@@ -139,12 +145,11 @@ export default {
       box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.30);
       width: 31rem;
       max-width: 100vw;
-      padding: 1.5rem 0;
+      padding: 0;
       
 
       .selected-movie-card-back {
         margin-top: 1rem;
-        color: #282828 !important;
       }
 
         .poster-title-director-container {
@@ -154,25 +159,32 @@ export default {
           width: 100%;
           max-width: 100vw;
 
-          .selected-movie-img {
+          .poster-container {
+            display: flex;
+            flex-wrap: wrap;
             box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.500);
             border-radius: .5rem;
+            margin: 0 0 0 .5rem;
+            padding: 0;
             max-width: 10rem;
-            margin-left: .5rem;
+            .selected-movie-img {
+              max-width: 9rem;
+            }
           }
 
           .title-director-container {
             display: flex;
             flex-direction: column;
             justify-content: space-evenly;
+            flex-wrap: wrap;
             margin: 0 .5rem;
-            padding-left: .5rem;
+            padding: 0 0 0 .5rem;
             height: 22rem;
             border-left: 1px solid $main-colour;
 
             div {
               text-align: left;
-              margin: 0 0 .2rem;
+              margin: 0;
 
                 &:nth-child(odd) {
                   color: #fff;
@@ -180,17 +192,17 @@ export default {
             }
 
             .selected-movie-title {
-              font-size: 1.2rem;
+              font-size: 1.1rem;
               font-weight: 700;
             }
 
             .selected-movie-director {
-              font-size: 1.1rem;
+              font-size: 1rem;
             }
         
             .selected-movie-writers {
               display: block;
-              font-size: .8rem;
+              font-size: .7rem;
               width: 200px;
               white-space: nowrap;
               overflow: hidden;
@@ -199,22 +211,21 @@ export default {
             }
             .whole-writers-conatiner {
               display: flex;
-              justify-content: flex-start;
               align-items: center;
-                position: fixed;
-                z-index: 3000;
-                width: 100vw;
-                height: 100vh;
+              position: fixed;
+              z-index: 3000;
+              width: 100vw;
+              height: 100vh;
 
               .selected-movie-writers-whole {
+                transform: translateX(-41%);
+                left: 50%;
                 background: #282828;
                 color: #fff;
                 padding: 1rem;
                 border-radius: .5rem;
                 cursor: pointer;
-                max-width: 460px;
-                width: 91vw;
-                margin-left: -11.5rem;
+                max-width: 30rem;
               }
             }
 
@@ -232,6 +243,30 @@ export default {
               margin-bottom: .8rem;
               font-weight: 700;
               font-size: .8rem;
+              width: 200px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              cursor: pointer;
+            }
+            .whole-plot-conatiner {
+              display: flex;
+              align-items: center;
+              position: fixed;
+              z-index: 3000;
+              width: 100vw;
+              height: 100vh;
+
+              .selected-movie-plot-whole {
+                transform: translateX(-41%);
+                left: 50%;
+                background: #282828;
+                color: #fff;
+                padding: 1rem;
+                border-radius: .5rem;
+                cursor: pointer;
+                max-width: 30rem;
+              }
             }
           }
   
@@ -244,27 +279,25 @@ export default {
           display: flex;
           justify-content: space-around;
           width: 100%;
-          margin: 1rem 0 0;
+          margin: .5rem 0 0;
 
             .trash-button {
-              padding-left: .5rem;
-              padding-right: .5rem;
+              padding: .3rem;
               font-size: 1.3rem;
             }
             .button {
               margin: 0 0 .5rem;
-              color: #282828;
               font-weight: 700;
               cursor: pointer;
+              padding: .3rem .5rem;
             }
           }
 
         &.more-info-button {
           margin: .5rem 0;
-          color: #282828;
           font-weight: 700;
           cursor: pointer;
-          padding: .3rem .5rem;
+          padding: .2rem .3rem;
         }
 
         &.selected-movie-more-info {
@@ -285,12 +318,17 @@ export default {
             text-align: center;
  
             div {
-              margin: .5rem;
+              margin: .3rem;
             }
             
             h4 {
               margin: .5rem;
               color: #fff;
+              font-size: .8rem;
+            }
+
+            .selected-movie-shelf {
+              font-size: .8rem;
             }
 
             .selected-movie-ratings-button {
@@ -334,7 +372,6 @@ export default {
       .add-movie-button {
         z-index: 7;
         margin: 1rem;
-        color: #282828 !important;
     }
     }
   }

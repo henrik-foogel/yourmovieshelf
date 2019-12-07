@@ -74,11 +74,10 @@ export default {
     },
     
     },
-    mounted() {
+    async created() {
+      await this.$store.dispatch('checkUser');
+      this.$store.commit("setSearchResult", []);
       window.scrollTo(0, 0)
-      if(this.$store.getters.getUser == '') {
-        this.$router.push('/');
-      }
     }
 };
 </script>

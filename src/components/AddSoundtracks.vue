@@ -46,11 +46,9 @@ export default {
             return this.getSearchSoundtrackTitle;
         }
     },
-    mounted() {
-    window.scrollTo(0, 0)
-      if(this.$store.getters.getUser == '') {
-        this.$router.push('/');
-      }
+    async mounted() {
+        await this.$store.dispatch('checkUser');
+        window.scrollTo(0, 0);
     }
 }
 </script>

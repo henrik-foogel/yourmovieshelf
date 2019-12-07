@@ -1,7 +1,7 @@
 <template>
     <article class="soundtracks-comp">
-        <searchSavedSoundtrack/>
-            <div class="home-movie-random button" @click="randomSoundtrack" v-show="!getSelectedTrueFalse">Random soundtrack</div>
+        <searchSavedSoundtrack class="search-soundtrack"/>
+            <div class="home-movie-random button" @click="randomSoundtrack" >Random soundtrack</div>
         <section class="soundtracks-list-container">
             <soundtrackList v-for="(soundtrack, index) in filterSoundtracks" :key="index" :soundtrack="soundtrack" />
         </section>
@@ -45,15 +45,9 @@ export default {
             this.$store.commit('setSoundtrackInCollection', true);
         },
     },
-    async created() {
-      if(this.$store.getters.getUser == '') {
-        this.$router.push('/');
-      } else {
-      await this.$store.dispatch('fetchYourSoundtracks');
-      }
-    },
-    mounted() {
-        window.scrollTo(0, 0)
+    async mounted() {
+        await this.$store.dispatch('checkUser');
+        window.scrollTo(0, 0);
     }
 }
 </script>
@@ -63,7 +57,17 @@ export default {
     .soundtracks-comp {
         min-width: 0 !important;
 
+        .search-soundtrack {   
+            border: none;
+            transform: translateX(-50%);
+            position: fixed;
+            top: 11%;
+            left: 50%;
+            z-index: 200;
+        }
+
         .home-movie-random {     
+            margin-top: 4rem;
             background: #282828;
             color: $main-colour;
         }

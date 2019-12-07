@@ -15,17 +15,6 @@ export default {
             this.$store.commit('setSelectedTrueFalse', true);
             this.$store.commit('setSoundtrackInCollection', true);
         }
-    },
-    mounted() {
-        if (localStorage.getItem("loggedIn") != null) {
-        this.$store.commit("setSignedIn", true);
-        this.$store.dispatch("fetchUserCollection", localStorage.getItem("loggedIn"));
-        this.$store.commit("setUser", localStorage.getItem("loggedIn"));
-        } else if(sessionStorage.getItem('loggedIn') != null) {
-        this.$store.commit("setSignedIn", true);
-        this.$store.dispatch("fetchUserCollection", sessionStorage.getItem("loggedIn"));
-        this.$store.commit("setUser", sessionStorage.getItem("loggedIn"));
-        }
     }
 }
 </script>

@@ -25,12 +25,10 @@ export default {
     await this.$store.dispatch('fetchMovieNightLists', this.$store.getters.getUser)
     }
   },
-  mounted() {
+  async mounted() {
+    await this.$store.dispatch('checkUser');
     window.scrollTo(0, 0)
-    if(this.$store.getters.getUser == '') {
-      this.$router.push('/');
-    }
-    this.fetchMovieNightList()
+    await this.$store.dispatch('fetchMovieNightLists');
   }
 }
 </script>

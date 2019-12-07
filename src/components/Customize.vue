@@ -7,7 +7,7 @@
     </section>
     <section class="customize-user-custom-container" v-if="editOn == false">
       <div>
-      <h2 class="customize-user-custom-title">Your Shelfs:</h2>
+      <h2 class="customize-user-custom-title">My Shelfs:</h2>
       <div class="customize-user-custom-container-content" v-for="(shelf, index) in getCustomShelfs" :key="index">
         {{shelf}}
       </div>
@@ -66,17 +66,12 @@ export default {
       },
 
       change(e, i) {
-        console.log(e)
         e.target.parentNode.children[i+1].focus()
       }
   },
-  mounted() {
-    window.scrollTo(0, 0)
-    if(this.$store.getters.getUser == '') {
-      this.$router.push('/');
-    } else {
-      this.shelfs = this.getCustomShelfs;
-    }
+  async mounted() {
+    await this.$store.dispatch('checkUser');
+    window.scrollTo(0, 0);
   }
 }
 </script>
