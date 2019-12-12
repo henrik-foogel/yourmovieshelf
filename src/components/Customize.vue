@@ -5,11 +5,12 @@
         <input class="customize-container-input-shelf" placeholder="Shelf" v-model="customShelf" @keyup.enter="addShelfToCustomShelfs()" label="Add custom shelf input">
         <div class="add-shelf-button button" @click="addShelfToCustomShelfs">Add</div>
     </section>
+      <div class="in-use-container" v-show="getShelfInUse" @click="inUseBoxOff"><h3>The shelf is being used<br>you need to edit the movies in question first</h3></div>
     <section class="customize-user-custom-container" v-if="editOn == false">
       <div>
       <h2 class="customize-user-custom-title">My Shelfs:</h2>
       <div class="customize-user-custom-container-content" v-for="(shelf, index) in getCustomShelfs" :key="index">
-        {{shelf}}
+        {{shelf}} <font-awesome-icon icon="trash-alt" class="trash-button" @click="deleteShelf(shelf)"/>
       </div>
         <div class="add-shelf-button button" @click="editOn = true;">Edit</div>
       </div>
@@ -40,6 +41,9 @@ export default {
   computed: {
       getCustomShelfs() {
           return this.$store.getters.getCustomShelfs;
+      },
+      getShelfInUse() {
+        return this.$store.getters.getShelfInUse;
       }
   },
   watch: {
@@ -64,13 +68,21 @@ export default {
           this.shelfs = this.getCustomShelfs;
         }
       },
+      deleteShelf(shelf) {
+        this.$store.commit('setShelfInUse', false);
+        this.$store.dispatch('deleteShelf', shelf);
+      },
 
       change(e, i) {
         e.target.parentNode.children[i+1].focus()
+      },
+      inUseBoxOff() {
+        this.$store.commit('setShelfInUse', false);
       }
   },
   async mounted() {
     await this.$store.dispatch('checkUser');
+    this.$store.commit('setShelfInUse', false);
     window.scrollTo(0, 0);
   }
 }

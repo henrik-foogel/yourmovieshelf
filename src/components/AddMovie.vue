@@ -19,16 +19,19 @@
     </section>
   <addMovieSearch/> 
   <Selected class="add-selected" v-show="getChosen"/> 
+  <manuallyAdd class="manual-input" v-show="getManuallyAdd"/>
   </article>
 </template>
 <script>
 import addMovieSearch from '@/components/addMovieSearch.vue'
 import Selected from '@/components/selected.vue'
+import manuallyAdd from '@/components/manuallyAdd.vue'
 
 export default {
   components: {
     addMovieSearch,
-    Selected
+    Selected,
+    manuallyAdd
   },
   data() {
     return {
@@ -47,6 +50,9 @@ export default {
         },
         getChosen() {
           return this.$store.getters.getChosen;
+        },
+        getManuallyAdd() {
+          return this.$store.getters.getManuallyAdd;
         }
     },
     methods: {
@@ -54,6 +60,10 @@ export default {
       let searchReplaced = '';
       
       searchReplaced = this.specificSearch.replace(/ /g, "+");
+
+      if(searchReplaced.charAt(searchReplaced.length-1) == '+') {
+        searchReplaced = searchReplaced.slice(0, -1);
+      }
 
       if(this.specificSearchYear == 'Year' || this.specificSearchYear == '') {
         await this.$store.dispatch('fetchMovies', searchReplaced);
@@ -87,4 +97,14 @@ export default {
     position: fixed;
     z-index: 900;
   }  
+
+  .manual-input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 900;
+    width: 100vw;
+    height: 100vh;
+  }
 </style>

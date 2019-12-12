@@ -17,7 +17,10 @@
                 <select class="selected-soundtrack-custom-format" v-model="customMusicFormat">
                 <option v-for="format in getMusicFormats" :key="format">{{ format }}</option>
             </select>
-            <div class="add-soundtrack-button button" @click="saveSoundtrack()">ADD</div>
+                <div class="add-button-container">
+                    <div class="selected-soundtrack-button button" @click="setSelectedTrueFalse">BACK</div>
+                    <div class="add-soundtrack-button button" @click="saveSoundtrack()">ADD</div>
+                </div>
             </div>
             <div class="delete-soundtrack-container" v-show="getInCollection">
             <div class="selected-soundtrack-button button" @click="setSelectedTrueFalse">BACK</div>
@@ -58,6 +61,7 @@ export default {
     methods: {
         setSelectedTrueFalse() {
             this.$store.commit('setSelectedTrueFalse', false);
+            this.$store.commit('setInCollection', false);
         },
         saveSoundtrack() {
             let data = {
@@ -73,6 +77,10 @@ export default {
             this.deleteBox = false;
             this.setSelectedTrueFalse();
         }
+    },
+    mounted() {
+        this.$store.commit('setSelectedTrueFalse', false);
+        this.$store.commit('setInCollection', false);
     }
 }
 </script>
@@ -85,8 +93,9 @@ export default {
         flex-direction: column;
         flex-wrap: wrap;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         margin: -5rem 0 0;
+        padding-top: 2rem;
         background: rgba(37, 37, 37, 0.7);
         color: #fff;
         border-radius: 1rem;
@@ -94,6 +103,7 @@ export default {
         width: 100vw !important;
         max-width: 100vw !important;
         min-width: 0 !important;
+        height: 100vh !important;
 
 
         .sountrack-card {
@@ -106,8 +116,14 @@ export default {
             border-radius: 1rem;
             width: 23rem;
             
-            .selected-soundtrack-button {
-                max-width: 2rem;
+            .add-button-container {
+                display: flex;
+                justify-content: space-evenly;
+                width: 100%;
+                .button {
+                    max-width: 2rem;
+                    margin: .7rem 0;
+                }
             }
 
             .soundtrack-collection {
@@ -134,7 +150,7 @@ export default {
                 }
 
                 .selected-soundtrack-custom-format {
-                    padding: .5rem .2rem;
+                    padding: .2rem .2rem;
                     border-radius: .5rem;
                     width: 12rem;
                 }

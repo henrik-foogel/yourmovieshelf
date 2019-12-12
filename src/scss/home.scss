@@ -1,5 +1,4 @@
 .home-movie {
-  padding: 2rem 0 0;
   margin: 0;
 
 .home-not-signed-in {
@@ -35,6 +34,7 @@
         border: none;
         background: #282828;
         color: $main-colour;
+        margin-top: 0 !important;
       }
     }
       .home-movie-night-name {

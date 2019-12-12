@@ -21,7 +21,7 @@
           <router-link to="/addmovie"><span @click="closeSelectedMovie">Add Movie</span></router-link>
         </div>
         <div class="dropdown-link-container" @click="dropdown = !dropdown">
-          <router-link to="/yourshelfs">My Shelfs</router-link>
+          <router-link to="/myshelfs">My Shelfs</router-link>
         </div>
         <div class="dropdown-link-container" @click="dropdown = !dropdown">
           <router-link to="/movienight">Movie Night Lists</router-link>
@@ -58,9 +58,6 @@
           v-show="register"
         >Register</button>
         <button class="sign-in-button button" @click="loading = true; userSignIn()" v-show="!register">Sign In</button>
-        <div class="sign-in-keep-me-logged-in-button">
-          <input type="checkbox" alt="Keep me signed in check box" v-model="keepSignedIn" label="Keep me signed in"> Keep me signed in
-        </div>
         <h6 class="login-failure-message" v-show="loginFailure" alt="Failure to login message">{{ failureMessage }}</h6>
         <h6 class="register-message" v-show="!register" alt="Need to register message">
           If you don't have an account, please register
@@ -90,8 +87,6 @@ export default {
       userIsSignedIn: false,
       signedInStorage: "",
       spin: true,
-      payload: [],
-      keepSignedIn: false,
       loading: false
     };
   },
@@ -172,21 +167,21 @@ export default {
       }
     },
     async userSignIn() {
-      this.payload.push(this.email);
-      this.payload.push(this.password);
-      this.payload.push(this.keepSignedIn);
-      await this.$store.dispatch('userSignIn', this.payload);
+      let payload = [];
+      payload.push(this.email);
+      payload.push(this.password);
+      await this.$store.dispatch('userSignIn', payload);
       if(this.checkSignedIn == true) {
         this.email = "";
         this.password = "";
         this.signIn = false;
+      } else {
+          this.loading = false;
       }
+        payload = [];
     },
     async userSignOut() {
       await this.$store.dispatch('userSignOut');
-      if(this.checkSignedIn == false) {
-          this.$router.go();
-      }
     }
   },
   async beforeMount() {

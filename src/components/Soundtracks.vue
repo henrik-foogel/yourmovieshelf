@@ -67,7 +67,7 @@ export default {
         }
 
         .home-movie-random {     
-            margin-top: 4rem;
+            margin-top: 1rem;
             background: #282828;
             color: $main-colour;
         }

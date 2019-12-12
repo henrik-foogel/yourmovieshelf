@@ -2,7 +2,7 @@
   <section>
     <div class="selected-movie-custom-container">
               <div class="add-component">
-              <h4>Composer:</h4>
+              <h4>Soundtrack composer:</h4>
               <input type="text" class="selected-movie-custom-soundtrack" placeholder="Composer" v-model="customInput.customSoundtrack">
               <h4>Custom shelf:</h4>
               <select type="text" class="selected-movie-custom-shelf" placeholder="Shelf" v-model="customInput.customShelf">
@@ -38,7 +38,7 @@
               <div class="selected-movie-card-back button" @click="setChosen">BACK</div>
               <div class="add-movie-button button" @click="addToCollection(selectedMovie.imdbID)">ADD</div>
             </div>
-            </section>
+    </section>
 </template>
 
 <script>
@@ -124,6 +124,7 @@ export default {
 
     .button {
       margin: 1.5rem 0 .5rem !important;
+      padding: .3rem 1rem;
     }
   }
 </style>

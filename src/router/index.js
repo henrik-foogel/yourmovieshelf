@@ -16,7 +16,7 @@ const routes = [
     component: () => import('../views/AddMovie.vue')
   },
   {
-    path: '/yourshelfs',
+    path: '/myshelfs',
     name: 'customize',
     component: () => import('../views/Customize.vue')
   },

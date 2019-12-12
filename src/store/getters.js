@@ -124,5 +124,14 @@ export const getters = {
   },
   getSearchResponse(state) {
     return state.searchResponse;
+  },
+  getManuallyAdd(state) {
+    return state.manuallyAdd;
+  },
+  getEditMovie(state) {
+    return state.editMovie;
+  },
+  getShelfInUse(state) {
+    return state.shelfInUse;
   }
 };

@@ -5,22 +5,23 @@ import { fb } from "../../firebase-config";
 import { auth } from "../../firebase-config";
 import { key } from "../../omdb-config";
 import { token } from "../../discogs-config";
+import router from "../router/index.js"
 
 export const actions = {
     async registerWithFirebase(ctx, payload) {
-        if (payload[1] == payload[2]) {
-          fb.auth()
-            .createUserWithEmailAndPassword(payload[0], payload[1])
-            .then(response => {
-              ctx.dispatch("createUserCollection", response);
-              ctx.dispatch('userSignIn', payload);
-            })
-            .catch(error => {
-              ctx.commit('setLoginFailure', true);
-              ctx.commit('setFailureMessage', error.message);
-              console.log(error);
-            });
-        } else {
+      if (payload[1] == payload[2]) {
+        fb.auth()
+        .createUserWithEmailAndPassword(payload[0], payload[1])
+        .then(response => {
+          ctx.dispatch("createUserCollection", response);
+          ctx.dispatch('userSignIn', payload);
+        })
+        .catch(error => {
+          console.log(error);
+          ctx.commit('setLoginFailure', true);
+          ctx.commit('setFailureMessage', error.message);
+        });
+      } else {
           ctx.commit('setLoginFailure', true);
           ctx.commit('setFailureMessage', "Password doesn't match, please try again");
         }
@@ -64,6 +65,8 @@ export const actions = {
             localStorage.removeItem("loggedIn");
             sessionStorage.removeItem("loggedIn");
             ctx.commit('setSignedInStorage', "");
+            ctx.commit('setUserCollection', []);
+            router.push('/');
           });
       },
       async checkUser(ctx) {
@@ -98,14 +101,14 @@ export const actions = {
         async fetchSpecificMovie(ctx, payload) {
           let specificSearchResult = [];
           let result = [];
-          await axios.get('http://www.omdbapi.com/?apiKey='+ key.key + '&t='+ payload.searchReplaced + '&y=' + payload.year).then((response) => { console.log(response); specificSearchResult = response.data });
+          await axios.get('http://www.omdbapi.com/?apiKey='+ key.key + '&t='+ payload.searchReplaced + '&y=' + payload.year).then((response) => { specificSearchResult = response.data });
           result.push(specificSearchResult);
         ctx.commit('setSearchResult', result);
         ctx.commit('setSearchResponse', result[0].Response);
       },
       async fetchMovieById(ctx, payload) {
         let  movie = [];
-        await axios.get('http://www.omdbapi.com/?i=' + payload.id + '&apikey='+ key.key).then((response) => { console.log(response); movie = response.data });
+        await axios.get('http://www.omdbapi.com/?i=' + payload.id + '&apikey='+ key.key).then((response) => { movie = response.data });
           movie.shelf = payload.movieArr.shelf;
           movie.soundtrack = payload.movieArr.soundtrack;
           movie.rating = payload.movieArr.rating;
@@ -114,34 +117,58 @@ export const actions = {
           ctx.commit('setSelectedMovie', movie);
       },
       async addToCollection(ctx, payload) {
-        let movieArr = [];
-        await axios.get('http://www.omdbapi.com/?i=' + payload.id + '&apikey='+key.key).then((response) => { console.log(response); movieArr = response.data });
-        if(movieArr.Ratings == '') {
-          movieArr.Ratings.push({none: 'none'})
-        }
+        if(payload.id != false) {
+          let movieArr = [];
+          await axios.get('http://www.omdbapi.com/?i=' + payload.id + '&apikey='+key.key).then((response) => { movieArr = response.data });
+          if(movieArr.Ratings == '') {
+            movieArr.Ratings.push({none: 'none'})
+          }
+          let movie = {
+            Title: movieArr.Title,
+            Director: movieArr.Director,
+            Writer: movieArr.Writer,
+            Actors: movieArr.Actors,
+            Plot: movieArr.Plot,
+            shelf: payload.shelf,
+            soundtrack: payload.soundtrack,
+            rating: payload.rating,
+            format: payload.format,
+            edition: payload.edition,
+            Genre: movieArr.Genre,
+            Ratings: movieArr.Ratings,
+            Year: movieArr.Year,
+            Runtime: movieArr.Runtime,
+            imdbID: movieArr.imdbID,
+            Poster: movieArr.Poster
+          }
+          await db.collection(auth.currentUser.uid).add({
+              movie: movie
+          })
 
-        let movie = {
-          Title: movieArr.Title,
-          Director: movieArr.Director,
-          Writer: movieArr.Writer,
-          Actors: movieArr.Actors,
-          Plot: movieArr.Plot,
-          shelf: payload.shelf,
-          soundtrack: payload.soundtrack,
-          rating: payload.rating,
-          format: payload.format,
-          edition: payload.edition,
-          Genre: movieArr.Genre,
-          Ratings: movieArr.Ratings,
-          Year: movieArr.Year,
-          Runtime: movieArr.Runtime,
-          imdbID: movieArr.imdbID,
-          Poster: movieArr.Poster
+        } else {
+          let movie = {
+            Title: payload.title,
+            Director: payload.director,
+            Writer: payload.writer,
+            Actors: payload.actors,
+            Plot: payload.plot,
+            shelf: payload.shelf,
+            soundtrack: payload.soundtrack,
+            rating: payload.rating,
+            format: payload.format,
+            edition: payload.edition,
+            Genre: payload.genre,
+            Ratings: payload.ratings,
+            Year: payload.year,
+            Runtime: payload.runtime,
+            imdbID: payload.imdbID,
+            Poster: payload.poster
+          }
+          await db.collection(auth.currentUser.uid).add({
+              movie: movie
+          })
+
         }
-  
-        await db.collection(auth.currentUser.uid).add({
-            movie: movie
-        })
         ctx.dispatch('fetchUserCollection', auth.currentUser.uid)
       },
       async deleteFromCollection(ctx, movie) {
@@ -165,9 +192,32 @@ export const actions = {
         await ctx.dispatch('fetchUserCollection', auth.currentUser.uid);
         await ctx.commit('setInCollection', false);
       },
+      async editMovieInCollection(ctx, movie) {
+        let collection = await db.collection(auth.currentUser.uid).get();
+        let number = 0;
+        let film = ctx.getters.getSelectedMovie;
+        await collection.forEach(doc => {
+          Object.keys(doc.data()).forEach(function(key) {     
+            if(doc.data()[key].Actors == film.Actors && doc.data()[key].Director == film.Director && 
+            doc.data()[key].Genre == film.Genre && doc.data()[key].Plot == film.Plot && 
+            doc.data()[key].Title == film.Title && doc.data()[key].edition == film.edition && 
+            doc.data()[key].format == film.format && doc.data()[key].shelf == film.shelf && 
+            doc.data()[key].rating == film.rating) {
+              if(number == 0) {
+                db.collection(auth.currentUser.uid).doc(doc.id).set({
+                  movie
+                  });
+                number = 1;
+              }
+            }      
+          });
+        });
+        number = 0;
+        await ctx.dispatch('fetchUserCollection', auth.currentUser.uid);
+        ctx.commit('setEditMovie', false);
+      },
       async fetchUserCollection(ctx) {
         if(auth.currentUser.uid != null) {
-          await console.log(auth.currentUser.uid)
         let collection = await db.collection(auth.currentUser.uid).get();
         let respArr = [];
         await collection.forEach(doc => {
@@ -242,14 +292,14 @@ export const actions = {
                 customShelf: dataArr
                 };
               docRef.update(data);
-              ctx.dispatch('setBeforeEditShelfs', newShelf);
+              ctx.commit('setBeforeEditShelfs', newShelf);
               ctx.dispatch('fetchCustomShelfs');
           } else {
               let data = [];
               data.push(shelf);
               docRef.update({customShelf: shelf});
               console.log("No such document!");
-              ctx.dispatch('fetchUserCollection', ctx.getters.getUser);
+              ctx.dispatch('fetchUserCollection', auth.currentUser.uid);
           }
       }).catch(function(error) {
           console.log("Error getting document:", error);
@@ -295,6 +345,30 @@ export const actions = {
         ctx.commit('setBeforeEditShelfs', []);
         ctx.commit('setEditedShelfs', []);
       },
+      async deleteShelf(ctx, shelf) {
+        var oldShelfList = ctx.getters.getCustomShelfs;
+        var docRef = await db.collection(auth.currentUser.uid).get();
+        var docShelf = await db.collection(auth.currentUser.uid).doc(ctx.getters.getEmailDocumentId);
+        var exists = false;
+        await docRef.forEach(movie => {
+          if(hasOwnProperty.call(movie.data(), 'movie')) {
+            if(movie.data().movie.shelf == shelf) {  
+              exists = true
+            } 
+          } 
+        });
+        if(exists == false) {
+          let index = oldShelfList.indexOf(shelf)
+            oldShelfList.splice(index, 1);
+            docShelf.update({
+              customShelf: oldShelfList 
+            });
+            ctx.commit('setShelfInUse', exists);
+        }else {
+          ctx.commit('setShelfInUse', exists);
+        }
+
+      },
       async addMovieNightList(ctx, payload) {
         var docRef = await db.collection(auth.currentUser.uid);
         var data = [];
@@ -332,7 +406,7 @@ export const actions = {
       ctx.dispatch('fetchMovieNightLists');
     },
     async updateMovieNightList(ctx, payload) {
-      await db.collection(ctx.getters.getUser).where('name', '==', payload.name).get().then(snap => {
+      await db.collection(auth.currentUser.uid).where('name', '==', payload.name).get().then(snap => {
         snap.forEach(doc => 
           db.collection(auth.currentUser.uid).doc(doc.id).set(payload.list)
         );
@@ -394,7 +468,6 @@ export const actions = {
         if(album[1].soundtrackTitle == soundtrack.soundtrackTitle && 
           album[1].soundtrackImg == soundtrack.soundtrackImg && 
           album[1].soundtrackFormat == soundtrack.soundtrackFormat && number == 0) {
-            console.log(album[1])
             number = 1;
           } else {
             list.push(album[1])

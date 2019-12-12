@@ -8,18 +8,25 @@
                 <img v-show="selectedMovie.Poster == 'N/A'" class="selected-movie-img" src="./../assets/images/noposter.png" alt="Movie poster">
               </div>
             <div class="title-director-container">
+              <div class="selected-movie-title-div">Title:</div>
               <div class="selected-movie-title"  alt="Title: ">{{ selectedMovie.Title }} (<span alt="Year: ">{{ selectedMovie.Year }}</span>)</div>
+              <div class="selected-movie-title-div">Director:</div>
               <div class="selected-movie-director" alt="Director: ">{{ selectedMovie.Director }}</div>
-              <div class="selected-movie-writers" @click="writersWhole = true" alt="Writers: ">( {{ selectedMovie.Writer }} )</div>
-              <div v-if="writersWhole" class="whole-writers-conatiner">
-                <div class="selected-movie-writers-whole" @click="writersWhole = false">{{ selectedMovie.Writer }}</div>
-              </div>
+              <div class="selected-movie-title-div">Writers:</div>
+              <div class="selected-movie-writers" @click="writersWhole = true" alt="Writers: ">{{ selectedMovie.Writer }}</div>
+              <div class="selected-movie-title-div">Actors:</div>
               <div class="selected-movie-actors" alt="Actors: ">{{ selectedMovie.Actors }}</div>
+              <div class="selected-movie-title-div">Genre:</div>
               <div class="selected-movie-genre" alt="Genre: ">{{ selectedMovie.Genre }}</div>
-              <div class="selected-movie-shelf" v-show="inCollection" alt="Shelf: ">({{ selectedMovie.shelf }})</div>
+              <div class="selected-movie-title-div">Shelf:</div>
+              <div class="selected-movie-shelf" v-show="inCollection" alt="Shelf: ">{{ selectedMovie.shelf }}</div>
+              <div class="selected-movie-title-div">Plot:</div>
               <div class="selected-movie-plot plot" @click="plotWhole = true" alt="Plot: ">{{ selectedMovie.Plot }}</div>
               <div v-if="plotWhole" class="whole-plot-conatiner">
                 <div class="selected-movie-plot-whole" @click="plotWhole = false">{{ selectedMovie.Plot }}</div>
+              </div>
+              <div v-if="writersWhole" class="whole-writers-conatiner">
+                <div class="selected-movie-writers-whole" @click="writersWhole = false">{{ selectedMovie.Writer }}</div>
               </div>
             </div>
             </section>
@@ -46,6 +53,7 @@
             <div class="delete-container" v-show="inCollection">
               <div class="selected-movie-card-back button" @click="moreInfo = false; writersWhole = false; plotWhole = false; setChosen()">BACK</div>
               <div class="more-info-button button" @click="moreInfo = !moreInfo" v-show="inCollection">MORE INFO &#8691;</div>
+              <div class="more-info-button button" @click="editOn">EDIT</div>
               <font-awesome-icon icon="trash-alt" class="trash-button button" @click="deleteBox = true">Delete</font-awesome-icon>
             </div>
             <addSelectedMovie :selectedMovie='selectedMovie' v-show="!inCollection"/>
@@ -110,8 +118,12 @@ export default {
       await this.$store.dispatch('deleteFromCollection', this.selectedMovie);
       this.deleteBox = false;
       this.$router.go();
+    },
+    editOn() {
+      this.$store.commit('setInCollection', false);
+      this.$store.commit('setEditMovie', true);
     }
-  }
+  },
 }
 </script>
 
@@ -126,12 +138,13 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
+    justify-content: flex-start;
     background: rgba(37, 37, 37, 0.7);
     box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.25);
     width: 100vw;
     height: 100vh;
     margin: -5rem 0 0;
+    padding-top: 2rem;
     padding-bottom: 5rem;
 
     .selected-movie-card {
@@ -181,6 +194,10 @@ export default {
             padding: 0 0 0 .5rem;
             height: 22rem;
             border-left: 1px solid $main-colour;
+
+            .selected-movie-title-div {
+              font-size: .7rem;
+            }
 
             div {
               text-align: left;
@@ -345,8 +362,19 @@ export default {
           display: flex;
           margin: 0;
           max-width: 100vw;
+
           .add-component {
             margin: 0 .5rem;
+
+            h4 {
+              font-size: .6rem;
+              margin: .5rem 0 0;
+            }
+
+            input, select {
+              padding: 0;
+              font-size: .7rem
+            }
           }
           input, select {
             padding: .1rem .2rem;
@@ -369,10 +397,13 @@ export default {
         
       }
 
-      .add-movie-button {
-        z-index: 7;
-        margin: 1rem;
-    }
+      .button-container {
+
+        .button {
+          z-index: 7;
+          margin: .5rem 0 !important;
+        }
+      }
     }
   }
 }

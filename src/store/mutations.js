@@ -118,5 +118,14 @@ export const mutations = {
       },
       setSearchResponse(state, response) {
         state.searchResponse = response;
+      },
+      setManuallyAdd(state, manually) {
+        state.manuallyAdd = manually;
+      },
+      setEditMovie(state, edit) {
+        state.editMovie = edit;
+      },
+      setShelfInUse(state, inUse) {
+        state.shelfInUse = inUse;
       }
 }

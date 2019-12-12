@@ -95,7 +95,7 @@ export default {
     async selectMovie(movie) {
         if(this.getMovieNightButton == false) {
           await this.$store.commit('setSelectedMovie', movie);
-            this.$store.commit('setInCollection', true);
+          this.$store.commit('setInCollection', true);
         } 
         if(this.getMovieNightButton == true) {
             if(document.querySelector('#'+movie.imdbID).style.opacity != '0.5' || document.querySelector('#'+movie.imdbID+'poster').style.opacity != '0.5') {

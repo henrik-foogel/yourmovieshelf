@@ -34,6 +34,7 @@
       />
     </section>
     <selected class="selected-movie" v-show="getInCollection"/>
+    <editSelectedMovie class="selected-movie" v-show="getEditMovie"/>
     <section v-show="getFirstTimeUser" class="first-time-user-section">
       <img src="../assets/images/Howtouse1.jpg">
       <img src="../assets/images/Howtouse2.jpg">
@@ -46,13 +47,15 @@ import Movie from "@/components/movie.vue";
 import Search from "@/components/search.vue";
 import Criteria from "@/components/searchCriteria.vue";
 import selected from '@/components/selected.vue'
+import editSelectedMovie from '@/components/editSelectedMovie.vue'
 export default {
   name: "home",
   components: {
     Movie,
     Search,
     Criteria,
-    selected
+    selected,
+    editSelectedMovie
   },
   data() {
     return {
@@ -109,7 +112,9 @@ export default {
           movie.movie.Genre.toLowerCase().includes(this.search.toLowerCase()) ||
           movie.movie.soundtrack
             .toLowerCase()
-            .includes(this.search.toLowerCase())
+            .includes(this.search.toLowerCase()
+          ) ||
+          movie.movie.Year.includes(this.search)
         );
       });
     },
@@ -124,6 +129,9 @@ export default {
     },
     getFirstTimeUser() {
       return this.$store.getters.getFirstTimeUser;
+    },
+    getEditMovie() {
+      return this.$store.getters.getEditMovie;
     }
   },
   watch: {
