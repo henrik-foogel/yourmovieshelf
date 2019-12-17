@@ -45,32 +45,8 @@ export default {
         }
     },
     async mounted() {
-        await this.$store.dispatch('checkUser');
         window.scrollTo(0, 0);
         this.$store.commit('setSoundtrackSearchResult', []);
     }
 }
 </script>
-
-<style lang="scss">
-.add-soundtracks-comp {
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-    .search-bar-add-soundtrack {
-        display: flex;
-        flex-direction: column;
-
-        .home-search-button {
-            width: 100%;
-        }
-    }
-    .soundtrack-search-failure {
-        color: rgb(80, 0, 0);
-    }
-    .add-soundtrack-selected {
-            position: fixed;
-            z-index: 900;
-    }
-}
-</style>

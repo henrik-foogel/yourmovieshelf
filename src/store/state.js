@@ -29,7 +29,7 @@ export const state = {
         movieNightListFromDB: [],
         soundtrackSearchResult: [],
         formats: ['Blu-ray', 'DVD', 'Blu-ray/DVD', 'VHS', 'Laserdisc', 'VCD'],
-        editions: ["Regular", "Collector's", "Special", "Collection", "Steelbook", "Limited", "Limited/Collection", "Limited Collector's", "Director's", "Uncut", "R-Rated"],
+        editions: ["Regular", "Collector's", "Special", "Collection", "Steelbook", "Limited", "Limited/Collection", "Limited Collector's", "Director's", "Uncut", "R-Rated", "Deluxe", "Ultimate", "Extended"],
         musicFormats: ["Vinyl", "CD", "Cassette", "8-track"],
         selectedSoundtrack: [],
         selectedTrueFalse: false,

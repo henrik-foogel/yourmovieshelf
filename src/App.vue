@@ -183,9 +183,6 @@ export default {
     async userSignOut() {
       await this.$store.dispatch('userSignOut');
     }
-  },
-  async beforeMount() {
-    this.$store.dispatch('checkUser');
   }
 }
 </script>

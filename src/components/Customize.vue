@@ -81,7 +81,6 @@ export default {
       }
   },
   async mounted() {
-    await this.$store.dispatch('checkUser');
     this.$store.commit('setShelfInUse', false);
     window.scrollTo(0, 0);
   }

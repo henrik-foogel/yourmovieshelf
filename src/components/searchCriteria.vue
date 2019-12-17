@@ -2,7 +2,7 @@
     <section class="home-search-criteria-container">
         <select class="home-search-criteria" v-model="search" label="Search criteria dropdown select"  @change="filterChange">
           <option value="" disabled selected label="Criteria">Criteria</option>
-          <option value="" label="All" data-foo="all">All</option>
+          <option value="" :label="'All (' + getUserCollection.length + ')'" data-foo="all">All </option>
           <option value="" disabled selected alt="Shelfs">Your shelfs &#8659;</option>
           <option class="shelfs" v-for="shelf in getShelfs" :value="shelf" :key="shelf" :label="shelf" :alt="shelf" data-foo="shelf">{{ shelf }}</option>
           <option value="" disabled selected alt="Formats">Formats &#8659;</option>
@@ -33,6 +33,9 @@ export default {
       },
       getSearch() {
           return this.search;
+      },
+      getUserCollection() {
+        return this.$store.getters.getUserCollection
       }
     },
     watch: {
@@ -41,26 +44,11 @@ export default {
         }
     },
     methods: {
-    filterChange(e) {
-      this.filterCriteria = e.target.options[e.target.options.selectedIndex].dataset.foo;
-      this.$store.commit('setFilterCriteria', this.filterCriteria)
-    },
+      filterChange(e) {
+        this.filterCriteria = e.target.options[e.target.options.selectedIndex].dataset.foo;
+        this.$store.commit('setFilterCriteria', this.filterCriteria)
+      },
     }
 }
 </script>
 
-<style lang="scss">
-    @import "../scss/variables";
-
-  .home-search-criteria-container {
-    .home-search-criteria {
-      width: 100%;
-      border: none;
-      border-radius: 0.3rem;
-      background: #282828;
-      color: #fff;
-      font-size: 1rem;
-      padding: .5rem;
-    }
-  }
-</style>

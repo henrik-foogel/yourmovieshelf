@@ -1,0 +1,42 @@
+.add-soundtracks-comp {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  
+  @import "search-soundtracks";
+  
+  .soundtrack-search-failure {
+    color: rgb(80, 0, 0);
+  }
+
+  .soundtrack-list {
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: row !important;
+        flex-wrap: wrap;
+        width: 100%;
+        justify-content: center;
+        .soundtrack-list-album {
+            display: flex;
+            flex-direction: column;
+            margin: 1rem;
+            background: #fff;
+            border-radius: .5rem;
+            align-items: center;
+            max-width: 12rem;
+            text-align: center;
+            cursor: pointer;
+            img {
+                width: 12rem;
+                border-top-right-radius: .5rem;
+                border-top-left-radius: .5rem;
+            }
+        }
+    }
+  .add-soundtrack-selected {
+    position: fixed;
+    z-index: 900;
+  }
+  
+  @import "selected-soundtrack";
+}

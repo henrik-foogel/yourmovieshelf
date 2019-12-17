@@ -85,26 +85,8 @@ export default {
     
     },
     async created() {
-      await this.$store.dispatch('checkUser');
       this.$store.commit("setSearchResult", []);
       window.scrollTo(0, 0)
     }
 };
 </script>
-
-<style lang="scss">
-  .add-selected {
-    position: fixed;
-    z-index: 900;
-  }  
-
-  .manual-input {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    z-index: 900;
-    width: 100vw;
-    height: 100vh;
-  }
-</style>

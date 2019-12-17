@@ -18,28 +18,3 @@ export default {
     }
 }
 </script>
-<style lang="scss">
-.soundtracks-comp {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    .soundtrack-section {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin: 1rem;
-
-        img {
-            border-radius: .5rem;
-            min-width: 20rem;
-            max-width: 20rem;
-            cursor: pointer;
-        }
-
-        div {
-            margin: .5rem;
-        }
-    }
-}
-    
-</style>

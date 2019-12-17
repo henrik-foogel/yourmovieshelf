@@ -114,7 +114,7 @@ export default {
             .toLowerCase()
             .includes(this.search.toLowerCase()
           ) ||
-          movie.movie.Year.includes(this.search)
+          String(movie.movie.Year).includes(this.search)
         );
       });
     },
@@ -240,31 +240,3 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-@import "@/scss/variables";
-
-.search {
-  transform: translateX(-50%);
-  left: 50%;
-  position: fixed;
-  top: 11%;
-  z-index: 200;
-}
-
-.home-movie-night-name-failure {
-  color: rgb(134, 1, 1);
-  font-weight: 700;
-  text-align: center;
-}
-.home-movie-random {
-  background: #282828;
-  color: $main-colour;
-}
-
-.selected-movie {
-  position: fixed;
-  z-index: 900;
-  width: 100vw;
-  height: 100vh;
-}
-</style>

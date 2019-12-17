@@ -46,44 +46,7 @@ export default {
         },
     },
     async mounted() {
-        await this.$store.dispatch('checkUser');
         window.scrollTo(0, 0);
     }
 }
 </script>
-
-<style lang="scss">
-@import "@/scss/variables";
-    .soundtracks-comp {
-        min-width: 0 !important;
-
-        .search-soundtrack {   
-            border: none;
-            transform: translateX(-50%);
-            position: fixed;
-            top: 11%;
-            left: 50%;
-            z-index: 200;
-        }
-
-        .home-movie-random {     
-            margin-top: 1rem;
-            background: #282828;
-            color: $main-colour;
-        }
-
-        .soundtracks-list-container {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: center;
-            max-width: 70rem;
-        }
-        .soundtracks-selected {  
-            position: fixed;
-            z-index: 900;
-            width: 100vw;
-            height: 100vh;
-        }
-    }
-</style>

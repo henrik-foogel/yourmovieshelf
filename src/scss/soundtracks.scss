@@ -1,0 +1,63 @@
+.soundtracks-comp {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @import "search";
+
+  .search-soundtrack {
+    border: none;
+    transform: translateX(-50%);
+    position: fixed;
+    top: 11%;
+    left: 50%;
+    z-index: 200;
+
+    .search-bar-saved-soundtrack {
+      flex-direction: column;
+
+      .input {
+        display: flex;
+        align-items: center;
+      }
+
+      .soundtrack-button {
+        width: 100%;
+      }
+    }
+  }
+
+  .home-movie-random {
+    margin-top: 1rem;
+    background: #282828;
+    color: $main-colour;
+  }
+
+  .soundtracks-list-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 70rem;
+
+    .soundtrack-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 1rem;
+
+      img {
+        border-radius: 0.5rem;
+        min-width: 20rem;
+        max-width: 20rem;
+        cursor: pointer;
+      }
+
+      div {
+        margin: 0.5rem;
+      }
+    }
+  }
+  @import "selected-soundtrack";
+}

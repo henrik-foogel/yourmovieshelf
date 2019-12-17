@@ -21,29 +21,3 @@ export default {
     }
 }
 </script>
-<style lang="scss">
-    .soundtrack-list {
-        margin-top: 1rem;
-        display: flex;
-        flex-direction: row !important;
-        flex-wrap: wrap;
-        width: 100%;
-        justify-content: center;
-        .soundtrack-list-album {
-            display: flex;
-            flex-direction: column;
-            margin: 1rem;
-            background: #fff;
-            border-radius: .5rem;
-            align-items: center;
-            max-width: 12rem;
-            text-align: center;
-            cursor: pointer;
-            img {
-                width: 12rem;
-                border-top-right-radius: .5rem;
-                border-top-left-radius: .5rem;
-            }
-        }
-    }
-</style>

@@ -26,7 +26,6 @@ export default {
     }
   },
   async mounted() {
-    await this.$store.dispatch('checkUser');
     window.scrollTo(0, 0)
     await this.$store.dispatch('fetchMovieNightLists');
   }

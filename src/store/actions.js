@@ -69,21 +69,6 @@ export const actions = {
             router.push('/');
           });
       },
-      async checkUser(ctx) {
-        await fb.auth().onAuthStateChanged(function(user) {
-          if (user) {
-            ctx.commit("setSignedIn", true);
-            ctx.commit("setUser", user.uid);
-            ctx.dispatch("fetchUserCollection");
-            ctx.dispatch('fetchCustomShelfs');
-            ctx.dispatch('fetchMovieNightLists');
-            ctx.dispatch('fetchCustomShelfs');
-          } else {
-            console.log('Not signed in');   
-            ctx.$router.push('/');
-          }
-        });
-      },
       async fetchMovies(ctx, search) {
         let result = [];
         await axios
@@ -346,15 +331,15 @@ export const actions = {
         ctx.commit('setEditedShelfs', []);
       },
       async deleteShelf(ctx, shelf) {
+        var exists = false;
         var oldShelfList = ctx.getters.getCustomShelfs;
         var docRef = await db.collection(auth.currentUser.uid).get();
         var docShelf = await db.collection(auth.currentUser.uid).doc(ctx.getters.getEmailDocumentId);
-        var exists = false;
         await docRef.forEach(movie => {
           if(hasOwnProperty.call(movie.data(), 'movie')) {
             if(movie.data().movie.shelf == shelf) {  
               exists = true
-            } 
+            }
           } 
         });
         if(exists == false) {

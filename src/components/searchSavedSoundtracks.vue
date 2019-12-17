@@ -38,24 +38,8 @@ export default {
         },
         removeSearchCriteria() {
             this.search = ''
-            console.log('jhsgakjs')
             window.scrollTo(0, 0);
         }
     }
 }
 </script>
-
-<style lang="scss">
-    .search-bar-saved-soundtrack {
-        flex-direction: column;
-
-        .input {
-            display: flex;
-            align-items: center;
-        }
-
-        .soundtrack-button {
-            width: 100%;
-        }
-    }
-</style>

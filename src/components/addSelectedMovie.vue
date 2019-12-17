@@ -109,22 +109,13 @@ export default {
         await this.$store.dispatch('addToCollection', payload);
         this.$store.commit('setFirstTimeUser', false);
         this.$store.commit('setChosen', false);
+
+        this.customInput.customSoundtrack = '';
+        this.customInput.customShelf = '';
+        this.customInput.customRating = '';
+        this.customInput.customFormat = '';
+        this.customInput.customEdition = '';
     },
   },
 }
 </script>
-
-<style lang="scss">
-  .button-container {
-    display: flex;
-    justify-content: space-between;
-    padding: 0;
-    margin: 0 !important;
-    width: 100%;
-
-    .button {
-      margin: 1.5rem 0 .5rem !important;
-      padding: .3rem 1rem;
-    }
-  }
-</style>

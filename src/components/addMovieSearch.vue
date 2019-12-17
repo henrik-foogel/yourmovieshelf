@@ -57,6 +57,7 @@ export default {
             this.$store.commit('setAlertWindowClosed', true);
         },
         manuallyAdd() {
+            this.$store.commit('setAlertWindowClosed', true)
             this.$store.commit('setManuallyAdd', true);
         }
     }
