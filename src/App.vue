@@ -154,6 +154,10 @@ export default {
       this.passwordConfirmation = '';
     },
     async registerWithFirebase() {
+
+      if(this.email.charAt(this.email.length-1) == ' ') {
+        this.email = this.email.slice(0, -1);
+      }
       this.payload.push(this.email);
       this.payload.push(this.password);
       this.payload.push(this.passwordConfirmation);
@@ -167,6 +171,9 @@ export default {
       }
     },
     async userSignIn() {
+      if(this.email.charAt(this.email.length-1) == ' ') {
+        this.email = this.email.slice(0, -1);
+      }
       let payload = [];
       payload.push(this.email);
       payload.push(this.password);
