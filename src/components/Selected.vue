@@ -15,7 +15,7 @@
               <div class="selected-movie-title-div">Writers:</div>
               <div class="selected-movie-writers" @click="writersWhole = true" alt="Writers: ">{{ selectedMovie.Writer }}</div>
               <div class="selected-movie-title-div">Actors:</div>
-              <div class="selected-movie-actors" alt="Actors: ">{{ selectedMovie.Actors }}</div>
+              <div class="selected-movie-actors" alt="Actors: " @click="actorsWhole = true">{{ selectedMovie.Actors }}</div>
               <div class="selected-movie-title-div">Genre:</div>
               <div class="selected-movie-genre" alt="Genre: ">{{ selectedMovie.Genre }}</div>
               <div class="selected-movie-title-div">Shelf:</div>
@@ -27,6 +27,9 @@
               </div>
               <div v-if="writersWhole" class="whole-writers-conatiner">
                 <div class="selected-movie-writers-whole" @click="writersWhole = false">{{ selectedMovie.Writer }}</div>
+              </div>
+              <div v-if="actorsWhole" class="whole-writers-conatiner">
+                <div class="selected-movie-writers-whole" @click="actorsWhole = false">{{ selectedMovie.Actors }}</div>
               </div>
             </div>
             </section>
@@ -51,7 +54,7 @@
             </div>
             
             <div class="delete-container" v-show="inCollection">
-              <div class="selected-movie-card-back button" @click="moreInfo = false; writersWhole = false; plotWhole = false; setChosen()">BACK</div>
+              <div class="selected-movie-card-back button" @click="moreInfo = false; writersWhole = false; plotWhole = false; actorsWhole = false; setChosen()">BACK</div>
               <div class="more-info-button button" @click="moreInfo = !moreInfo" v-show="inCollection">MORE INFO &#8691;</div>
               <div class="more-info-button button" @click="editOn">EDIT</div>
               <font-awesome-icon icon="trash-alt" class="trash-button button" @click="deleteBox = true">Delete</font-awesome-icon>
@@ -92,7 +95,8 @@ export default {
         moreInfo: false,
         ratings: false,
         writersWhole: false,
-        plotWhole: false
+        plotWhole: false,
+        actorsWhole: false
         }
     },
     computed: {

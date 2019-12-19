@@ -7,7 +7,7 @@
             <i class="fa fa-times" aria-hidden="true" @click="alertWindowClosed()"></i>
             </div>
             <h2>Too Many Search Results<br>or it's not part of the database</h2>
-            <h4>Please choose a year to narrow down result<br>or add it manually</h4>
+            <h4>Please be more exact or choose a year<br>to narrow down result or add manually</h4>
         </div>
         </section>
         <section v-if="getResponse != 'False'" class="add-search-result">
@@ -60,6 +60,10 @@ export default {
             this.$store.commit('setAlertWindowClosed', true)
             this.$store.commit('setManuallyAdd', true);
         }
+    },
+    
+    mounted() {
+        this.$store.commit('setAlertWindowClosed', true)
     }
 }
 </script>

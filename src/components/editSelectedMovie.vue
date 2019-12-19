@@ -192,6 +192,12 @@ export default {
                     Poster: this.customInput.customPoster
                   };
             await this.$store.dispatch('editMovieInCollection', newMovie);
+            this.customInput.customPoster = '';
+            this.customInput.customYear = '';
+            this.customInput.customShelf = '';
+            this.customInput.customRating = '';
+            this.customInput.customFormat = '';
+            this.customInput.customEdition = '';
         },
     }
 }

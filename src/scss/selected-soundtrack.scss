@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: flex-start;
   margin: -5rem 0 0;
-  padding-top: 2rem;
+  padding-top: 5%;
   background: rgba(37, 37, 37, 0.7);
   color: #fff;
   border-radius: 1rem;
@@ -21,7 +21,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0 1rem 1rem;
+    padding: 0 1rem 0rem;
     background: rgba(29, 29, 29, 1);
     box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.3);
     border-radius: 1rem;
@@ -61,7 +61,7 @@
       }
 
       .selected-soundtrack-custom-format {
-        padding: 0.2rem 0.2rem;
+        padding: 0 0.2rem;
         border-radius: 0.5rem;
         width: 12rem;
       }
@@ -89,7 +89,7 @@
 
   .delete-container {
     background: $main-colour;
-    padding: 1rem;
+    padding: .5rem;
     border-radius: 0.5rem;
     box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.25);
     display: flex;

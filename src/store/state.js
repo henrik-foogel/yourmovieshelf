@@ -30,7 +30,7 @@ export const state = {
         soundtrackSearchResult: [],
         formats: ['Blu-ray', 'DVD', 'Blu-ray/DVD', 'VHS', 'Laserdisc', 'VCD'],
         editions: ["Regular", "Collector's", "Special", "Collection", "Steelbook", "Limited", "Limited/Collection", "Limited Collector's", "Director's", "Uncut", "R-Rated", "Deluxe", "Ultimate", "Extended"],
-        musicFormats: ["Vinyl", "CD", "Cassette", "8-track"],
+        musicFormats: ["Vinyl", "CD", "Cassette", "8-track", "Tape"],
         selectedSoundtrack: [],
         selectedTrueFalse: false,
         soundtracksId: '',

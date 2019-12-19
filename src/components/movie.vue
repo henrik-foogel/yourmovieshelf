@@ -22,7 +22,8 @@
     </section>
     <section class="poster" v-show="state=='poster'" @click="selectMovie(movie.movie)">
       <figure>
-        <img :src="movie.movie.Poster" :id="movie.movie+'poster'" :alt="movie.movie.Title + ' poster'" />
+        <img v-if="movie.movie.Poster != 'N/A'" :src="movie.movie.Poster" :id="movie.movie+'poster'" :alt="movie.movie.Title + ' poster'" />
+        <img v-else src="../assets/images/noposter.png" :alt="movie.movie.Title+' poster'" />
       </figure>
     </section>
   </article>
