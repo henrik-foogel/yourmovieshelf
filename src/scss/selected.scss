@@ -12,7 +12,7 @@
     width: 100vw;
     height: 100vh;
     margin: -5rem 0 0;
-    padding-top: 5%;
+    padding-top: 3%;
     padding-bottom: 5rem;
 
     .selected-movie-card {
@@ -60,7 +60,7 @@
             flex-wrap: wrap;
             margin: 0 .5rem;
             padding: 0 0 0 .5rem;
-            height: 22rem;
+            height: 19rem;
             border-left: 1px solid $main-colour;
 
             .selected-movie-title-div {
@@ -77,17 +77,18 @@
             }
 
             .selected-movie-title {
-              font-size: 1.1rem;
+              font-size: .9rem;
               font-weight: 700;
             }
 
             .selected-movie-director {
-              font-size: 1rem;
+              font-size: .8rem;
             }
         
             .selected-movie-writers {
+              font-weight: 700;
               display: block;
-              font-size: .7rem;
+              font-size: .8rem;
               width: 200px;
               white-space: nowrap;
               overflow: hidden;
@@ -115,7 +116,6 @@
             }
 
             .selected-movie-actors {
-              margin-bottom: .8rem;
               font-weight: 700;
               font-size: .8rem;
               width: 200px;
@@ -129,9 +129,9 @@
             }
             .selected-movie-shelf {
               font-weight: 700;
+              font-size: .8rem;
             }
             .selected-movie-plot {
-              margin-bottom: .8rem;
               font-weight: 700;
               font-size: .8rem;
               width: 200px;
