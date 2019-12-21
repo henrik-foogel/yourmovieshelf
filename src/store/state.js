@@ -47,5 +47,8 @@ export const state = {
         editShelfModeOn: false,
         manuallyAdd: false,
         editMovie: false,
-        shelfInUse: false
+        shelfInUse: false,
+        shelfEditOnOff: false,
+        beforeEditShelf: '',  
+        editedShelf: '',
   };

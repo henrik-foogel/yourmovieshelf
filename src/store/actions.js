@@ -64,9 +64,13 @@ export const actions = {
             ctx.commit('setSignedIn', false);
             localStorage.removeItem("loggedIn");
             sessionStorage.removeItem("loggedIn");
-            localStorage.removeItem('userCollection')
-            localStorage.removeItem('userCustomShelfs')
-            localStorage.removeItem('userSoundtracks')
+            localStorage.removeItem('userCollection');
+            localStorage.removeItem('userCustomShelfs');
+            localStorage.removeItem('userMovieNightLists');
+            localStorage.removeItem('userSoundtracks');
+            localStorage.removeItem('emailId');
+            localStorage.removeItem('movieNightId');
+            localStorage.removeItem('soundtrackId');
             ctx.commit('setSignedInStorage', "");
             ctx.commit('setUserCollection', []);
             router.push('/');
@@ -212,12 +216,15 @@ export const actions = {
         await collection.forEach(doc => {
           if(hasOwnProperty.call(doc.data(), 'userEmail')) {
             ctx.commit('setEmailDocumentId', doc.id)
+            localStorage.setItem('emailId', JSON.stringify(doc.id))
           } else {
             if(hasOwnProperty.call(doc.data(), 'movieNightList')) {
               ctx.commit('setSavedMovieNightLists', doc.id);
+              localStorage.setItem('movieNightId', JSON.stringify(doc.id))
             } else {
               if(hasOwnProperty.call(doc.data(), 'soundtracks')) {
                 ctx.commit('setSoundtracksId', doc.id);
+                localStorage.setItem('soundtrackId', JSON.stringify(doc.id))
               } else {
                 respArr.push(doc.data())
               }
@@ -297,18 +304,27 @@ export const actions = {
       });
         
       },
-      async editShelfs(ctx, shelfs) {
-          var docRef = await db.collection(auth.currentUser.uid).doc(ctx.getters.getEmailDocumentId);
-          docRef.update({customShelf: shelfs});
-          ctx.commit('setCustomShelfs', shelfs);
-          ctx.dispatch('editShelfsInMovies', shelfs);
+      async editShelfs(ctx) {
+        var docRef = await db.collection(auth.currentUser.uid).doc(ctx.getters.getEmailDocumentId);
+        let before = ctx.getters.getCustomShelfs;
+        let after = [ctx.getters.getEditedShelfs];
+        before.forEach(shelf =>{
+            if(shelf == ctx.getters.getBeforeEditShelf) {
+              before.splice(ctx.getters.getCustomShelfs.indexOf(shelf), 1)
+              after = before;
+              after.push(ctx.getters.getEditedShelf)
+            }
+          }) 
+          docRef.update({customShelf: after});
+          ctx.commit('setCustomShelfs', after);
+          localStorage.setItem('userCustomShelfs', JSON.stringify(after));
+          ctx.dispatch('editShelfsInMovies');
       },
       async editShelfsInMovies(ctx) {
         var docRef = await db.collection(auth.currentUser.uid).get();
        await docRef.forEach(movie => {
           if(hasOwnProperty.call(movie.data(), 'movie')) {
-            for (let i = 0; i < ctx.getters.getBeforeEditShelfs.length; i++) {
-              if(movie.data().movie.shelf == ctx.getters.getBeforeEditShelfs[i]) {
+              if(movie.data().movie.shelf == ctx.getters.getBeforeEditShelf) {
                 db.collection(auth.currentUser.uid).doc(movie.id).update({movie: {
                   Actors: movie.data().movie.Actors,
                   Director: movie.data().movie.Director,
@@ -324,10 +340,9 @@ export const actions = {
                   format: movie.data().movie.format,
                   imdbID: movie.data().movie.imdbID,
                   rating: movie.data().movie.rating,
-                  shelf: ctx.getters.getEditedShelfs[i],
+                  shelf: ctx.getters.getEditedShelf,
                   soundtrack: movie.data().movie.soundtrack
                 }})
-              }
               ctx.commit('setEditShelfModeOn', true);
               ctx.dispatch('fetchUserCollection');
             } 

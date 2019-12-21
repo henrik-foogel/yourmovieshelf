@@ -133,5 +133,14 @@ export const getters = {
   },
   getShelfInUse(state) {
     return state.shelfInUse;
+  },
+  getShelfEditOnOff(state) {
+    return state.shelfEditOnOff;
+  },
+  getBeforeEditShelf(state) {
+    return state.beforeEditShelf
+  },
+  getEditedShelf(state) {
+    return state.editedShelf
   }
 };

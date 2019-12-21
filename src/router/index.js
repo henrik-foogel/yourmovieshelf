@@ -23,14 +23,19 @@ const routes = [
           store.commit("setSignedIn", true);
           store.commit("setUser", user.uid);
           if(localStorage.getItem('userCollection')){
-            store.commit('setUserCollection', JSON.parse(localStorage.getItem('userCollection')))
+            store.commit('setUserCollection', JSON.parse(localStorage.getItem('userCollection')));
+            store.commit('setEmailDocumentId', JSON.parse(localStorage.getItem('emailId')));
+            store.commit('setSavedMovieNightLists', JSON.parse(localStorage.getItem('movieNightId')));
+            store.commit('setSoundtracksId', JSON.parse(localStorage.getItem('soundtrackId')));
           } else {
             store.dispatch("fetchUserCollection");
           }
           if(localStorage.getItem('userCustomShelfs')){
             store.commit('setCustomShelfs', JSON.parse(localStorage.getItem('userCustomShelfs')))
+            store.commit('setBeforeEditShelfs', JSON.parse(localStorage.getItem('userCustomShelfs')))
           } else {
             store.dispatch("fetchCustomShelfs");
+            store.commit('setBeforeEditShelfs', store.getters.getCustomShelfs)
           }
           if(localStorage.getItem('userMovieNightLists')){
             store.commit('setMovieNightListFromDB', JSON.parse(localStorage.getItem('userMovieNightLists')))
@@ -60,14 +65,19 @@ const routes = [
           store.commit("setSignedIn", true);
           store.commit("setUser", user.uid);
           if(localStorage.getItem('userCollection')){
-            store.commit('setUserCollection', JSON.parse(localStorage.getItem('userCollection')))
+            store.commit('setUserCollection', JSON.parse(localStorage.getItem('userCollection')));
+            store.commit('setEmailDocumentId', JSON.parse(localStorage.getItem('emailId')));
+            store.commit('setSavedMovieNightLists', JSON.parse(localStorage.getItem('movieNightId')));
+            store.commit('setSoundtracksId', JSON.parse(localStorage.getItem('soundtrackId')));
           } else {
             store.dispatch("fetchUserCollection");
           }
           if(localStorage.getItem('userCustomShelfs')){
             store.commit('setCustomShelfs', JSON.parse(localStorage.getItem('userCustomShelfs')))
+            store.commit('setBeforeEditShelfs', JSON.parse(localStorage.getItem('userCustomShelfs')))
           } else {
             store.dispatch("fetchCustomShelfs");
+            store.commit('setBeforeEditShelfs', store.getters.getCustomShelfs)
           }
           if(localStorage.getItem('userMovieNightLists')){
             store.commit('setMovieNightListFromDB', JSON.parse(localStorage.getItem('userMovieNightLists')))
@@ -97,14 +107,19 @@ const routes = [
           store.commit("setSignedIn", true);
           store.commit("setUser", user.uid);
           if(localStorage.getItem('userCollection')){
-            store.commit('setUserCollection', JSON.parse(localStorage.getItem('userCollection')))
+            store.commit('setUserCollection', JSON.parse(localStorage.getItem('userCollection')));
+            store.commit('setEmailDocumentId', JSON.parse(localStorage.getItem('emailId')));
+            store.commit('setSavedMovieNightLists', JSON.parse(localStorage.getItem('movieNightId')));
+            store.commit('setSoundtracksId', JSON.parse(localStorage.getItem('soundtrackId')));
           } else {
             store.dispatch("fetchUserCollection");
           }
           if(localStorage.getItem('userCustomShelfs')){
             store.commit('setCustomShelfs', JSON.parse(localStorage.getItem('userCustomShelfs')))
+            store.commit('setBeforeEditShelfs', JSON.parse(localStorage.getItem('userCustomShelfs')))
           } else {
             store.dispatch("fetchCustomShelfs");
+            store.commit('setBeforeEditShelfs', store.getters.getCustomShelfs)
           }
           if(localStorage.getItem('userMovieNightLists')){
             store.commit('setMovieNightListFromDB', JSON.parse(localStorage.getItem('userMovieNightLists')))
@@ -134,14 +149,19 @@ const routes = [
           store.commit("setSignedIn", true);
           store.commit("setUser", user.uid);
           if(localStorage.getItem('userCollection')){
-            store.commit('setUserCollection', JSON.parse(localStorage.getItem('userCollection')))
+            store.commit('setUserCollection', JSON.parse(localStorage.getItem('userCollection')));
+            store.commit('setEmailDocumentId', JSON.parse(localStorage.getItem('emailId')));
+            store.commit('setSavedMovieNightLists', JSON.parse(localStorage.getItem('movieNightId')));
+            store.commit('setSoundtracksId', JSON.parse(localStorage.getItem('soundtrackId')));
           } else {
             store.dispatch("fetchUserCollection");
           }
           if(localStorage.getItem('userCustomShelfs')){
             store.commit('setCustomShelfs', JSON.parse(localStorage.getItem('userCustomShelfs')))
+            store.commit('setBeforeEditShelfs', JSON.parse(localStorage.getItem('userCustomShelfs')))
           } else {
             store.dispatch("fetchCustomShelfs");
+            store.commit('setBeforeEditShelfs', store.getters.getCustomShelfs)
           }
           if(localStorage.getItem('userMovieNightLists')){
             store.commit('setMovieNightListFromDB', JSON.parse(localStorage.getItem('userMovieNightLists')))
@@ -171,14 +191,20 @@ const routes = [
           store.commit("setSignedIn", true);
           store.commit("setUser", user.uid);
           if(localStorage.getItem('userCollection')){
-            store.commit('setUserCollection', JSON.parse(localStorage.getItem('userCollection')))
+            store.commit('setUserCollection', JSON.parse(localStorage.getItem('userCollection')));
+            store.commit('setEmailDocumentId', JSON.parse(localStorage.getItem('emailId')));
+            store.commit('setSavedMovieNightLists', JSON.parse(localStorage.getItem('movieNightId')));
+            store.commit('setSoundtracksId', JSON.parse(localStorage.getItem('soundtrackId')));
+
           } else {
             store.dispatch("fetchUserCollection");
           }
           if(localStorage.getItem('userCustomShelfs')){
             store.commit('setCustomShelfs', JSON.parse(localStorage.getItem('userCustomShelfs')))
+            store.commit('setBeforeEditShelfs', JSON.parse(localStorage.getItem('userCustomShelfs')))
           } else {
             store.dispatch("fetchCustomShelfs");
+            store.commit('setBeforeEditShelfs', store.getters.getCustomShelfs)
           }
           if(localStorage.getItem('userMovieNightLists')){
             store.commit('setMovieNightListFromDB', JSON.parse(localStorage.getItem('userMovieNightLists')))
@@ -208,14 +234,19 @@ const routes = [
           store.commit("setSignedIn", true);
           store.commit("setUser", user.uid);
           if(localStorage.getItem('userCollection')){
-            store.commit('setUserCollection', JSON.parse(localStorage.getItem('userCollection')))
+            store.commit('setUserCollection', JSON.parse(localStorage.getItem('userCollection')));
+            store.commit('setEmailDocumentId', JSON.parse(localStorage.getItem('emailId')));
+            store.commit('setSavedMovieNightLists', JSON.parse(localStorage.getItem('movieNightId')));
+            store.commit('setSoundtracksId', JSON.parse(localStorage.getItem('soundtrackId')));
           } else {
             store.dispatch("fetchUserCollection");
           }
           if(localStorage.getItem('userCustomShelfs')){
             store.commit('setCustomShelfs', JSON.parse(localStorage.getItem('userCustomShelfs')))
+            store.commit('setBeforeEditShelfs', JSON.parse(localStorage.getItem('userCustomShelfs')))
           } else {
             store.dispatch("fetchCustomShelfs");
+            store.commit('setBeforeEditShelfs', store.getters.getCustomShelfs)
           }
           if(localStorage.getItem('userMovieNightLists')){
             store.commit('setMovieNightListFromDB', JSON.parse(localStorage.getItem('userMovieNightLists')))

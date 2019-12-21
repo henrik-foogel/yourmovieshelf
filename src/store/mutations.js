@@ -127,5 +127,14 @@ export const mutations = {
       },
       setShelfInUse(state, inUse) {
         state.shelfInUse = inUse;
+      },
+      setShelfEditOnOff(state, onOff) {
+        state.shelfEditOnOff = onOff;
+      },
+      setBeforeEditShelf(state, shelf) {
+        state.beforeEditShelf = shelf
+      },
+      setEditedShelf(state, shelf) {
+        state.editedShelf = shelf
       }
 }
