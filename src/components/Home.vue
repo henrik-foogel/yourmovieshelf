@@ -175,7 +175,7 @@ export default {
         }
         this.$store.commit('setStateFlex', this.state)
     },
-    movieNight() {
+    async movieNight() {
       if(this.movieNightButton == true) {
         document.querySelector('.home-movie-night-button').style.background = "#7DC2AF"
         document.querySelector('.home-movie-night-button').style.color = "#282828"
@@ -200,7 +200,10 @@ export default {
               name: this.movieNightName
             });
             this.movieNightSaveFail = false;
-            this.$store.dispatch('addMovieNightList', payload[0]);
+            await this.$store.dispatch('addMovieNightList', payload[0]);
+            payload = [];
+            this.$store.commit('setMovieNightList', []);
+            this.movieNightName = ''
         } else if(this.movieNightClose == true) {
           document.querySelector('.home-movie-night-button').style.background = "#282828"
           document.querySelector('.home-movie-night-button').style.color = "#7DC2AF"

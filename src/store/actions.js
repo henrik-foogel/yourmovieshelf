@@ -387,8 +387,9 @@ export const actions = {
         await docRef.add({
           movieNightList: data,
           name: name,
-        })
-        
+        });
+        await ctx.dispatch('fetchMovieNightLists');
+        router.go();
       },
       async fetchMovieNightLists(ctx) {
         if(auth.currentUser.uid != null) {
