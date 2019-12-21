@@ -20,14 +20,8 @@ export default {
     }
   },
   
-  methods: {
-    async fetchMovieNightList() {
-    await this.$store.dispatch('fetchMovieNightLists', this.$store.getters.getUser)
-    }
-  },
   async mounted() {
     window.scrollTo(0, 0)
-    await this.$store.dispatch('fetchMovieNightLists');
   }
 }
 </script>

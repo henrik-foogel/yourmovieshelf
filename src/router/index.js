@@ -22,10 +22,26 @@ const routes = [
         if (user) {
           store.commit("setSignedIn", true);
           store.commit("setUser", user.uid);
-          store.dispatch("fetchUserCollection");
-          store.dispatch('fetchCustomShelfs');
-          store.dispatch('fetchMovieNightLists');
-          store.dispatch('fetchCustomShelfs');
+          if(localStorage.getItem('userCollection')){
+            store.commit('setUserCollection', JSON.parse(localStorage.getItem('userCollection')))
+          } else {
+            store.dispatch("fetchUserCollection");
+          }
+          if(localStorage.getItem('userCustomShelfs')){
+            store.commit('setCustomShelfs', JSON.parse(localStorage.getItem('userCustomShelfs')))
+          } else {
+            store.dispatch("fetchCustomShelfs");
+          }
+          if(localStorage.getItem('userMovieNightLists')){
+            store.commit('setMovieNightListFromDB', JSON.parse(localStorage.getItem('userMovieNightLists')))
+          } else {
+            store.dispatch("fetchMovieNightLists");
+          }
+          if(localStorage.getItem('userSoundtracks')){
+            store.commit('setSoundtrackList', JSON.parse(localStorage.getItem('userSoundtracks')))
+          } else {
+            store.dispatch("fetchYourSoundtracks");
+          }
           next()
         } else {
           console.log('Not signed in');   
@@ -43,10 +59,26 @@ const routes = [
         if (user) {
           store.commit("setSignedIn", true);
           store.commit("setUser", user.uid);
-          store.dispatch("fetchUserCollection");
-          store.dispatch('fetchCustomShelfs');
-          store.dispatch('fetchMovieNightLists');
-          store.dispatch('fetchCustomShelfs');
+          if(localStorage.getItem('userCollection')){
+            store.commit('setUserCollection', JSON.parse(localStorage.getItem('userCollection')))
+          } else {
+            store.dispatch("fetchUserCollection");
+          }
+          if(localStorage.getItem('userCustomShelfs')){
+            store.commit('setCustomShelfs', JSON.parse(localStorage.getItem('userCustomShelfs')))
+          } else {
+            store.dispatch("fetchCustomShelfs");
+          }
+          if(localStorage.getItem('userMovieNightLists')){
+            store.commit('setMovieNightListFromDB', JSON.parse(localStorage.getItem('userMovieNightLists')))
+          } else {
+            store.dispatch("fetchMovieNightLists");
+          }
+          if(localStorage.getItem('userSoundtracks')){
+            store.commit('setSoundtrackList', JSON.parse(localStorage.getItem('userSoundtracks')))
+          } else {
+            store.dispatch("fetchYourSoundtracks");
+          }
           next()
         } else {
           console.log('Not signed in');   
@@ -64,10 +96,26 @@ const routes = [
         if (user) {
           store.commit("setSignedIn", true);
           store.commit("setUser", user.uid);
-          store.dispatch("fetchUserCollection");
-          store.dispatch('fetchCustomShelfs');
-          store.dispatch('fetchMovieNightLists');
-          store.dispatch('fetchCustomShelfs');
+          if(localStorage.getItem('userCollection')){
+            store.commit('setUserCollection', JSON.parse(localStorage.getItem('userCollection')))
+          } else {
+            store.dispatch("fetchUserCollection");
+          }
+          if(localStorage.getItem('userCustomShelfs')){
+            store.commit('setCustomShelfs', JSON.parse(localStorage.getItem('userCustomShelfs')))
+          } else {
+            store.dispatch("fetchCustomShelfs");
+          }
+          if(localStorage.getItem('userMovieNightLists')){
+            store.commit('setMovieNightListFromDB', JSON.parse(localStorage.getItem('userMovieNightLists')))
+          } else {
+            store.dispatch("fetchMovieNightLists");
+          }
+          if(localStorage.getItem('userSoundtracks')){
+            store.commit('setSoundtrackList', JSON.parse(localStorage.getItem('userSoundtracks')))
+          } else {
+            store.dispatch("fetchYourSoundtracks");
+          }
           next()
         } else {
           console.log('Not signed in');   
@@ -85,10 +133,26 @@ const routes = [
         if (user) {
           store.commit("setSignedIn", true);
           store.commit("setUser", user.uid);
-          store.dispatch("fetchUserCollection");
-          store.dispatch('fetchCustomShelfs');
-          store.dispatch('fetchMovieNightLists');
-          store.dispatch('fetchCustomShelfs');
+          if(localStorage.getItem('userCollection')){
+            store.commit('setUserCollection', JSON.parse(localStorage.getItem('userCollection')))
+          } else {
+            store.dispatch("fetchUserCollection");
+          }
+          if(localStorage.getItem('userCustomShelfs')){
+            store.commit('setCustomShelfs', JSON.parse(localStorage.getItem('userCustomShelfs')))
+          } else {
+            store.dispatch("fetchCustomShelfs");
+          }
+          if(localStorage.getItem('userMovieNightLists')){
+            store.commit('setMovieNightListFromDB', JSON.parse(localStorage.getItem('userMovieNightLists')))
+          } else {
+            store.dispatch("fetchMovieNightLists");
+          }
+          if(localStorage.getItem('userSoundtracks')){
+            store.commit('setSoundtrackList', JSON.parse(localStorage.getItem('userSoundtracks')))
+          } else {
+            store.dispatch("fetchYourSoundtracks");
+          }
           next()
         } else {
           console.log('Not signed in');   
@@ -106,10 +170,26 @@ const routes = [
         if (user) {
           store.commit("setSignedIn", true);
           store.commit("setUser", user.uid);
-          store.dispatch("fetchUserCollection");
-          store.dispatch('fetchCustomShelfs');
-          store.dispatch('fetchMovieNightLists');
-          store.dispatch('fetchCustomShelfs');
+          if(localStorage.getItem('userCollection')){
+            store.commit('setUserCollection', JSON.parse(localStorage.getItem('userCollection')))
+          } else {
+            store.dispatch("fetchUserCollection");
+          }
+          if(localStorage.getItem('userCustomShelfs')){
+            store.commit('setCustomShelfs', JSON.parse(localStorage.getItem('userCustomShelfs')))
+          } else {
+            store.dispatch("fetchCustomShelfs");
+          }
+          if(localStorage.getItem('userMovieNightLists')){
+            store.commit('setMovieNightListFromDB', JSON.parse(localStorage.getItem('userMovieNightLists')))
+          } else {
+            store.dispatch("fetchMovieNightLists");
+          }
+          if(localStorage.getItem('userSoundtracks')){
+            store.commit('setSoundtrackList', JSON.parse(localStorage.getItem('userSoundtracks')))
+          } else {
+            store.dispatch("fetchYourSoundtracks");
+          }
           next()
         } else {
           console.log('Not signed in');   
@@ -127,10 +207,26 @@ const routes = [
         if (user) {
           store.commit("setSignedIn", true);
           store.commit("setUser", user.uid);
-          store.dispatch("fetchUserCollection");
-          store.dispatch('fetchCustomShelfs');
-          store.dispatch('fetchMovieNightLists');
-          store.dispatch('fetchCustomShelfs');
+          if(localStorage.getItem('userCollection')){
+            store.commit('setUserCollection', JSON.parse(localStorage.getItem('userCollection')))
+          } else {
+            store.dispatch("fetchUserCollection");
+          }
+          if(localStorage.getItem('userCustomShelfs')){
+            store.commit('setCustomShelfs', JSON.parse(localStorage.getItem('userCustomShelfs')))
+          } else {
+            store.dispatch("fetchCustomShelfs");
+          }
+          if(localStorage.getItem('userMovieNightLists')){
+            store.commit('setMovieNightListFromDB', JSON.parse(localStorage.getItem('userMovieNightLists')))
+          } else {
+            store.dispatch("fetchMovieNightLists");
+          }
+          if(localStorage.getItem('userSoundtracks')){
+            store.commit('setSoundtrackList', JSON.parse(localStorage.getItem('userSoundtracks')))
+          } else {
+            store.dispatch("fetchYourSoundtracks");
+          }
           next()
         } else {
           console.log('Not signed in');   

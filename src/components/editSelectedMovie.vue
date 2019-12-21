@@ -25,6 +25,8 @@
             <div class="edit-movie-card-section">
               <h4>Plot *:</h4>
               <input type="text" class="edit-movie-input" placeholder="plot" v-model="eMovie.Plot">
+              <h4>Runtime:</h4>
+              <input type="text" class="edit-movie-input" placeholder="ex. 105 min" v-model="eMovie.Runtime">
               <h4>Music composer:</h4>
               <input type="text" class="edit-movie-input" placeholder="composer" v-model="eMovie.soundtrack">
               <h4>Custom shelf:</h4>

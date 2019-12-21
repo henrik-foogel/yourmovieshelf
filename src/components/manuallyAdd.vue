@@ -13,7 +13,7 @@
               <h4>Poster Link:</h4>
               <input type="text" class="add-manually-input" placeholder='poster image link "https://..."' v-model="customInput.customPoster">
               <h4>Director: *</h4>
-              <input type="text" class="add-manually-input" placeholder="director" v-model="customInput.customDirector">
+              <input type="text" class="add-manually-input" placeholder="director, director..." v-model="customInput.customDirector">
               <h4>Writers: *</h4>
               <input type="text" class="add-manually-input" placeholder="writer, writer, writer..." v-model="customInput.customWriter">
               <h4>Actors: *</h4>
@@ -26,9 +26,9 @@
               <h4>Plot: *</h4>
               <input type="text" class="add-manually-input" placeholder="plot" v-model="customInput.customPlot">
               <h4>Runtime:</h4>
-              <input type="text" class="add-manually-input" placeholder="runtime" v-model="customInput.customRuntime">
+              <input type="text" class="add-manually-input" placeholder="ex. 105 min" v-model="customInput.customRuntime">
               <h4>Music composer:</h4>
-              <input type="text" class="add-manually-input" placeholder="composer" v-model="customInput.customSoundtrack">
+              <input type="text" class="add-manually-input" placeholder="composer, composer..." v-model="customInput.customSoundtrack">
               <h4>Custom shelf:</h4>
               <select type="text" class="add-manually-input" placeholder="shelf" v-model="customInput.customShelf">
                 <option v-for="shelf in customShelfs" :key="shelf" >{{ shelf }}</option>

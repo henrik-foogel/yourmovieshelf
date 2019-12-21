@@ -26,7 +26,7 @@
     <div v-show="signedIn == true && !movieNightButton"  class="home-movie-random button" @click="randomMovie">Random movie from whole list or from a criteria </div>
     </section>
     <section class="home-movie-section" >
-      <movie
+      <Movie
         v-for="(movie, index) in filterCollection"
         :key="index"
         :movie="movie"

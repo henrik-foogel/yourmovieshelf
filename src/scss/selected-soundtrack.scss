@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: flex-start;
   margin: -5rem 0 0;
-  padding-top: 5%;
+  padding-top: 6%;
   background: rgba(37, 37, 37, 0.7);
   color: #fff;
   border-radius: 1rem;
@@ -70,8 +70,12 @@
       display: flex;
       justify-content: space-between;
       width: 100%;
+      max-height: 4rem;
+      .button {
+        margin: 0 0 .5rem;
+      }
       .trash-button {
-        font-size: 2rem;
+        font-size: 1.5rem;
         padding-left: 0.7rem;
         padding-right: 0.7rem;
       }
@@ -81,8 +85,9 @@
 .delete-soundtrack-question-section {
   position: fixed;
   display: flex;
+  margin-top: 7rem;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   z-index: 1000;
   width: 100vw;
   height: 100vh;

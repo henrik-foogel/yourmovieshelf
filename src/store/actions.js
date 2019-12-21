@@ -64,6 +64,9 @@ export const actions = {
             ctx.commit('setSignedIn', false);
             localStorage.removeItem("loggedIn");
             sessionStorage.removeItem("loggedIn");
+            localStorage.removeItem('userCollection')
+            localStorage.removeItem('userCustomShelfs')
+            localStorage.removeItem('userSoundtracks')
             ctx.commit('setSignedInStorage', "");
             ctx.commit('setUserCollection', []);
             router.push('/');
@@ -165,7 +168,8 @@ export const actions = {
             doc.data()[key].Genre == movie.Genre && doc.data()[key].Plot == movie.Plot && 
             doc.data()[key].Title == movie.Title && doc.data()[key].edition == movie.edition && 
             doc.data()[key].format == movie.format && doc.data()[key].shelf == movie.shelf && 
-            doc.data()[key].rating == movie.rating) {
+            doc.data()[key].rating == movie.rating && doc.data()[key].Poster == movie.Poster && 
+            doc.data()[key].Runtime == movie.Runtime) {
               if(number == 0) {
                 db.collection(auth.currentUser.uid).doc(doc.id).delete()
                 number = 1;
@@ -227,6 +231,7 @@ export const actions = {
         }
         ctx.dispatch('fetchCustomShelfs');
         ctx.dispatch('fetchYourSoundtracks');
+        localStorage.setItem('userCollection', JSON.stringify(ctx.getters.getUserCollection));
       }
       },
       async fetchCustomShelfs(ctx) {
@@ -247,7 +252,8 @@ export const actions = {
             } else {              
               customShelfs.push(respArr[0].customShelf);
             }
-        ctx.commit('setCustomShelfs', customShelfs);
+          ctx.commit('setCustomShelfs', customShelfs);
+          localStorage.setItem('userCustomShelfs', JSON.stringify(customShelfs));
           if(ctx.getters.getUneditedShelfs) {
           if(ctx.getters.getUneditedShelfs.length == 0) {
             ctx.commit('setUneditedShelfs', customShelfs);
@@ -380,6 +386,7 @@ export const actions = {
           }
       });
       ctx.commit('setMovieNightListFromDB', respArr);
+      localStorage.setItem('userMovieNightLists', JSON.stringify(respArr));
       }
     },
     async deleteMovieNightList(ctx, name) {
@@ -444,6 +451,7 @@ export const actions = {
         });
         resultArray.sort((a, b) => (a[1].soundtrackTitle > b[1].soundtrackTitle) ? 1 : -1)
         ctx.commit('setSoundtrackList', resultArray);
+        localStorage.setItem('userSoundtracks', JSON.stringify(resultArray));
     },
     async deleteSoundtrack(ctx, soundtrack) {
       let list = [];

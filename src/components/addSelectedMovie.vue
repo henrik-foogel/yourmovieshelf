@@ -3,7 +3,7 @@
     <div class="selected-movie-custom-container">
               <div class="add-component">
               <h4>Soundtrack composer:</h4>
-              <input type="text" class="selected-movie-custom-soundtrack" placeholder="Composer" v-model="customInput.customSoundtrack">
+              <input type="text" class="selected-movie-custom-soundtrack" placeholder="composer, composer..." v-model="customInput.customSoundtrack">
               <h4>Custom shelf:</h4>
               <select type="text" class="selected-movie-custom-shelf" placeholder="Shelf" v-model="customInput.customShelf">
                 <option v-for="shelf in customShelfs" :key="shelf" >{{ shelf }}</option>

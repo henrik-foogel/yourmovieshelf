@@ -20,7 +20,9 @@
               <div class="selected-movie-genre" alt="Genre: ">{{ selectedMovie.Genre }}</div>
               <div class="selected-movie-title-div" v-show="inCollection">Shelf:</div>
               <div class="selected-movie-shelf" v-show="inCollection" alt="Shelf: ">{{ selectedMovie.shelf }}</div>
-              <div class="selected-movie-title-div"><span>Runtime: {{selectedMovie.Runtime}},</span> Plot:</div>
+              <div class="selected-movie-title-div">Runtime:</div>
+              <div class="selected-movie-runtime" alt="Runtime: ">{{selectedMovie.Runtime}}</div>
+              <div class="selected-movie-title-div">Plot:</div>
               <div class="selected-movie-plot plot" @click="plotWhole = true" alt="Plot: ">{{ selectedMovie.Plot }}</div>
               <div v-if="plotWhole" class="whole-plot-conatiner">
                 <div class="selected-movie-plot-whole" @click="plotWhole = false">{{ selectedMovie.Plot }}</div>
