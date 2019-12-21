@@ -18,7 +18,6 @@ export default {
     data() {
       return {
           customShelf: '',
-          shelfs: null,
           editShelf: '',
           previousShelf: [],
           savedShelfs: false
@@ -32,14 +31,9 @@ export default {
         return this.$store.getters.getShelfInUse;
       }
   },
-  watch: {
-    getCustomShelfs() {
-      this.shelfs = this.getCustomShelfs;
-    }
-  },
   methods: {
-      editOn(shelf) {
-        this.$store.commit('setBeforeEditShelf', shelf);
+      async editOn(shelf) {
+        await this.$store.commit('setBeforeEditShelf', shelf);
         this.$store.commit('setShelfEditOnOff', true);
         window.scrollTo(0, 0);
       },

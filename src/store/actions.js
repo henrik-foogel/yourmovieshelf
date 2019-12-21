@@ -345,6 +345,7 @@ export const actions = {
                 }})
               ctx.commit('setEditShelfModeOn', true);
               ctx.dispatch('fetchUserCollection');
+
             } 
           }
         });

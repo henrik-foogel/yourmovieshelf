@@ -48,6 +48,7 @@ export default {
   async mounted() {
     this.$store.commit('setShelfInUse', false);
     this.$store.commit('setShelfEditOnOff', false);
+    this.$store.commit('setBeforeEditShelf', '');
     window.scrollTo(0, 0);
   }
 }
