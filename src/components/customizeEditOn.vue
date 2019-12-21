@@ -1,9 +1,10 @@
 <template>
-  <article class="customize-comp">
+  <article class="customize-comp-edit">
         <section class="edit-shelf-container" >
           <input type="text" class="customize-user-custom-container-content edit" v-model="shelf">
           <div class="add-shelf-button button" @click="saveShelf">Save</div>
         </section>
+        <div class="selected-movie-card-back button" @click="back">BACK</div>
   </article>
 </template>
 
@@ -37,6 +38,9 @@ export default {
         this.$store.commit('setEditedShelf', this.shelf);
         this.$store.commit('setShelfEditOnOff', false)
         this.$store.dispatch('editShelfs');
+      },
+      back() {
+        this.$store.commit('setShelfEditOnOff', false)
       }
   }
 }

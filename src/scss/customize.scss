@@ -114,28 +114,32 @@
           }
       }
 
-      .edit-shelf-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            color: $main-colour;
-            margin: 1rem;
-            font-weight: 700;
-            font-size: 1.1rem;
-            width: 25rem;
-            max-width: 100vw;
-            padding: 0 0 .5rem 1rem;
+      .customize-comp-edit {
 
-            input {
-              border-radius: 0.5rem;
-              height: 2rem;
-              width: 15rem;
+        .edit-shelf-container {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              color: $main-colour;
+              margin: 1rem;
               font-weight: 700;
               font-size: 1.1rem;
-              padding: 0 0 0 0.3rem;
-              color: black;
-              text-align: center;
-            }
+              width: 25rem;
+              max-width: 100vw;
+              padding: 0 0 .5rem 1rem;
 
+              input {
+                border-radius: 0.5rem;
+                height: 2rem;
+                width: 15rem;
+                font-weight: 700;
+                font-size: 1.1rem;
+                padding: 0 0 0 0.3rem;
+                color: black;
+                text-align: center;
+              }
+
+        }
+      
       }
 }
