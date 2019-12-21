@@ -136,7 +136,6 @@ export const actions = {
           await db.collection(auth.currentUser.uid).add({
               movie: movie
           })
-
         } else {
           let movie = {
             Title: payload.title,
@@ -161,7 +160,7 @@ export const actions = {
           })
 
         }
-        ctx.dispatch('fetchUserCollection', auth.currentUser.uid)
+        await ctx.dispatch('fetchUserCollection', auth.currentUser.uid)
       },
       async deleteFromCollection(ctx, movie) {
         let collection = await db.collection(auth.currentUser.uid).get();

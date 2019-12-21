@@ -51,4 +51,5 @@ export const state = {
         shelfEditOnOff: false,
         beforeEditShelf: '',  
         editedShelf: '',
+        closeSelectedMoreWindows: false
   };

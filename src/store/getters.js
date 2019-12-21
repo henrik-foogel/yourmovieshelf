@@ -142,5 +142,8 @@ export const getters = {
   },
   getEditedShelf(state) {
     return state.editedShelf
+  },
+  getCloseSelectedMoreWindows(state) {
+    return state.closeSelectedMoreWindows;
   }
 };

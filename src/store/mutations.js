@@ -136,5 +136,8 @@ export const mutations = {
       },
       setEditedShelf(state, shelf) {
         state.editedShelf = shelf
+      },
+      setCloseSelectedMoreWindows(state, closed) {
+        state.closeSelectedMoreWindows = closed;
       }
 }

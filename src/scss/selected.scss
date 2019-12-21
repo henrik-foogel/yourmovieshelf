@@ -216,6 +216,15 @@
             .selected-movie-shelf {
               font-size: .8rem;
             }
+            
+            .selected-movie-music {
+              font-size: .8rem;
+              width: 100px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              cursor: pointer;
+            }
 
             .selected-movie-ratings-button {
               color: $main-colour;

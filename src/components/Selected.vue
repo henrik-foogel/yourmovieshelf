@@ -33,13 +33,16 @@
               <div v-if="actorsWhole" class="whole-writers-conatiner">
                 <div class="selected-movie-writers-whole" @click="actorsWhole = false">{{ selectedMovie.Actors }}</div>
               </div>
+              <div v-if="musicWhole" class="whole-writers-conatiner">
+                <div class="selected-movie-writers-whole" @click="musicWhole = false">{{ selectedMovie.soundtrack }}</div>
+              </div>
             </div>
             </section>
             
             <div class="selected-movie-more-info" v-if="inCollection && moreInfo == true" alt="More info dropdown">
               <div class="more-container">
               <h4>Composer:</h4>
-              <div class="selected-movie-Music" alt="Soundtrack: ">{{ selectedMovie.soundtrack }}</div>
+              <div class="selected-movie-music" alt="Soundtrack: " @click="musicWhole = true">{{ selectedMovie.soundtrack }}</div>
               </div>
               <div class="more-container">
               <h4>Format / Edition:</h4>
@@ -56,7 +59,7 @@
             </div>
             
             <div class="delete-container" v-show="inCollection">
-              <div class="selected-movie-card-back button" @click="moreInfo = false; writersWhole = false; plotWhole = false; actorsWhole = false; setChosen()">BACK</div>
+              <div class="selected-movie-card-back button" @click="closeSelectedMoreWindows(); setChosen()">BACK</div>
               <div class="more-info-button button" @click="moreInfo = !moreInfo" v-show="inCollection">MORE INFO &#8691;</div>
               <div class="more-info-button button" @click="editOn">EDIT</div>
               <font-awesome-icon icon="trash-alt" class="trash-button button" @click="deleteBox = true">Delete</font-awesome-icon>
@@ -98,7 +101,8 @@ export default {
         ratings: false,
         writersWhole: false,
         plotWhole: false,
-        actorsWhole: false
+        actorsWhole: false,
+        musicWhole: false
         }
     },
     computed: {
@@ -113,6 +117,14 @@ export default {
       },
       editions() {
         return this.$store.getters.getEditions;
+      },
+      getCloseSelectedMoreWindows() {
+        return this.$store.getters.getCloseSelectedMoreWindows;
+      }
+    },
+    watch: {
+      getCloseSelectedMoreWindows() {
+          this.closeSelectedMoreWindows();
       }
     },
   methods: {
@@ -128,7 +140,17 @@ export default {
     editOn() {
       this.$store.commit('setInCollection', false);
       this.$store.commit('setEditMovie', true);
+    },
+    closeSelectedMoreWindows() {
+      this.moreInfo = false; 
+      this.writersWhole = false; 
+      this.plotWhole = false; 
+      this.actorsWhole = false; 
+      this.musicWhole = false;
     }
   },
+  mounted() {
+    this.closeSelectedMoreWindows;
+  }
 }
 </script>

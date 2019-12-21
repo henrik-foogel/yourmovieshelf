@@ -140,6 +140,7 @@ export default {
     closeSelectedMovie() {
       this.$store.commit('setInCollection', false);
       this.$store.commit('setChosen', false);
+      this.$store.commit('setCloseSelectedMoreWindows', !this.$store.getters.getCloseSelectedMoreWindows);
     },
     loginFailureSetter(e) {
       this.$store.commit('setLoginFailure', e);
