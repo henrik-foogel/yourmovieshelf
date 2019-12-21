@@ -231,13 +231,13 @@ export const actions = {
           }
         })
         ctx.collection = respArr.sort((a, b) => (a.movie.Title > b.movie.Title) ? 1 : -1);
-        ctx.commit('setUserCollection', respArr);
+        await ctx.commit('setUserCollection', respArr);
         if(respArr == '') {
           ctx.commit('setFirstTimeUser', true)
         }
         ctx.dispatch('fetchCustomShelfs');
         ctx.dispatch('fetchYourSoundtracks');
-        localStorage.setItem('userCollection', JSON.stringify(ctx.getters.getUserCollection));
+        localStorage.setItem('userCollection', JSON.stringify(respArr));
       }
       },
       async fetchCustomShelfs(ctx) {
