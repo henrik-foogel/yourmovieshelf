@@ -156,12 +156,9 @@ export default {
       this.passwordConfirmation = '';
     },
     async registerWithFirebase() {
-      console.log(this.email)
-
       if(this.email.charAt(this.email.length-1) == ' ') {
         this.email = this.email.slice(0, -1);
       }
-      console.log(this.email)
       await this.payload.push(this.email);
       await this.payload.push(this.password);
       await this.payload.push(this.passwordConfirmation);
