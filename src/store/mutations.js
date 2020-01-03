@@ -8,6 +8,9 @@ export const mutations = {
       setSearchResult(state, search) {
         state.searchResult = search;
       },
+      setCriteriaForSearch(state, search) {
+        state.criteriaForSearch = search;
+      },
       setFilterCriteria(state, criteria) {
         state.filterCriteria = criteria;
       },
@@ -41,6 +44,12 @@ export const mutations = {
       setUserCollection(state, collection) {
         state.userCollection = collection;
       },
+      setFilteredCollection(state, filtered) {
+        state.filteredCollection = filtered;
+      },
+      setFilterChange(state, change) {
+        state.filterChange = change;
+      },
       setCustomShelfs(state, customShelfs) {
         state.customShelfs = customShelfs;
       },
@@ -58,6 +67,12 @@ export const mutations = {
       },
       setAlertWindowClosed(state, closed) {
         state.alertWindowClosed = closed;
+      },
+      setMovieNightIndexPush(state, index) {
+        state.movieNightIndex.push(index);
+      },
+      setMovieNightIndex(state, list) {
+        state.movieNightIndex = list;
       },
       setMovieNightList(state, list) {
         state.movieNightList = list;

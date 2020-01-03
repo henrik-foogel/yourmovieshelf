@@ -14,11 +14,21 @@
       <div v-show="getState == 'row'" v-if="signedIn == true" class="home-movie-view-check"><p></p><input type="button" class="home-poster-view-button button" @click="viewSwitch()" label="View" value="POSTER VIEW"></div>
       <div v-show="getState == 'poster'" v-if="signedIn == true" class="home-movie-view-check"><p></p><input type="button" class="home-poster-view-button button" @click="viewSwitch()" label="View" value="REGULAR VIEW"></div>
     <div class="home-movie-night-button-container">
-      <input v-if="signedIn == true" type="button" class="home-movie-night-button button" label="Create a Movie Night List" value="CREATE A MOVIE NIGHT LIST" @click="movieNightButton = !movieNightButton; movieNight(); movieNightButtonChange()">
-      <font-awesome-icon icon="times" v-show="movieNightButton" class="fa fa-times" aria-hidden="true" @click="movieNightClose = true; movieNightButtonClose()"></font-awesome-icon>
+      <input v-if="signedIn == true" v-show="!movieNightButton" type="button" class="home-movie-night-button button" label="Create a Movie Night List" value="CREATE A MOVIE NIGHT LIST" @click="movieNightButton = !movieNightButton; movieNightButtonChange()">
+        <div class="home-movie-night-list-list" v-show="movieNightButton">
+        <div class="movie-night-save-back-container" v-show="movieNightButton">
+          <input class="home-movie-night-name" type="text" v-model="movieNightName" placeholder="Name your movie night list">
+          <font-awesome-icon icon="save" class="fa fa-times" aria-hidden="true" @click="movieNight(); movieNightButtonChange()"></font-awesome-icon>
+          <font-awesome-icon icon="times" class="fa fa-times" aria-hidden="true" @click="movieNightClose = true; movieNightButtonClose()"></font-awesome-icon>
+        </div>
+          <h4 @click="movieNightListOpen = !movieNightListOpen">Chosen movies ({{getMovieNightList.length}}): &#8691;</h4>
+          <div v-show="movieNightListOpen" class="home-movie-night-list-movies" v-for="(movie, index) in getMovieNightList" :key="index">
+           <img :src="movie.Poster" alt=""> {{movie.Title}}
+          <font-awesome-icon icon="times" class="movie-night-list-movie-remove" aria-hidden="true" @click="removeFromMovieNightList(movie)"/>
+          </div>
+        </div>
     </div>
-      <input class="home-movie-night-name" v-show="movieNightButton" type="text" v-model="movieNightName" placeholder="Name your movie night list">
-      <p v-show="movieNightSaveFail" class="home-movie-night-name-failure" style="color=red">Make sure you've chosen at least one movie and given your list a name
+      <p v-show="movieNightSaveFail" @click="movieNightSaveFail = false" class="home-movie-night-name-failure" style="color=red">Make sure you've chosen at least one movie and given your list a name
         <br>and that it's name is not already in use</p>
     <section v-if="signedIn == true" class="home-criteria-section">
       <Criteria />
@@ -26,11 +36,12 @@
     <div v-show="signedIn == true && !movieNightButton"  class="home-movie-random button" @click="randomMovie">Random movie from whole list or from a criteria </div>
     </section>
     <section class="home-movie-section" >
-      <Movie
+      <Movie 
         v-for="(movie, index) in filterCollection"
         :key="index"
         :movie="movie"
         :state="state"
+        :index="index"
       />
     </section>
     <selected class="selected-movie" v-show="getInCollection"/>
@@ -66,7 +77,9 @@ export default {
       movieNightName: '',
       movieNightSaveFail: false,
       movieNightClose: false,
-      firstTimeUser: true
+      firstTimeUser: true,
+      movieNightListOpen: true,
+      criteriaForSearch: ''
     };
   },
   computed: {
@@ -76,26 +89,87 @@ export default {
     getCollection() {
       return this.$store.getters.getUserCollection;
     },
+    getCollectionFilteredByShelf() {
+      return this.$store.getters.getUserCollection.filter(movie => {
+          return movie.movie.shelf.toLowerCase() === this.criteriaForSearch.toLowerCase();
+        });
+    },
+    getCollectionFilteredByFormat() {
+      return this.$store.getters.getUserCollection.filter(movie => {
+          return movie.movie.format.toLowerCase() === this.criteriaForSearch.toLowerCase();
+        });
+    },
+    getCollectionFilteredByEdition() {
+      return this.$store.getters.getUserCollection.filter(movie => {
+          return movie.movie.edition.toLowerCase() === this.criteriaForSearch.toLowerCase();
+        });
+    },
     getSearchResult() {
       return this.$store.getters.getSearchResult;
     },
     getFilterCriteria() {
       return this.$store.getters.getFilterCriteria;
     },
+    getCriteriaForSearch() {
+      return this.$store.getters.getCriteriaForSearch;
+    },
     filterCollection() {
       if (this.filterCriteria == "shelf") {
-        return this.getCollection.filter(movie => {
-          return movie.movie.shelf.toLowerCase() === this.search.toLowerCase();
+        return this.getCollectionFilteredByShelf.filter(movie => {
+          return movie.movie.Title.toLowerCase().includes(this.search.toLowerCase()) ||
+          movie.movie.Director.toLowerCase().includes(
+            this.search.toLowerCase()
+          )  ||
+          movie.movie.Actors.toLowerCase().includes(
+            this.search.toLowerCase()
+          ) ||
+          movie.movie.Genre.toLowerCase().includes(this.search.toLowerCase()) ||
+          movie.movie.soundtrack
+            .toLowerCase()
+            .includes(this.search.toLowerCase()
+          ) ||
+          String(movie.movie.Year).includes(this.search) ||
+          movie.movie.Plot.toLowerCase().includes(
+            this.search.toLowerCase()
+          )
         });
       } else if (this.filterCriteria == "format") {
-        return this.getCollection.filter(movie => {
-          return movie.movie.format.toLowerCase() === this.search.toLowerCase();
+        return this.getCollectionFilteredByFormat.filter(movie => {
+          return movie.movie.Title.toLowerCase().includes(this.search.toLowerCase()) ||
+          movie.movie.Director.toLowerCase().includes(
+            this.search.toLowerCase()
+          )  ||
+          movie.movie.Actors.toLowerCase().includes(
+            this.search.toLowerCase()
+          ) ||
+          movie.movie.Genre.toLowerCase().includes(this.search.toLowerCase()) ||
+          movie.movie.soundtrack
+            .toLowerCase()
+            .includes(this.search.toLowerCase()
+          ) ||
+          String(movie.movie.Year).includes(this.search) ||
+          movie.movie.Plot.toLowerCase().includes(
+            this.search.toLowerCase()
+          )
         });
       } else if (this.filterCriteria == "edition") {
-        return this.getCollection.filter(movie => {
-          return (
-            movie.movie.edition.toLowerCase() === this.search.toLowerCase()
-          );
+        return this.getCollectionFilteredByEdition.filter(movie => {
+          return movie.movie.Title.toLowerCase().includes(this.search.toLowerCase()) ||
+          movie.movie.Director.toLowerCase().includes(
+            this.search.toLowerCase()
+          )  ||
+          movie.movie.Actors.toLowerCase().includes(
+            this.search.toLowerCase()
+          ) ||
+          movie.movie.Genre.toLowerCase().includes(this.search.toLowerCase()) ||
+          movie.movie.soundtrack
+            .toLowerCase()
+            .includes(this.search.toLowerCase()
+          ) ||
+          String(movie.movie.Year).includes(this.search) ||
+          movie.movie.Plot.toLowerCase().includes(
+            this.search.toLowerCase()
+          )
         });
       } else if (this.filterCriteria.toLowerCase == "all") {
         return this.getCollection;
@@ -114,7 +188,10 @@ export default {
             .toLowerCase()
             .includes(this.search.toLowerCase()
           ) ||
-          String(movie.movie.Year).includes(this.search)
+          String(movie.movie.Year).includes(this.search) ||
+          movie.movie.Plot.toLowerCase().includes(
+            this.search.toLowerCase()
+          )
         );
       });
     },
@@ -132,11 +209,21 @@ export default {
     },
     getEditMovie() {
       return this.$store.getters.getEditMovie;
+    },
+    getMovieNightList() {
+      return this.$store.getters.getMovieNightList;
     }
   },
   watch: {
+    filterCollection() {
+      this.$store.commit('setFilteredCollection', this.filterCollection);
+      this.$store.commit('setFilterChange', !this.$store.getters.getFilterChange);
+    },
     getSearchResult() {
       this.search = this.$store.getters.getSearchResult;
+    },
+    getCriteriaForSearch() {
+      this.criteriaForSearch = this.$store.getters.getCriteriaForSearch;
     },
     getFilterCriteria() {
       this.filterCriteria = this.$store.getters.getFilterCriteria;
@@ -149,7 +236,10 @@ export default {
       }
     },
     getMovieNightButton() {
-      this.MovieNightButton = this.$store.getters.getMovieNightButton;
+      this.movieNightButton = this.$store.getters.getMovieNightButton;
+      if(!this.$store.getters.getMovieNightButton) {
+        this.movieNightSaveFail = false
+      }
     },
   },
   methods: {
@@ -176,44 +266,31 @@ export default {
         this.$store.commit('setStateFlex', this.state)
     },
     async movieNight() {
-      if(this.movieNightButton == true) {
-        document.querySelector('.home-movie-night-button').style.background = "#7DC2AF"
-        document.querySelector('.home-movie-night-button').style.color = "#282828"
-        document.querySelector('.home-movie-night-button').style.boxShadow = "inset 0 0 10px #000000"
-        document.querySelector('.home-movie-night-button').value = "SAVE";
-      } else if(this.movieNightButton == false) {
         for (let i = 0; i < this.$store.getters.getMovieNightListFromDB.length; i++) {
           if(this.$store.getters.getMovieNightListFromDB[i].name == this.movieNightName) {
             this.movieNightSaveFail = true;
             this.movieNightButton = true;
             return
-          }    
-        }
+          }   
         if(this.$store.getters.getMovieNightList[0] != null && this.movieNightName != '') {
-            document.querySelector('.home-movie-night-button').style.background = "#282828"
-            document.querySelector('.home-movie-night-button').style.color = "#7DC2AF"
-            document.querySelector('.home-movie-night-button').style.boxShadow = "0px 3px 3px rgba(0, 0, 0, 0.25)"
-            document.querySelector('.home-movie-night-button').value = "Create a Movie Night List";
             let payload = [];
             payload.push({
               list: this.$store.getters.getMovieNightList,
               name: this.movieNightName
             });
-            this.movieNightSaveFail = false;
             await this.$store.dispatch('addMovieNightList', payload[0]);
             payload = [];
             this.$store.commit('setMovieNightList', []);
             this.movieNightName = ''
+            this.movieNightClose = true;
+            this.movieNightButton = false;
+            this.movieNightSaveFail = false;
+            this.$store.commit('setMovieNightButton', false);
         } else if(this.movieNightClose == true) {
-          document.querySelector('.home-movie-night-button').style.background = "#282828"
-          document.querySelector('.home-movie-night-button').style.color = "#7DC2AF"
-          document.querySelector('.home-movie-night-button').style.boxShadow = "0px 3px 3px rgba(0, 0, 0, 0.25)"
-          document.querySelector('.home-movie-night-button').value = "Create a Movie Night List";
           this.movieNightSaveFail = false;
           this.movieNightClose = false;
         } else {
           this.movieNightSaveFail = true;
-          this.movieNightButton = true;
         }
       }
     },
@@ -222,8 +299,12 @@ export default {
     },
     movieNightButtonClose() {
       this.movieNightButton = false;
-      this.$store.commit('setMovieNightButton',   false);
+      this.$store.commit('setMovieNightButton', false);
+      this.$store.commit('setMovieNightList', []);
       this.movieNight();
+    },
+    async removeFromMovieNightList(movie) {
+        this.$store.dispatch('movieNightRemoveFromList', movie);
     },
     async randomMovie() {
       let random = Math.floor(Math.random() * this.filterCollection.length);
@@ -233,7 +314,8 @@ export default {
     }
   },
   mounted() {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
+    this.movieNightButton = false;
     this.state = this.$store.getters.getStateFlex;
     if(this.state == 'row') {
       document.querySelector('.home-movie-section').style.flexDirection = 'column';

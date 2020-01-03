@@ -21,7 +21,7 @@
           <router-link to="/addmovie"><span @click="closeSelectedMovie">Add Movie</span></router-link>
         </div>
         <div class="dropdown-link-container" @click="dropdown = !dropdown">
-          <router-link to="/myshelfs">My Shelfs</router-link>
+          <router-link to="/myshelves">My Shelves</router-link>
         </div>
         <div class="dropdown-link-container" @click="dropdown = !dropdown">
           <router-link to="/movienight">Movie Night Lists</router-link>
@@ -30,7 +30,7 @@
           <router-link to="/soundtracks">My Soundtracks</router-link>
         </div>
         <div class="dropdown-link-container" @click="dropdown = !dropdown">
-          <router-link to="/addsoundtracks">Add Soundtracks</router-link>
+          <router-link to="/addsoundtrack">Add Soundtrack</router-link>
         </div>
       </div>
     </div>

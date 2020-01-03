@@ -375,20 +375,37 @@ export const actions = {
         }
 
       },
+      async movieNightListIndexRemove(ctx, index) {
+        let list = ctx.getters.getMovieNightIndex;
+        list.forEach((m, i) => {
+          if(m == index) {
+              list.splice(i, 1);
+          }
+        });
+        ctx.commit('setMovieNightIndex', list);
+      },
+      async movieNightRemoveFromList(ctx, movie) {
+        let list = ctx.getters.getMovieNightList;
+        await list.forEach((m, i) => {
+          if(m == movie) {
+              list.splice(i, 1);
+          }
+        });
+        await ctx.commit('setMovieNightList', list);
+      },
       async addMovieNightList(ctx, payload) {
         var docRef = await db.collection(auth.currentUser.uid);
         var data = [];
         var name = payload.name
-        payload.list.map(movie => movie[0].seen = false);
+        payload.list.map(movie => movie.seen = false);
         payload.list.forEach(movie => {
-          data.push(movie[0])
+          data.push(movie)
         });
         await docRef.add({
           movieNightList: data,
           name: name,
         });
         await ctx.dispatch('fetchMovieNightLists');
-        router.go();
       },
       async fetchMovieNightLists(ctx) {
         if(auth.currentUser.uid != null) {
@@ -419,6 +436,7 @@ export const actions = {
           db.collection(auth.currentUser.uid).doc(doc.id).set(payload.list)
         );
       })
+      ctx.dispatch('fetchMovieNightLists');
     },
     async findSoundtrack(ctx, payload) {
       let music = [];

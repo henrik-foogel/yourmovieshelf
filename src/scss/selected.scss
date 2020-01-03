@@ -116,6 +116,15 @@
               }
             }
 
+            .selected-movie-director {
+              font-weight: 700;
+              width: 200px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              cursor: pointer;
+            }
+
             .selected-movie-actors {
               font-weight: 700;
               width: 200px;

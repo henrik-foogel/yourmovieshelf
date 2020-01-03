@@ -11,7 +11,7 @@
               <div class="selected-movie-title-div">Title:</div>
               <div class="selected-movie-title"  alt="Title: ">{{ selectedMovie.Title }} (<span alt="Year: ">{{ selectedMovie.Year }}</span>)</div>
               <div class="selected-movie-title-div">Director:</div>
-              <div class="selected-movie-director" alt="Director: ">{{ selectedMovie.Director }}</div>
+              <div class="selected-movie-director" @click="directorsWhole = true" alt="Director: ">{{ selectedMovie.Director }}</div>
               <div class="selected-movie-title-div">Writers:</div>
               <div class="selected-movie-writers" @click="writersWhole = true" alt="Writers: ">{{ selectedMovie.Writer }}</div>
               <div class="selected-movie-title-div">Actors:</div>
@@ -35,6 +35,9 @@
               </div>
               <div v-if="musicWhole" class="whole-writers-conatiner">
                 <div class="selected-movie-writers-whole" @click="musicWhole = false">{{ selectedMovie.soundtrack }}</div>
+              </div>
+              <div v-if="directorsWhole" class="whole-writers-conatiner">
+                <div class="selected-movie-writers-whole" @click="directorsWhole = false">{{ selectedMovie.Director }}</div>
               </div>
             </div>
             </section>
@@ -102,7 +105,8 @@ export default {
         writersWhole: false,
         plotWhole: false,
         actorsWhole: false,
-        musicWhole: false
+        musicWhole: false,
+        directorsWhole: false
         }
     },
     computed: {

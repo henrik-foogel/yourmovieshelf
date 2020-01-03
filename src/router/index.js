@@ -98,7 +98,7 @@ const routes = [
     }
   },
   {
-    path: '/myshelfs',
+    path: '/myshelves',
     name: 'customize',
     component: Customize,
     beforeEnter: (to, from, next) => {
@@ -182,8 +182,8 @@ const routes = [
     }
   },
   {
-    path: '/addsoundtracks',
-    name: 'addsoundtracks',
+    path: '/addsoundtrack',
+    name: 'addsoundtrack',
     component: AddSoundtracks,
     beforeEnter: (to, from, next) => {
       fb.auth().onAuthStateChanged(function(user) {

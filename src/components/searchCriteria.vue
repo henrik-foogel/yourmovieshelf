@@ -3,7 +3,7 @@
         <select class="home-search-criteria" v-model="search" label="Search criteria dropdown select"  @change="filterChange">
           <option value="" disabled selected label="Criteria">Criteria</option>
           <option value="" :label="'All (' + getUserCollection.length + ')'" data-foo="all">All </option>
-          <option value="" disabled selected alt="Shelfs">Your shelfs &#8659;</option>
+          <option value="" disabled selected alt="Shelves">Your shelves &#8659;</option>
           <option class="shelfs" v-for="shelf in getShelfs" :value="shelf" :key="shelf" :label="shelf" :alt="shelf" data-foo="shelf">{{ shelf }}</option>
           <option value="" disabled selected alt="Formats">Formats &#8659;</option>
           <option class="formats"  v-for="format in getFormats" :value="format" :key="format" :label="format" :alt="format" ref="format" data-foo="format">{{ format }}</option>
@@ -40,7 +40,7 @@ export default {
     },
     watch: {
         getSearch() {
-            this.$store.commit('setSearchResult', this.search);
+            this.$store.commit('setCriteriaForSearch', this.search);
         }
     },
     methods: {

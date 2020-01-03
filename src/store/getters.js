@@ -11,6 +11,9 @@ export const getters = {
   getSearchResult(state) {
     return state.searchResult;
   },
+  getCriteriaForSearch(state) {
+    return state.criteriaForSearch;
+  },
   getFilterCriteria(state) {
     return state.filterCriteria;
   },
@@ -41,6 +44,12 @@ export const getters = {
   getUserCollection(state) {
     return state.userCollection;
   },
+  getFilteredCollection(state) {
+    return state.filteredCollection;
+  },
+  getFilterChange(state) {
+    return state.filterChange;
+  },
   getCustomShelfs(state) {
     return state.customShelfs;
   },
@@ -64,6 +73,9 @@ export const getters = {
   },
   getEditions(state) {
     return state.editions.sort((a, b) => (a > b ? 1 : -1));
+  },
+  getMovieNightIndex(state) {
+    return state.movieNightIndex;
   },
   getMovieNightList(state) {
     return state.movieNightList;

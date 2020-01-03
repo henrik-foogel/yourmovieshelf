@@ -1,13 +1,13 @@
 <template>
   <article :class="movie">
     <section class="row" v-show="state=='row'" :id="movie.movie.imdbID" @click="selectMovie(movie.movie)">
-      <figure>
+      <figure :ref="'figure'+movie.movie.imdbID" class="figure">
         <div class="home-collection-movie-poster">
           <img v-if="movie.movie.Poster != 'N/A'" :src="movie.movie.Poster" :alt="movie.movie.Title+' poster'" />
           <img v-else src="../assets/images/noposter.png" :alt="movie.movie.Title+' poster'" />
         </div>
       </figure>
-      <aside>
+      <aside :ref="'aside'+movie.movie.imdbID" class="aside">
         <div class="home-collection-movie-text">
           <h4 :alt="'Movie title: '+movie.movie.Title">
             {{ movie.movie.Title }} (<span :alt="'year: '+movie.Year">{{movie.movie.Year}}</span>)
@@ -16,7 +16,8 @@
             {{movie.movie.Genre}} (<span>{{ movie.movie.shelf }}</span>)
           </p>
           <h5 :alt="'Director: '+movie.movie.Director">{{ movie.movie.Director }}</h5>
-          <p :alt="'Actors: '+movie.movie.Actors">{{ movie.movie.Actors }}</p>
+          <p class="home-collection-movie-text-actors" :alt="'Actors: '+movie.movie.Actors">{{ movie.movie.Actors }}</p>
+          <p class="home-collection-movie-text-plot" :alt="'Plot: '+movie.movie.Plot">{{ movie.movie.Plot }}</p>
         </div>
       </aside>
     </section>
@@ -32,11 +33,12 @@
 <script>
 export default {
   name: "movie",
-  props: ["movie", "state"],
+  props: ["movie", "state", "index"],
   data() {
     return {
       movieNightList: [],
-      list: []
+      list: [],
+      inList: false,
     };
   },
   computed: {
@@ -60,63 +62,27 @@ export default {
     },
     getSearchResult() {
         return this.$store.getters.getSearchResult;
-    }
-  },
-  watch: {
-    getMovieNightListChange() {
-        this.$store.commit('setMovieNightListPush', this.movieNightList);
     },
-    getMovieNightList() {
-        this.list = this.$store.getters.getMovieNightList;
+    getFilterChange() {
+      return this.$store.getters.getFilterChange
     },
-    getSearchResult() {
-        this.list.forEach(m => {
-                if(document.querySelector('#'+m[0].imdbID) != null || document.querySelector('#'+m[0].imdbID+'poster') != null) {
-                    document.querySelector('#'+m[0].imdbID).style.opacity = '.5'
-                    document.querySelector('#'+m[0].imdbID).style.boxShadow = "inset 0 0 10px #000000"
-                    document.querySelector('#'+m[0].imdbID+'poster').style.opacity = '.5'
-                    document.querySelector('#'+m[0].imdbID+'poster').style.boxShadow = "inset 0 0 10px #000000"
-                }
-        });
-    },
-    getMovieNightButton() {
-        if(this.$store.getters.getMovieNightButton == false) {
-            this.list.forEach(m => {
-                document.querySelector('#'+m[0].imdbID).style.opacity = '1.0'
-                document.querySelector('#'+m[0].imdbID).style.boxShadow = 'none'
-                document.querySelector('#'+m[0].imdbID+'poster').style.opacity = '1.0'
-                document.querySelector('#'+m[0].imdbID+'poster').style.boxShadow = 'none'
-            });
-            this.list = []
-            this.$store.commit('setMovieNightList', this.list);
-        }
-    }
   },
   methods: {
     async selectMovie(movie) {
         if(this.getMovieNightButton == false) {
           await this.$store.commit('setSelectedMovie', movie);
           this.$store.commit('setInCollection', true);
-        } 
-        if(this.getMovieNightButton == true) {
-            if(document.querySelector('#'+movie.imdbID).style.opacity != '0.5' || document.querySelector('#'+movie.imdbID+'poster').style.opacity != '0.5') {
-            this.movieNightList.push(movie);
-            document.querySelector('#'+movie.imdbID).style.opacity = '.5'
-            document.querySelector('#'+movie.imdbID).style.boxShadow = "inset 0 0 10px #000000"
-            document.querySelector('#'+movie.imdbID+'poster').style.opacity = '.5'
-            document.querySelector('#'+movie.imdbID+'poster').style.boxShadow = "inset 0 0 10px #000000"
-        } else {          
-            this.list.forEach((m, index) => {
-                if(m[0] == movie) {
-                    this.list.splice(index)
-                    this.$store.commit('setMovieNightList', this.list);
-                }
-            });
-        document.querySelector('#'+movie.imdbID).style.opacity = '1.0'
-        document.querySelector('#'+movie.imdbID).style.boxShadow = 'none'
-        document.querySelector('#'+movie.imdbID+'poster').style.opacity = '1.0'
-        document.querySelector('#'+movie.imdbID+'poster').style.boxShadow = 'none'
-      }
+        } else if (this.getMovieNightButton == true) {
+          await this.$store.getters.getMovieNightList.forEach(m => {
+            if(m == movie) {
+              this.inList = true
+            }
+          });
+          if(this.inList == false) {
+            await this.$store.commit('setMovieNightListPush', movie);
+          } else {
+            this.inList = false;
+          }
         }
     },
   }

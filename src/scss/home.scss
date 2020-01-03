@@ -35,9 +35,16 @@
     align-items: center;
 
     .home-movie-night-name-failure {
-      color: rgb(134, 1, 1);
+      position: fixed;
+      z-index: 900;
+      bottom: 8rem;
+      color: rgb(255, 0, 0);
       font-weight: 700;
       text-align: center;
+      background: #222222;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
     }
 
     .home-movie-view-check {
@@ -52,15 +59,9 @@
         margin-top: 0 !important;
       }
     }
-    .home-movie-night-name {
-      border: none;
-      border-radius: 5rem;
-      padding: 0.5rem;
-      margin: 0 0 1rem;
-      box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.25);
-    }
     .home-movie-night-button-container {
       display: flex;
+      flex-direction: column;
       align-items: center;
       margin: 0 0 0.5rem;
 
@@ -69,9 +70,61 @@
         background: #282828;
         color: $main-colour;
       }
-      .fa-times {
-        cursor: pointer;
-        font-size: 2rem;
+      .home-movie-night-list-list {
+        position: fixed;
+        z-index: 900;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        background: #282828;
+        color: $main-colour;
+        padding: 0.5rem 0.5rem 1.5rem;
+        border-radius: 0.5rem;
+        bottom: 0.5rem;
+
+        .movie-night-save-back-container {
+          display: flex;
+
+          .home-movie-night-name {
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.2rem;
+            margin: 0 0.5rem 0;
+            box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.25);
+          }
+          .fa-times {
+            cursor: pointer;
+            font-size: 1.5rem;
+            margin: 0 0.5rem 0;
+          }
+        }
+        h4 {
+          padding: 0.5rem 0;
+          margin: 0 0 0;
+          cursor: pointer;
+        }
+        .home-movie-night-list-movies {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          width: 60%;
+          padding: .2rem 0;
+
+          img {
+            max-width: 1.5rem;
+            padding-right: .5rem;
+          }
+
+          .movie-night-list-movie-remove {
+            padding-left: .5rem;
+            cursor: pointer;
+          }
+        }
+
+        .home-movie-night-list-list-container {
+          display: flex;
+        }
       }
     }
 
@@ -82,6 +135,7 @@
 
     .home-search-criteria-container {
       display: flex;
+
       .home-search-criteria {
         width: 100%;
         border: none;
@@ -107,15 +161,15 @@
     margin-top: 1rem;
     max-width: 60rem;
     .movie {
-      max-width: 35rem !important;
-      min-width: 15rem !important;
+      max-width: 35rem;
+      min-width: 15rem;
       border-bottom: none;
       margin: 0 -1.5rem;
 
       .row {
-        width: 95%;
         max-width: 100vw;
-        min-height: 8rem;
+        width: 35rem;
+        min-height: 10rem;
         display: flex;
         flex-direction: row;
         cursor: pointer;
@@ -132,6 +186,7 @@
             }
           }
         }
+
         aside {
           display: flex;
           flex-direction: row;
@@ -149,16 +204,42 @@
 
             h4,
             h5 {
-              margin: 0.2rem 0;
+              margin: 0.3rem 0;
               padding: 0;
               text-align: left;
+              max-width: 55vw;
+            }
+            h5 {
+              width: 240px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
             }
 
             p {
               margin: 0;
               padding: 0;
               font-size: 1rem;
-              text-align: left;
+
+              &.home-collection-movie-text-actors {
+                text-align: left;
+                width: 240px;
+                max-width: 55vw;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                margin-bottom: .3rem;
+              }
+              &.home-collection-movie-text-plot {
+                text-align: left;
+                width: 20rem;
+                max-width: 55vw;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-style: italic;
+                font-size: .9rem;
+              }
 
               span {
                 font-weight: 700;
@@ -183,6 +264,7 @@
           display: flex;
           justify-content: center;
           align-items: center;
+          max-width: 35px !important;
 
           img {
             width: 9rem;
