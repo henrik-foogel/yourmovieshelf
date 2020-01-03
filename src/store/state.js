@@ -24,7 +24,6 @@ export const state = {
         selectedMovie: [],
         chosen: false,
         alertWindowClosed: true,
-        movieNightIndex: [],
         movieNightList: [],
         movieNightButton: false,
         stateFlex: 'row',

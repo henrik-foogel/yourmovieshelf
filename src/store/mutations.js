@@ -68,12 +68,6 @@ export const mutations = {
       setAlertWindowClosed(state, closed) {
         state.alertWindowClosed = closed;
       },
-      setMovieNightIndexPush(state, index) {
-        state.movieNightIndex.push(index);
-      },
-      setMovieNightIndex(state, list) {
-        state.movieNightIndex = list;
-      },
       setMovieNightList(state, list) {
         state.movieNightList = list;
       },

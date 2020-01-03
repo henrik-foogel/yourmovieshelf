@@ -74,9 +74,6 @@ export const getters = {
   getEditions(state) {
     return state.editions.sort((a, b) => (a > b ? 1 : -1));
   },
-  getMovieNightIndex(state) {
-    return state.movieNightIndex;
-  },
   getMovieNightList(state) {
     return state.movieNightList;
   },

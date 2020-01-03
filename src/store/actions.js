@@ -8,7 +8,9 @@ import { token } from "../../discogs-config";
 import router from "../router/index.js"
 
 export const actions = {
+  // Register user with Firebase/Firestore
     async registerWithFirebase(ctx, payload) {
+      // Payload includes e-mail, password password confirmation
       if (payload[1] == payload[2]) {
         fb.auth()
         .createUserWithEmailAndPassword(payload[0], payload[1])
@@ -26,11 +28,13 @@ export const actions = {
           ctx.commit('setFailureMessage', "Password doesn't match, please try again");
         }
       },
+      // Creates the user collection on Firestore/Firestore
       async createUserCollection(ctx, response) {
         await db.collection(response.user.uid).add({
           userEmail: response.user.email
         });
       },
+      // Sign in on Firebase/Firestore
       async userSignIn(ctx, payload) {
         await fb
         .auth()
@@ -57,6 +61,7 @@ export const actions = {
           console.log(error);
         });
       },
+      // Sign out of Firebase/Firestore
       async userSignOut(ctx) {
         await fb.auth()
           .signOut()
@@ -76,6 +81,7 @@ export const actions = {
             router.push('/');
           });
       },
+      // Fetches movies from Open Movie Database with name as criteria
       async fetchMovies(ctx, search) {
         let result = [];
         await axios
@@ -90,6 +96,7 @@ export const actions = {
             ctx.commit('setSearchResponse', false);
           }
         },
+        // Fetches movie from open movie database with name and year as criteria
         async fetchSpecificMovie(ctx, payload) {
           let specificSearchResult = [];
           let result = [];
@@ -98,6 +105,7 @@ export const actions = {
         ctx.commit('setSearchResult', result);
         ctx.commit('setSearchResponse', result[0].Response);
       },
+      // Fetches movie info from OMDB with it's id as criteria
       async fetchMovieById(ctx, payload) {
         let  movie = [];
         await axios.get('http://www.omdbapi.com/?i=' + payload.id + '&apikey='+ key.key).then((response) => { movie = response.data });
@@ -108,6 +116,7 @@ export const actions = {
           movie.edition = payload.movieArr.edition;
           ctx.commit('setSelectedMovie', movie);
       },
+      // Adds chosen movie to user collection
       async addToCollection(ctx, payload) {
         if(payload.id != false) {
           let movieArr = [];
@@ -162,6 +171,7 @@ export const actions = {
         }
         await ctx.dispatch('fetchUserCollection', auth.currentUser.uid)
       },
+      // Deletes chosen movie from user collection
       async deleteFromCollection(ctx, movie) {
         let collection = await db.collection(auth.currentUser.uid).get();
         let number = 0;
@@ -184,6 +194,7 @@ export const actions = {
         await ctx.dispatch('fetchUserCollection', auth.currentUser.uid);
         await ctx.commit('setInCollection', false);
       },
+      // Edits chosen movie in user collection
       async editMovieInCollection(ctx, movie) {
         let collection = await db.collection(auth.currentUser.uid).get();
         let number = 0;
@@ -208,6 +219,7 @@ export const actions = {
         await ctx.dispatch('fetchUserCollection', auth.currentUser.uid);
         ctx.commit('setEditMovie', false);
       },
+      // Fetches the user movie collection
       async fetchUserCollection(ctx) {
         if(auth.currentUser.uid != null) {
         let collection = await db.collection(auth.currentUser.uid).get();
@@ -240,6 +252,7 @@ export const actions = {
         localStorage.setItem('userCollection', JSON.stringify(respArr));
       }
       },
+      // Fetches user's custom shelves
       async fetchCustomShelfs(ctx) {
         let shelfs = '';
         shelfs = await db.collection(auth.currentUser.uid).get();
@@ -271,6 +284,7 @@ export const actions = {
         }
       }
       },
+      // Adds shelf to user's custom  shelf collection
       async addShelfToCustomShelfs(ctx, newShelf) {
         var docRef = await db.collection(auth.currentUser.uid).doc(ctx.getters.getEmailDocumentId);
         let shelf = newShelf;
@@ -303,6 +317,7 @@ export const actions = {
       });
         
       },
+      // Edits shelves
       async editShelfs(ctx) {
         var docRef = await db.collection(auth.currentUser.uid).doc(ctx.getters.getEmailDocumentId);
         let before = ctx.getters.getCustomShelfs;
@@ -319,6 +334,7 @@ export const actions = {
           localStorage.setItem('userCustomShelfs', JSON.stringify(after));
           ctx.dispatch('editShelfsInMovies');
       },
+      // Edits the shelves in user's movie collection when editing shelf names
       async editShelfsInMovies(ctx) {
         var docRef = await db.collection(auth.currentUser.uid).get();
        await docRef.forEach(movie => {
@@ -351,6 +367,7 @@ export const actions = {
         ctx.commit('setBeforeEditShelfs', []);
         ctx.commit('setEditedShelfs', []);
       },
+      // Deletes chosen shelf
       async deleteShelf(ctx, shelf) {
         var exists = false;
         var oldShelfList = ctx.getters.getCustomShelfs;
@@ -375,15 +392,7 @@ export const actions = {
         }
 
       },
-      async movieNightListIndexRemove(ctx, index) {
-        let list = ctx.getters.getMovieNightIndex;
-        list.forEach((m, i) => {
-          if(m == index) {
-              list.splice(i, 1);
-          }
-        });
-        ctx.commit('setMovieNightIndex', list);
-      },
+      // Deletes movie from local movie night list before it has been saved
       async movieNightRemoveFromList(ctx, movie) {
         let list = ctx.getters.getMovieNightList;
         await list.forEach((m, i) => {
@@ -393,6 +402,7 @@ export const actions = {
         });
         await ctx.commit('setMovieNightList', list);
       },
+      // Saves movie night list
       async addMovieNightList(ctx, payload) {
         var docRef = await db.collection(auth.currentUser.uid);
         var data = [];
@@ -407,6 +417,7 @@ export const actions = {
         });
         await ctx.dispatch('fetchMovieNightLists');
       },
+      // Fetches movie night lists from collection
       async fetchMovieNightLists(ctx) {
         if(auth.currentUser.uid != null) {
         let collection = await db.collection(auth.currentUser.uid).get();
@@ -422,6 +433,7 @@ export const actions = {
       localStorage.setItem('userMovieNightLists', JSON.stringify(respArr));
       }
     },
+    // Deletes movie night list from collection
     async deleteMovieNightList(ctx, name) {
       await db.collection(auth.currentUser.uid).where('name', '==', name).get().then(snap => {
         snap.forEach(doc => 
@@ -430,6 +442,7 @@ export const actions = {
       })
       ctx.dispatch('fetchMovieNightLists');
     },
+    // Checkes off movies in movie night lists
     async updateMovieNightList(ctx, payload) {
       await db.collection(auth.currentUser.uid).where('name', '==', payload.name).get().then(snap => {
         snap.forEach(doc => 
@@ -438,6 +451,7 @@ export const actions = {
       })
       ctx.dispatch('fetchMovieNightLists');
     },
+    // Finds soundtrack on discogs database
     async findSoundtrack(ctx, payload) {
       let music = [];
       if(payload.title != '' && payload.artist != '') {
@@ -450,6 +464,7 @@ export const actions = {
       let list = music.data.results.slice(music.data.results[0]);
       ctx.commit('setSoundtrackSearchResult', list);
     },
+    // Adds soundtrack in user's collection
     async addSoundtrackToDB(ctx, soundtrack) {
       if(ctx.getters.getSoundtracksId == '') {
         let docRef = await db.collection(auth.currentUser.uid);
@@ -473,6 +488,7 @@ export const actions = {
       ctx.dispatch('fetchUserCollection', auth.currentUser.uid);
       ctx.dispatch('fetchYourSoundtracks');
     },
+    // Fetches user's soundtrack collection
     async fetchYourSoundtracks(ctx) {
       let docRef = await db.collection(auth.currentUser.uid).doc(ctx.getters.getSoundtracksId);
       let data = []
@@ -487,6 +503,7 @@ export const actions = {
         ctx.commit('setSoundtrackList', resultArray);
         localStorage.setItem('userSoundtracks', JSON.stringify(resultArray));
     },
+    // Deletes soundtrack from user collection
     async deleteSoundtrack(ctx, soundtrack) {
       let list = [];
       let obj = [];
