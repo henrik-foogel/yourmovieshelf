@@ -81,6 +81,7 @@ export default {
       dropdown: false,
       signIn: false,
       register: false,
+      payload: [],
       email: "",
       password: "",
       passwordConfirmation: "",
@@ -155,13 +156,15 @@ export default {
       this.passwordConfirmation = '';
     },
     async registerWithFirebase() {
+      console.log(this.email)
 
       if(this.email.charAt(this.email.length-1) == ' ') {
         this.email = this.email.slice(0, -1);
       }
-      this.payload.push(this.email);
-      this.payload.push(this.password);
-      this.payload.push(this.passwordConfirmation);
+      console.log(this.email)
+      await this.payload.push(this.email);
+      await this.payload.push(this.password);
+      await this.payload.push(this.passwordConfirmation);
       await this.$store.dispatch('registerWithFirebase', this.payload);
       if(this.checkSignedIn == true) {
         this.email = "";
