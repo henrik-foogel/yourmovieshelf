@@ -105,9 +105,10 @@
       display: flex;
       padding: 2rem 1rem;
       border-radius: 0.5rem;
-      color: $main-colour;
-      background: rgba(0, 0, 0, 1);
+      color: $text-colour;
+      background: $main-colour;
       max-width: 100vw;
+      border: 1px solid $text-colour;
 
       .manually-add-card-section {
         display: flex;

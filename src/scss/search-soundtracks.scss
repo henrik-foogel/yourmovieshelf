@@ -9,6 +9,7 @@
   
   .home-search-button {
     width: 100%;
+    color: $text-colour;
   }
 }
 .search-bar {
@@ -69,7 +70,6 @@
   }
   .home-search-button {
     background: #282828;
-    color: $main-colour;
     border: none;
     border-bottom-right-radius: 0.5rem;
     border-bottom-left-radius: 0.5rem;

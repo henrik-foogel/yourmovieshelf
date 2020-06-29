@@ -11,13 +11,13 @@
     h1 {
       font-size: 1.5rem;
       background: #282828;
-      color: #7dc2af;
+      color: $text-colour;
       cursor: pointer;
     }
 
     .movie-night-trash {
       font-size: 2rem;
-      color: #282828;
+      color: $text-colour;
       cursor: pointer;
     }
   }

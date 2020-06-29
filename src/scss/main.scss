@@ -25,7 +25,7 @@ body {
         z-index: 1500;
   
         .menu-bars {
-          color: gray;
+          color: $text-colour;
           font-size: 3rem;
           margin: -0.8rem 0 0 0.3rem;
           cursor: pointer;
@@ -41,7 +41,7 @@ body {
         }
 
         .menu-close {
-          color: gray;
+          color: $text-colour;
           font-size: 3.7rem;
           cursor: pointer;
         }
@@ -57,7 +57,7 @@ body {
         .nav-lock {
           display: flex;
           flex-direction: column;
-          color: $main-colour;
+          color: $text-colour;
           align-items: center;
           font-size: 1rem;
           cursor: pointer;
@@ -104,7 +104,7 @@ body {
   
           .dropdown-link-container {
             margin-bottom: 0.5rem;
-            z-index: 1000;;
+            z-index: 1000;
           }
         }
       }

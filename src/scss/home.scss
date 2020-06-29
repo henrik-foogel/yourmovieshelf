@@ -53,9 +53,8 @@
       margin-top: 1rem;
 
       .home-poster-view-button {
-        border: none;
         background: #282828;
-        color: $main-colour;
+        color: $text-colour;
         margin-top: 0 !important;
       }
     }
@@ -66,9 +65,8 @@
       margin: 0 0 0.5rem;
 
       .home-movie-night-button {
-        border: none;
         background: #282828;
-        color: $main-colour;
+        color: $text-colour;
       }
       .home-movie-night-list-list {
         position: fixed;
@@ -78,7 +76,7 @@
         align-items: center;
         justify-content: flex-end;
         background: #282828;
-        color: $main-colour;
+        color: $text-colour;
         padding: 0.5rem 0.5rem 1.5rem;
         border-radius: 0.5rem;
         bottom: 0.5rem;
@@ -130,7 +128,7 @@
 
     .home-movie-random {
       background: #282828;
-      color: $main-colour;
+      color: $text-colour;
     }
 
     .home-search-criteria-container {
@@ -308,7 +306,7 @@
     display: flex;
     padding: 2rem 1rem;
     border-radius: 0.5rem;
-    color: $main-colour;
+    color: $text-colour;
     background: rgba(0, 0, 0, 1);
 
     .edit-movie-card-section {

@@ -14,6 +14,7 @@
         border-radius: 0.5rem;
         padding-bottom: 2rem;
         margin-bottom: 2rem;
+        border: 1px solid $text-colour;
     
         input {
           border-radius: 0.5rem;
@@ -31,7 +32,6 @@
           background: $main-colour;
           border-radius: 0.5rem;
           box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.25);
-          color: rgb(59, 59, 59);
           font-weight: 700;
           width: 10rem;
           height: 2rem;
@@ -54,6 +54,7 @@
         border-radius: .5rem;
         padding: 1rem;
         cursor: pointer;
+        border: 1px solid $text-colour;
 
         h3 {
           color: rgb(255, 0, 0);
@@ -72,12 +73,13 @@
         box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.25);
         border-radius: 0.5rem;
         padding-bottom: 2rem;
+        border: 1px solid $text-colour;
     
           .customize-user-custom-container-content {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            color: $main-colour;
+      color: $text-colour;
             margin: 1rem;
             font-weight: 700;
             font-size: 1.1rem;
